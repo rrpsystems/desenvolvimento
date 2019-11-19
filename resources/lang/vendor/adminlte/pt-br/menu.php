@@ -16,4 +16,7 @@ return [
     'Important'                     => 'Importante',
     'Warning'                       => 'Aviso',
     'Information'                   => 'Informação',
+    'settings'                      => 'Configurações',
+    'Permissions'                   => 'Permissões',
+    
 ];
