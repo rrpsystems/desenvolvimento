@@ -30,12 +30,12 @@
         <div class="col-lg-12">
             <div class="card card-primary card-outline">
                 <div class="card-header no-border">
-                    <div class="row">
-                        <div class=" col-6">
+                    <div class="d-flex bd-highlight">
+                        <div class="mr-auto p-2 bd-highlight">
                             <h3 class="card-title">Permissões</h3>
                         </div>
-                        <div class="col-4">
-                            <div class="row row justify-content-end">
+                        <div class="p-2 bd-highlight">
+                            <div class="row">
                                 <form action="{{route('roles.index')}}" method="GET" >
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-prepend">
@@ -53,12 +53,10 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="col-2">
-                            @can('roles-create')
-								<button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modal-create">
+                        <div class="p-2 bd-highlight">
+                            	<button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modal-create">
 									Cadastrar
 								</button>
-                            @endcan
                         </div>
                     </div>
                 </div>
@@ -73,28 +71,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                      
-                                <tr>
-                                    <td>role->id</td>
-                                    <td>role->name</td>
-                                    <td>
-                                        <a class="btn btn-outline-info btn-xs" href="route('roles.show',role->id) ">
-                                            <i class="far fa-eye"></i>
-                                        </a>
-                                        @can('roles-create')
-                                            <a class="btn btn-outline-warning btn-xs" href="route('roles.edit',role->id)">
-                                                <i class="fa fa-edit"></i>
+                                @forelse ($roles as $role)
+                                    <tr>
+                                    
+                                        <td>$role->id</td>
+                                        <td>$role->name</td>
+                                        <td>
+                                            <a class="btn btn-outline-info btn-xs" href="route('roles.show',$role->id) ">
+                                                <i class="far fa-eye"></i>
                                             </a>
-                                        @endcan
-                                        @can('roles-create')
-                                            <a class="btn btn-outline-danger btn-xs" href="route('roles.show',role->id.'-del')" >
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        @endcan
-                                    </td>
-                                </tr>
-
-
+                                            @can('roles-create')
+                                                <a class="btn btn-outline-warning btn-xs" href="route('roles.edit',$role->id)">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            @endcan
+                                            @can('roles-create')
+                                                <a class="btn btn-outline-danger btn-xs" href="route('roles.show',$role->id.'-del')" >
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center"> Não foram encontrados dados para exibição!</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

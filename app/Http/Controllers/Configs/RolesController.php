@@ -4,17 +4,37 @@ namespace App\Http\Controllers\Configs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+use Alert;
+
 
 class RolesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //function __construct()
+    //{
+        //$this->middleware('permission:conf-role-list');
+        //$this->middleware('permission:conf-role-create', ['only' => ['create','store']]);
+        //$this->middleware('permission:conf-role-edit', ['only' => ['edit','update']]);
+        //$this->middleware('permission:conf-role-delete', ['only' => ['destroy']]);
+    //}
+    public function __construct(Role $role)
+    {
+        $this->role = $role;
+    }
+
+
+
+
+
     public function index()
     {
-      return view('configs.roles.index');
+        toast('Cadastro realizado com sucesso!','success');
+        $roles = $this->role->orderBy('id')
+            ->paginate(100);
+        //dd($roles);
+      return view('configs.roles.index', compact('roles'));
     }
 
     /**

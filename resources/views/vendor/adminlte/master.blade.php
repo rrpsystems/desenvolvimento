@@ -31,7 +31,7 @@
 <body class="@yield('classes_body')" @yield('body_data')>
 
 @yield('body')
-
+@include('sweetalert::alert')
 @if(! config('adminlte.enabled_laravel_mix'))
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
