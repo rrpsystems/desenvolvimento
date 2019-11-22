@@ -97,6 +97,11 @@
                     @yield('content_top_nav_right')
                     @if(Auth::user())
                         <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-fw fa-user"></i> {{ auth()->user()->name ?? '' }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                             >
@@ -182,6 +187,7 @@
         @endif
 
     </div>
+
 @stop
 
 @section('adminlte_js')

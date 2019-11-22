@@ -8,7 +8,7 @@
         If you want to use <b>cdn</b> goto <b>.env</b> and change <pre>SWEET_ALERT_LOCAL=false</pre>`,
         "type":"warning",
         "showConfirmButton":false,
-        "showCloseButton":true,
+        "showCloseButton":false,
         "allowEscapeKey":false,
         "allowOutsideClick":false
     });

@@ -177,7 +177,7 @@ return [
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'can'  => 'users-',
         ],
         ['header' => 'account_settings'],
           [
@@ -192,6 +192,11 @@ return [
           ],
         
         ['header' => 'settings'],
+          [
+              'text'  => 'Usuarios',
+              'route'  => 'users.index',
+			  'icon'  => 'fas fa-fw fa-user',
+          ],
           [
               'text'  => 'Permissions',
               'route'  => 'roles.index',

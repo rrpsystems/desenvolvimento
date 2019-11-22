@@ -26,12 +26,24 @@ Route::get('/home', function() {
 })->name('home')->middleware('auth');
 
 //Route::get('/configurations/roles', function(){
-//    return 'Olá, user!';
+//    return 'Olï¿½, user!';
 //});
 
 //$this->resource('/configurations/roles', 'RolesController');
 
-Route::resource('/configurations/roles', 'Configs\RolesController', 
-['except' => [
-  'create', 'edit'
-]]); 
+//Route::resource('/configurations/roles', 'Configs\RolesController', 
+//['except' => [
+//  'create', 'edit'
+//]]); 
+//Route::resource('/configurations/users', 'Configs\UsersController', 
+//['except' => [
+//  'create', 'edit'
+//]]); 
+
+Route::group(['prefix' => 'configs', 'namespace' => 'Configs', 'middleware' => 'auth'], function() {
+
+  Route::resource('users', 'UsersController');
+  Route::resource('roles','RolesController');
+
+});
+

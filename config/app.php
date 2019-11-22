@@ -177,7 +177,7 @@ return [
 
         
         Spatie\Permission\PermissionServiceProvider::class,
-        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        //RealRashid\SweetAlert\SweetAlertServiceProvider::class,
     ],
 
     /*

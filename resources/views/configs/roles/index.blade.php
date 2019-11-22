@@ -4,23 +4,11 @@
 
 @section('content_header')
     <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                @if($errors->any())
-                    @foreach($errors->all() as $error)
-                        {!! $error !!}
-                    @endforeach
-                @elseif(session()->has('msg'))
-                    {!! session('msg') !!}
-                @endif
-            </div>
-					
-			<div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Configurações</a></li>
-                    <li class="breadcrumb-item active">Permissões</li>
-                </ol>
-            </div>
+        <div class="d-flex justify-content-end">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Configurações</a></li>
+                <li class="breadcrumb-item active">Permissões</li>
+            </ol>     
         </div>
     </div>
 @stop
@@ -54,10 +42,10 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            	<button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modal-create">
-									Cadastrar
-								</button>
-                        </div>
+                            <a class="btn btn-outline-success btn-sm" href="{{ route('roles.create') }}">
+                        		Cadastrar
+                            </a>
+					    </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -73,23 +61,36 @@
                             <tbody>
                                 @forelse ($roles as $role)
                                     <tr>
-                                    
-                                        <td>$role->id</td>
-                                        <td>$role->name</td>
+                                        <td> {{ $role->id }} </td>
+                                        <td> {{ $role->name }} </td>
                                         <td>
-                                            <a class="btn btn-outline-info btn-xs" href="route('roles.show',$role->id) ">
-                                                <i class="far fa-eye"></i>
-                                            </a>
-                                            @can('roles-create')
-                                                <a class="btn btn-outline-warning btn-xs" href="route('roles.edit',$role->id)">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                            @endcan
-                                            @can('roles-create')
-                                                <a class="btn btn-outline-danger btn-xs" href="route('roles.show',$role->id.'-del')" >
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                            @endcan
+                                            <div class="form-inline">
+                                                @can('roles-list')
+                                                    <div class="p-1">
+                                                        <a class="btn btn-outline-info btn-xs" href="{{ route('roles.show',$role->id) }}">
+                                                            <i class="far fa-eye"></i>
+                                                        </a>
+                                                    </div>
+                                                @endcan
+                                                @can('roles-edit')
+                                                    <div class="p-1">
+                                                        <a class="btn btn-outline-warning btn-xs" href="{{ route('roles.edit',$role->id) }}">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                @endcan
+                                                @can('roles-delete')
+                                                    <div class="p-1">
+                                                        <form action="{{ route('roles.destroy', 'del-'.$role->id) }}" method="POST">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <button class="btn btn-outline-danger btn-xs" >
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                @endcan
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
@@ -105,3 +106,4 @@
         </div>
     </div>
 @stop
+
