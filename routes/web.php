@@ -11,34 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes(['register' => false]);
 
-Auth::routes();
+
+Route::get('/', function() {
+    return view('home');
+})->name('home')->middleware('auth');
 
 Route::get('/home', function() {
     return view('home');
 })->name('home')->middleware('auth');
 
-//Route::get('/configurations/roles', function(){
-//    return 'Ol�, user!';
-//});
-
-//$this->resource('/configurations/roles', 'RolesController');
-
-//Route::resource('/configurations/roles', 'Configs\RolesController', 
-//['except' => [
-//  'create', 'edit'
-//]]); 
-//Route::resource('/configurations/users', 'Configs\UsersController', 
-//['except' => [
-//  'create', 'edit'
-//]]); 
 
 Route::group(['prefix' => 'configs', 'namespace' => 'Configs', 'middleware' => 'auth'], function() {
 

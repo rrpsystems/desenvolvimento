@@ -53,7 +53,7 @@
                         <table class="table no-wrap table-sm table-striped table-valign-middle">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>#</th>
+                                    <th></th>
                                     <th>Permissão</th>
                                     <th>Ações</th>
                                 </tr>
@@ -61,7 +61,7 @@
                             <tbody>
                                 @forelse ($roles as $role)
                                     <tr>
-                                        <td> {{ $role->id }} </td>
+                                        <td></td>
                                         <td> {{ $role->name }} </td>
                                         <td>
                                             <div class="form-inline">
@@ -100,6 +100,19 @@
                                 @endforelse
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="card-footer clearfix">
+                <div class="d-flex bd-highlight">
+                        <div class="mr-auto p-2 bd-highlight">
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            @if(isset($search))
+                                {{ $roles->appends(['search' => $search])->links('vendor.pagination.sm-float-rigth') }}
+                            @else
+                                {{ $roles->links('vendor.pagination.sm-float-rigth') }}
+                            @endif
+						</div>
                     </div>
                 </div>
             </div>

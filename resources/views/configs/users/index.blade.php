@@ -16,7 +16,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <div class="card card-primary card-outline">
+            <div class="card border-primary">
                 <div class="card-header no-border">
                     <div class="d-flex bd-highlight">
                         <div class="mr-auto p-2 bd-highlight">
@@ -24,11 +24,11 @@
                         </div>
                         <div class="p-2 bd-highlight">
                             <div class="row">
-                                <form action="{{route('roles.index')}}" method="GET" >
+                                <form action="{{route('users.index')}}" method="GET" >
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-prepend">
 											<span class="input-group-text">
-												<a href="{{route('roles.index')}}">
+												<a href="{{route('users.index')}}">
 													<i class="fas fa-recycle"></i>
                                                 </a>
                                             </span>
@@ -42,10 +42,10 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            	<button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modal-create">
-									Cadastrar
-								</button>
-                        </div>
+                            <a class="btn btn-outline-success btn-sm" href="{{ route('users.create') }}">
+                        		Cadastrar
+                            </a>
+					    </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -53,33 +53,41 @@
                         <table class="table no-wrap table-sm table-striped table-valign-middle">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>#</th>
+                                    <th></th>
                                     <th>Usuario</th>
+                                    <th>Email</th>
                                     <th>Permissão</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($users as $user)
+                                @forelse($users as $user)
                                     <tr>
-                                    
-                                        <td> {{ $user->id }} </td>
+                                        <td></td>
                                         <td> {{ $user->name }} </td>
+                                        <td> {{ $user->email }} </td>
                                         <td> {{ $user->role }} </td>
                                         <td>
-                                            <a class="btn btn-outline-info btn-xs" href="route('roles.show',$user->id) ">
-                                                <i class="far fa-eye"></i>
-                                            </a>
-                                            @can('roles-create')
-                                                <a class="btn btn-outline-warning btn-xs" href="route('roles.edit',$user->id)">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                            @endcan
-                                            @can('roles-create')
-                                                <a class="btn btn-outline-danger btn-xs" href="route('roles.show',$user->id.'-del')" >
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                            @endcan
+                                            <div class="form-inline">
+                                                @can('users-edit')
+                                                    <div class="p-1">
+                                                        <a class="btn btn-outline-warning btn-xs" href="{{ route('users.edit',$user->id) }}">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                @endcan
+                                                @can('users-delete')
+                                                    <div class="p-1">
+                                                        <form action="{{ route('users.destroy', 'del-'.$user->id) }}" method="POST">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <button class="btn btn-outline-danger btn-xs" >
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                @endcan
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
@@ -89,6 +97,19 @@
                                 @endforelse
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="card-footer clearfix">
+                <div class="d-flex bd-highlight">
+                        <div class="mr-auto p-2 bd-highlight">
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            @if(isset($search))
+                                {{ $users->appends(['search' => $search])->links('vendor.pagination.sm-float-rigth') }}
+                            @else
+                                {{ $users->links('vendor.pagination.sm-float-rigth') }}
+                            @endif
+						</div>
                     </div>
                 </div>
             </div>

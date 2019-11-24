@@ -18,67 +18,99 @@ class UsersController extends Controller
     }
 
 
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //alerta na pagina principal
-        //toast('Cadastro realizado com sucesso!','success');
-        $users = $this->user->select('users.id', 'users.name', 'roles.name as role')
-            ->leftJoin('model_has_roles', 'model_id', '=', 'users.id' )
-            ->leftJoin('roles', 'roles.id', '=', 'role_id' )
-            ->paginate(100);
-            
-        //dd($roles);
-      return view('configs.users.index', compact('users'));
+        $search = $request->input('search');
+
+        if($search):
+            $users = $this->user->select('users.id as id', 'users.name', 'email', 'roles.name as role')
+                                ->leftJoin('model_has_roles', 'model_id', '=', 'users.id' )
+                                ->leftJoin('roles', 'roles.id', '=', 'role_id' )
+                                ->where('users.name','like', '%'.$search.'%')
+                                ->orderBy('users.name')
+                                ->paginate(100);
+        
+        else:    
+            $users = $this->user->select('users.id as id', 'users.name', 'email', 'roles.name as role')
+                                ->leftJoin('model_has_roles', 'model_id', '=', 'users.id' )
+                                ->leftJoin('roles', 'roles.id', '=', 'role_id' )
+                                ->orderBy('users.name')
+                                ->paginate(100);
+        endif;
+        return view('configs.users.index', compact('users','search'));
     
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function create()
     {
-        //
+
+        $roles = $this->role->pluck('name','name')->all();
+
+        return view('configs.users.create', compact('roles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'email' => 'required|email|unique:users',
+            'name' => 'required',
+            'role' => 'required',
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        
+        try{
+            $user = $this->user->create($request->all());
+            $user->assignRole($request->role);
+            toast('Usuario Cadastrado com Sucesso !','success');
+            return redirect()->route('users.index');
+
+        } catch(\Exception $e) {
+
+            if(env('APP_DEBUG')):
+                toast($e->getMessage(),'error');
+                return redirect()->back();
+            
+            endif;
+            
+            toast('Ocorreu um erro ao tentar cadastrar o Usuario !','error');
+            return redirect()->back();
+        }
+
+        if($user):
+            return redirect()
+                    ->route('users.index', ['search' => $request->name])
+                        ->with('msg', sendMsgSuccess('O Usuario <b>'.$request->name.'</b> foi cadastrado com Sucesso !'));
+        endif;
+
+        return redirect()
+                ->route('users.index', ['search' => $request->name])
+                    ->with('msg', sendMsgDanger('Ocorreu um erro ao salvar o usuario -> <b>'.$request->name.'</b> !'));
+
+        return back()->withInput();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
-        //
+        $roles = $this->role->pluck('name','name')->all();
+        $user = $this->user->select('users.id as id', 'users.name', 'email', 'roles.name as role')
+                            ->leftJoin('model_has_roles', 'model_id', '=', 'users.id' )
+                            ->leftJoin('roles', 'roles.id', '=', 'role_id' )
+                            ->where('users.id',$id)
+                            ->firstOrFail();
+
+            //dd($user);
+            //dd($roles);
+        return view('configs.users.edit',compact('roles','user'));
     }
 
     /**

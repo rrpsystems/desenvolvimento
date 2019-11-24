@@ -4,5 +4,6 @@
 
 return [
     'users' => 'Usuarios',
-    'roles' => 'Permissões'
+    'roles' => 'Permissões',
+    'validation.unique' => 'teste'
 ];
