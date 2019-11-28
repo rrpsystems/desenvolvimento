@@ -30,16 +30,16 @@
         <div class="input-group-prepend">
             <span class="input-group-text pr-3"><i class="fas fa-user-lock"></i></span>
         </div>
+        
         <select class="form-control {{ $errors->has('role') ? 'is-invalid' : '' }} select2" id="role" name="role" value="{{old('role') ?? $user->role ?? ''}}" >
             <option></option>
-                @foreach ($roles as $role)
-                    @continue($role == 'Root')
-                        @if(old('role') == $role || $user->role == $role)
-                            <option value="{{$role}}" selected>{{$role}}</option>
-                        @else
+            @foreach ($roles as $role)
+                @if(old('role') == $role || ($user->role ?? '') == $role)
+                        <option value="{{$role}}" selected>{{$role}}</option>
+                @else
                     <option value="{{$role}}">{{$role}}</option>
                 @endif
-                
+             
             @endforeach
         </select>      
         @if ($errors->has('role'))
@@ -83,6 +83,12 @@
             placeholder: "Permissão"
         })
     });
+
+    $(document).ready(function(){
+    
+    $("#delete :input").prop("disabled", true);
+});
+
 
 </script>
 @stop

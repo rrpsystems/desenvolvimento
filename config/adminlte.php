@@ -174,38 +174,19 @@ return [
        
     'menu' => [
 
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'users-',
-        ],
-        ['header' => 'account_settings'],
-          [
-              'text' => 'profile',
-              'url'  => 'admin/settings',
-              'icon' => 'fas fa-fw fa-user',
-          ],
-          [
-              'text' => 'change_password',
-              'url'  => 'admin/settings',
-              'icon' => 'fas fa-fw fa-lock',
-          ],
-        
         ['header' => 'settings'],
-          [
-              'text'  => 'Usuarios',
-              'route'  => 'users.index',
-			  'icon'  => 'fas fa-fw fa-user',
-          ],
-          [
-              'text'  => 'Permissions',
-              'route'  => 'roles.index',
-			  'icon'  => 'fas fa-fw fa-lock',
-          ],
-          [
-              'text'       => 'warning',
-              'icon_color' => 'yellow',
-          ],
+            [
+                'text'  => 'Usuarios',
+                'route'  => 'users.index',
+			    'icon'  => 'fas fa-fw fa-user',
+                'can'  => 'users-list',
+            ],
+            [
+                'text'  => 'Permissions',
+                'route'  => 'roles.index',
+                'icon'  => 'fas fa-fw fa-lock',
+                'can'  => 'roles-list',
+            ],
         
     ],
 

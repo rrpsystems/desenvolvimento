@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-12 p-0">
 
-                <form  action="#" method="POST">
+                <form  action="{{route('users.update',$user->id )}}" method="POST">
                     @method('put')
                     @csrf
                         
@@ -41,7 +41,7 @@
                                 </div>
                             </div>
 
-                            <div class="card-body p-3 " id="create">
+                            <div class="card-body p-3 " id="edit">
                                 @include('configs.users.form')
                             </div>
 

@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card card-primary card-outline">
-            <div class="card-header no-border">
+            <div class="card-header no-border bg-info">
                     <div class="d-flex flex-row bd-highlight align-items-center">
                         <div class="p-1 bd-highlight">
                             <h3 class="card-title">Exibir: </h3>

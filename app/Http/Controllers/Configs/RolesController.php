@@ -27,9 +27,11 @@ class RolesController extends Controller
         if($search):
             $roles = $this->role->orderBy('name')
                                 ->where('name','like', '%'.$search.'%')
+                                ->whereNotIn('name', ['Root'])
                                 ->paginate(30);
         else:    
             $roles = $this->role->orderBy('name')
+                                ->whereNotIn('name', ['Root'])
                                 ->paginate(30);
         endif;
         return view('configs.roles.index',compact('roles','search'));

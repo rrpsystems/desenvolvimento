@@ -21,7 +21,7 @@
                 @csrf
                 
                 <div class="card card-success card-outline">
-                    <div class="card-header no-border">
+                    <div class="card-header no-border bg-success">
                         <div class="d-flex flex-row bd-highlight align-items-center">
                             <div class="p-1 bd-highlight">
                                 <h3 class="card-title">Cadastrar: </h3>

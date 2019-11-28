@@ -42,9 +42,11 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            <a class="btn btn-outline-success btn-sm" href="{{ route('users.create') }}">
-                        		Cadastrar
-                            </a>
+                            @can('users-create')
+                                <a class="btn btn-outline-success btn-sm" href="{{ route('users.create') }}">
+                        		    Cadastrar
+                                </a>
+                            @endcan
 					    </div>
                     </div>
                 </div>

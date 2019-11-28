@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\User;
-
+use App\DB;
 
 class UsersController extends Controller
 {
@@ -28,6 +28,7 @@ class UsersController extends Controller
                                 ->leftJoin('roles', 'roles.id', '=', 'role_id' )
                                 ->where('users.name','like', '%'.$search.'%')
                                 ->orderBy('users.name')
+                                ->whereNotIn('email', ['root@root.com'])
                                 ->paginate(100);
         
         else:    
@@ -35,6 +36,7 @@ class UsersController extends Controller
                                 ->leftJoin('model_has_roles', 'model_id', '=', 'users.id' )
                                 ->leftJoin('roles', 'roles.id', '=', 'role_id' )
                                 ->orderBy('users.name')
+                                ->whereNotIn('email', ['root@root.com'])
                                 ->paginate(100);
         endif;
         return view('configs.users.index', compact('users','search'));
@@ -78,18 +80,6 @@ class UsersController extends Controller
             toast('Ocorreu um erro ao tentar cadastrar o Usuario !','error');
             return redirect()->back();
         }
-
-        if($user):
-            return redirect()
-                    ->route('users.index', ['search' => $request->name])
-                        ->with('msg', sendMsgSuccess('O Usuario <b>'.$request->name.'</b> foi cadastrado com Sucesso !'));
-        endif;
-
-        return redirect()
-                ->route('users.index', ['search' => $request->name])
-                    ->with('msg', sendMsgDanger('Ocorreu um erro ao salvar o usuario -> <b>'.$request->name.'</b> !'));
-
-        return back()->withInput();
     }
 
 
@@ -108,31 +98,74 @@ class UsersController extends Controller
                             ->where('users.id',$id)
                             ->firstOrFail();
 
-            //dd($user);
-            //dd($roles);
         return view('configs.users.edit',compact('roles','user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'email' => 'required|email',
+            'name' => 'required',
+            'role' => 'required',
+            'password' => 'nullable|confirmed|min:6',
+            
+        ]);
+        
+        try{
+            $user = $this->user->findOrFail($id);
+            $user->update($request->filled('password') ? $request->all() : $request->except(['password']));
+            $user->syncRoles($request->role);            
+            toast('Usuario Editado com Sucesso !','success');
+            return redirect()->route('users.index');
+
+        } catch(\Exception $e) {
+
+            if(env('APP_DEBUG')):
+                toast($e->getMessage(),'error');
+                return redirect()->back();
+            
+            endif;
+            
+            toast('Ocorreu um erro ao tentar editar o Usuario !','error');
+            return redirect()->back();
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        //
+        !is_numeric($id) ? list($del, $id) = explode("-", $id) : '';
+
+        $roles = $this->role->pluck('name','name')->all();
+        $user = $this->user->select('users.id as id', 'users.name', 'email', 'roles.name as role')
+                            ->leftJoin('model_has_roles', 'model_id', '=', 'users.id' )
+                            ->leftJoin('roles', 'roles.id', '=', 'role_id' )
+                            ->where('users.id',$id)
+                            ->firstOrFail();
+       
+        
+        if(isset($del)):    
+            return view('configs.users.delete',compact('roles','user'));            
+        
+        else:
+            try{
+                $user = $this->user->findOrFail($id);
+                $user->delete();
+                toast('Usuario Excluido com sucesso!','success');    
+                return redirect()->route('users.index');
+    
+            } catch(\Exception $e) {
+    
+                if(env('APP_DEBUG')):
+                    toast($e->getMessage(),'error');
+                    return redirect()->back();
+                
+                endif;
+                
+                toast('Ocorreu um erro ao tentar excluir o usuario !','error');
+                return redirect()->back();
+            }        
+        endif;
+
     }
 }

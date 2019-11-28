@@ -21,7 +21,7 @@
             @method('DELETE')
             @csrf
             <div class="card card-danger card-outline">
-                <div class="card-header no-border">
+                <div class="card-header no-border bg-danger">
                     <div class="d-flex flex-row bd-highlight align-items-center">
                         <div class="p-1 bd-highlight">
                             <h3 class="card-title">Excluir: </h3>
@@ -50,7 +50,7 @@
                             <a class="btn btn-outline-warning" href="{{route('roles.index')}}" >Cancelar</a>                                    
                         </div>
                         <div class="p-1 bd-highlight">
-                        <button type="submit" class="btn btn-outline-danger" style="padding-left:20px; padding-right:20px;">Excluir</button>
+                            <button type="submit" class="btn btn-outline-danger" style="padding-left:20px; padding-right:20px;">Excluir</button>
                         </div>
                     </div>
                 </div>
