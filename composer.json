@@ -41,6 +41,16 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "app/Helpers/asterisk.php",
+            "app/Helpers/avaya.php",
+            "app/Helpers/connections.php",
+            "app/Helpers/intelbras.php",
+            "app/Helpers/panasonic.php",
+            "app/Helpers/siemens.php",
+            "app/Helpers/storage.php",
+            "app/Helpers/basics.php"
         ]
     },
     "autoload-dev": {

@@ -16,10 +16,26 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
+            'connections-list',
+            'connections-create',
+            'connections-edit',
+            'connections-delete',
+            
+            'pbx-list',
+            'pbx-create',
+            'pbx-edit',
+            'pbx-delete',
+            
+            'extensions-list',
+            'extensions-create',
+            'extensions-edit',
+            'extensions-delete',
+            
             'users-list',
             'users-create',
             'users-edit',
             'users-delete',
+            
             'roles-list',
             'roles-create',
             'roles-edit',
@@ -34,12 +50,8 @@ class PermissionsTableSeeder extends Seeder
         Role::create(['name' => 'Administrador']);
         Role::create(['name' => 'Usuario']);
         
-        //$role = Role::findByName('Root');
-        //$role->givePermissionTo($permissions);
-        
         $role = Role::findByName('Administrador');
         $role->givePermissionTo($permissions);
-            //Permission::create(['name' => $permission]);
         
         $root = User::find(1);
         $root->assignRole('Root');

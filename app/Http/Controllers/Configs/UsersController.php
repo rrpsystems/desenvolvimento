@@ -29,7 +29,7 @@ class UsersController extends Controller
                                 ->where('users.name','like', '%'.$search.'%')
                                 ->orderBy('users.name')
                                 ->whereNotIn('email', ['root@root.com'])
-                                ->paginate(100);
+                                ->paginate(30);
         
         else:    
             $users = $this->user->select('users.id as id', 'users.name', 'email', 'roles.name as role')
@@ -37,7 +37,7 @@ class UsersController extends Controller
                                 ->leftJoin('roles', 'roles.id', '=', 'role_id' )
                                 ->orderBy('users.name')
                                 ->whereNotIn('email', ['root@root.com'])
-                                ->paginate(100);
+                                ->paginate(30);
         endif;
         return view('configs.users.index', compact('users','search'));
     

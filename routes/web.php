@@ -29,6 +29,14 @@ Route::group(['prefix' => 'configs', 'namespace' => 'Configs', 'middleware' => '
 
   Route::resource('users', 'UsersController');
   Route::resource('roles','RolesController');
+  Route::resource('connections','ConnectionsController');
+  Route::resource('pbx','PbxController');
+
+});
+
+Route::group(['prefix' => 'services', 'namespace' => 'Services'], function() {
+
+  Route::get('collector','ServicesController@collector');
 
 });
 

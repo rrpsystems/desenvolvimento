@@ -3,7 +3,8 @@
 // resources/lang/pt-br/messages.php
 
 return [
-    'users' => 'Usuarios',
-    'roles' => 'Permissões',
-    'validation.unique' => 'teste'
+    'users'        => 'Usuarios',
+    'roles'        => 'Permissões',
+    'connections'  => 'Coletores',
+    'pbx'          => 'PBX',
 ];

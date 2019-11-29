@@ -176,6 +176,18 @@ return [
 
         ['header' => 'settings'],
             [
+                'text'  => 'Connections',
+                'route'  => 'connections.index',
+			    'icon'  => 'fas fa-fw fa-plug',
+                'can'  => 'connections-list',
+            ],
+            [
+                'text'  => 'Pbx',
+                'route'  => 'pbx.index',
+			    'icon'  => 'fas fa-fw fa-building',
+                'can'  => 'pbx-list',
+            ],
+            [
                 'text'  => 'Usuarios',
                 'route'  => 'users.index',
 			    'icon'  => 'fas fa-fw fa-user',
