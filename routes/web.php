@@ -29,7 +29,6 @@ Route::group(['prefix' => 'configs', 'namespace' => 'Configs', 'middleware' => '
 
   Route::resource('users', 'UsersController');
   Route::resource('roles','RolesController');
-  Route::resource('connections','ConnectionsController');
   Route::resource('pbx','PbxController');
 
 });

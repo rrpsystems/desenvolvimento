@@ -16,11 +16,7 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'connections-list',
-            'connections-create',
-            'connections-edit',
-            'connections-delete',
-            
+               
             'pbx-list',
             'pbx-create',
             'pbx-edit',

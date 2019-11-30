@@ -6,5 +6,5 @@ return [
     'users'        => 'Usuarios',
     'roles'        => 'Permissões',
     'connections'  => 'Coletores',
-    'pbx'          => 'PBX',
+    'Pbx'          => 'Centrais',
 ];

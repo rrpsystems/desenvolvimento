@@ -6,26 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePbxesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
     {
         Schema::create('pbxes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('connections_name')->nullable();
-            $table->string('model')->nullable();
+            $table->string('name');
+            $table->string('model');
+            $table->string('connection');
+            $table->string('host')->nullable();
+            $table->string('port')->nullable();
+            $table->string('user')->nullable();
+            $table->string('password')->nullable();
+            $table->string('interval')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    
     public function down()
     {
         Schema::dropIfExists('pbxes');

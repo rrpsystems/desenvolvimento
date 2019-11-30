@@ -19,5 +19,6 @@ return [
     'settings'                      => 'Configurações',
     'Permissions'                   => 'Permissões',
     'Connections'                   => 'Coletores',
+    'Pbx'                           => 'Centrais',
     
 ];

@@ -6,24 +6,24 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-use App\Models\Connection;
-use App\Models\Calls;
+use App\Models\Pbx;
+use App\Models\Call;
 
 class ServicesController extends Controller
 {
-    public function __construct(Connection $connection)
+    public function __construct(Pbx $pbx)
     {
-        $this->connection = $connection;
+        $this->pbx = $pbx;
         
     }
 
     //Coleta os bilhetes do PBX
     public function collector()
     {
-        $conns = $this->connection->whereNotIn('type', ['Arquivo'])->whereNotNull('host')->get();
+        $conns = $this->pbx->whereNotIn('connection', ['Arquivo'])->whereNotNull('host')->get();
         
         foreach($conns as $conn):
-            trim(strtolower($conn->type))($conn->name, $conn->host, $conn->port, $conn->user, $conn->password); 
+            trim(strtolower($conn->connection))($conn->name, $conn->host, $conn->port, $conn->user, $conn->password); 
             //dd($conn);
         endforeach;
     
