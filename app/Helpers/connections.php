@@ -9,7 +9,7 @@ function telnet($name, $host, $port, $user, $password)
     wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Coleta Telnet Inicio', $name);
  
     //tempo maximo de execução em Segundos
-    set_time_limit(180);
+    set_time_limit(90);
  
     //desativa saida de erros
     error_reporting(0);
@@ -17,8 +17,7 @@ function telnet($name, $host, $port, $user, $password)
     // Abre um socket e passa o host e a porta como parametros
     $conn = stream_socket_client(trim($host).':'.trim($port), $errno, $errstr, 30);
 	stream_set_blocking( $conn , FALSE );
-    $end = " ''\r\n ''\r\n ''\r\n ''\r\n ''\r\n ''\r\n ''\r\n ''\r\n ''\r\n ''\r\n";
-
+    
     if (!$conn):
         wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> '.$errstr.' => '. $errno, $name);
         
@@ -34,7 +33,7 @@ function telnet($name, $host, $port, $user, $password)
         wr_file($name, "\r\n"                                                    , $filename);
         
         // Pega as Linhas da conexão e escreve no arquivo de texto
-        while (!feof($conn) || $conn == $end):
+        while (!feof($conn) ):
             $linha = fgets($conn);
             
             if($linha != ""):

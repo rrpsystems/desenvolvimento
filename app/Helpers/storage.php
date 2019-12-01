@@ -24,3 +24,13 @@ function re_file($file, $path = 'bilhetes')
         return $file;
     endforeach;
 }
+
+//move os arquivos
+function mv_file($name, $file, $newdir = 'backup')
+{
+    list($date, $time) = explode('_', basename($file));
+    list($d, $m, $y) = explode('-', $date);
+    $dir = $newdir.'/'.$name.'/'.$y.'/'.$m.'/'.$d.'/'.basename($file);
+    Storage::disk('local')->move($file, $dir);
+}
+

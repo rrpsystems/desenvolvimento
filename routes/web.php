@@ -30,12 +30,14 @@ Route::group(['prefix' => 'configs', 'namespace' => 'Configs', 'middleware' => '
   Route::resource('users', 'UsersController');
   Route::resource('roles','RolesController');
   Route::resource('pbx','PbxController');
+  Route::resource('calls','CallsController');
 
 });
 
 Route::group(['prefix' => 'services', 'namespace' => 'Services'], function() {
 
   Route::get('collector','ServicesController@collector');
+  Route::get('import','ServicesController@import');
 
 });
 

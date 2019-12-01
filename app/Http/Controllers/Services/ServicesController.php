@@ -11,9 +11,10 @@ use App\Models\Call;
 
 class ServicesController extends Controller
 {
-    public function __construct(Pbx $pbx)
+    public function __construct(Pbx $pbx, Call $call)
     {
         $this->pbx = $pbx;
+        $this->call = $call;
         
     }
 
@@ -27,6 +28,21 @@ class ServicesController extends Controller
             //dd($conn);
         endforeach;
     
+    }
+
+    public function import()
+    {    
+        $imports = $this->pbx->get();
+        
+        foreach($imports as $import):
+        
+            $allfiles = Storage::disk('local')->files('bilhetes/'.$import->name);
+            foreach ($allfiles as $file):
+                trim(strtolower($import->model))($file,$import->name);
+                mv_file($import->name,$file); 
+            endforeach;
+        endforeach;
+
     }
 
 }

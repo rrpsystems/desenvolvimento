@@ -42,7 +42,7 @@ class PbxController extends Controller
         if($search):
             $pbxes = $this->pbx->where('name','like', '%'.$search.'%')
                                 ->orderBy('name')
-                                >paginate(30);
+                                ->paginate(30);
         
         else:    
             $pbxes = $this->pbx->orderBy('name')

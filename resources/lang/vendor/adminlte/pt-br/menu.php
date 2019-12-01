@@ -20,5 +20,7 @@ return [
     'Permissions'                   => 'Permissões',
     'Connections'                   => 'Coletores',
     'Pbx'                           => 'Centrais',
+    'Data'                          => 'Banco',
+    'Calls'                         => 'Ligações',
     
 ];

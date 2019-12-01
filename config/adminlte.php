@@ -174,6 +174,16 @@ return [
        
     'menu' => [
 
+        ['header' => 'Data'],
+        
+            [
+                'text'  => 'Calls',
+                'route'  => 'calls.index',
+                'icon'  => 'fas fa-fw fa-archive',
+                'can'  => 'calls-list',
+            ],
+    
+        
         ['header' => 'settings'],
             [
                 'text'  => 'Pbx',

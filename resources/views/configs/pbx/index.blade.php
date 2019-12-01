@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-end">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Configurações</a></li>
-                <li class="breadcrumb-item active">PABX</li>
+                <li class="breadcrumb-item active">Centrais</li>
             </ol>     
         </div>
     </div>
@@ -20,7 +20,7 @@
                 <div class="card-header no-border">
                     <div class="d-flex bd-highlight">
                         <div class="mr-auto p-2 bd-highlight">
-                            <h3 class="card-title">PABX</h3>
+                            <h3 class="card-title">Centrais</h3>
                         </div>
                         <div class="p-2 bd-highlight">
                             <div class="row">
@@ -61,8 +61,6 @@
                                     <th>Conexão</th>
                                     <th>host</th>
                                     <th>Porta</th>
-                                    <th>Usuario</th>
-                                    <th>Senha</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -75,8 +73,6 @@
                                         <td> {{ $pbx->connection }} </td>
                                         <td> {{ $pbx->host }} </td>
                                         <td> {{ $pbx->port }} </td>
-                                        <td> {{ $pbx->user }} </td>
-                                        <td> {{ $pbx->password }} </td>
                                         <td>
                                             <div class="form-inline">
                                             @can('pbx-list')
