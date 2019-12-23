@@ -31,6 +31,7 @@ class CreateCallsTable extends Migration
             $table->string('projectcodes_id')->nullable();
             $table->string('disposition')->nullable();
             $table->string('uniqueid')->nullable();
+			$table->string('cservice')->nullable();
 			$table->string('rates_id')->nullable();
             $table->double('rate', 10, 2)->nullable();
             $table->string('status_id')->nullable();

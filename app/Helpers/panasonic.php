@@ -6,7 +6,7 @@ function panasonic_tda_tde_ns($file,$name){
     $cdrs = preg_split('/(\r|\n)/', $cdrs);
     
     foreach($cdrs as $cdr):
-        $pbx='' ; $calldate=''; $extensions_id=''; $trunks_id=''; $did=''; $direction=''; $dialnumber='';
+        $pbx='' ; $calldate=''; $extensions_id=''; $trunks_id=''; $did=''; $direction=''; $dialnumber=''; $callnumber='';
         $ring=''; $billsec=''; $accountcodes_id=''; $projectcodes_id=''; $disposition=''; $status_id='';  
         
         if(!is_numeric(substr($cdr,0,2)) ):
@@ -38,16 +38,19 @@ function panasonic_tda_tde_ns($file,$name){
                 
             case '<D>':
                 list($a, $did, $dialnumber) = preg_split('/(<D>|<I>)/', trim(substr($cdr,28,50)));
+                $callnumber = dialIc($dialnumber, $trunks_id, $pbx);
                 $direction = 'IC';
                 break;
                 
             case '<I>':
                 list($a, $dialnumber) = preg_split('/(<D>|<I>)/', trim(substr($cdr,28,50)));
+                $callnumber = dialIc($dialnumber, $trunks_id, $pbx);
                 $direction = 'IC';
                 break;
                         
             default :
                 $dialnumber = trim(substr($cdr,28,50));
+                $callnumber = dialOc($dialnumber, $trunks_id, $pbx);
                 $direction = 'OC';
         endswitch;
     
@@ -64,7 +67,6 @@ function panasonic_tda_tde_ns($file,$name){
             'accountcodes_id' => $accountcodes_id, 
             'projectcodes_id' => $projectcodes_id, 
             'disposition' => $disposition, 
-            'status_id' => $status_id, 
             ],
             
             ['pbx' => $pbx, 
@@ -74,6 +76,7 @@ function panasonic_tda_tde_ns($file,$name){
             'did' => $did, 
             'direction' => $direction, 
             'dialnumber' => $dialnumber, 
+            'callnumber' => $callnumber, 
             'ring' => $ring, 
             'billsec' => $billsec, 
             'accountcodes_id' => $accountcodes_id, 

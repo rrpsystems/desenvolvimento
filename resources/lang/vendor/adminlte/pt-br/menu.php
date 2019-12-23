@@ -22,5 +22,8 @@ return [
     'Pbx'                           => 'Centrais',
     'Data'                          => 'Banco',
     'Calls'                         => 'Ligações',
+    'Prefixes'                      => 'Prefixos',
+    'Routes'                        => 'Rotas',
+    'Rates'                         => 'Tarifas',
     
 ];

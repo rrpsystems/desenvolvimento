@@ -13,5 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UsersTableSeeder::class);
         $this->call(PermissionsTableSeeder::class);
+        $this->call(SmePrefixesTableSeeder::class);
+        $this->call(SmpPrefixesTableSeeder::class);
+        $this->call(StfcPrefixesTableSeeder::class);
+        $this->call(DdiPrefixesTableSeeder::class);
     }
 }

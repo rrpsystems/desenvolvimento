@@ -30,6 +30,11 @@ Route::group(['prefix' => 'configs', 'namespace' => 'Configs', 'middleware' => '
   Route::resource('users', 'UsersController');
   Route::resource('roles','RolesController');
   Route::resource('pbx','PbxController');
+  Route::resource('prefixes','PrefixesController');
+  Route::resource('routes','RoutesController');
+  Route::resource('rates','RatesController');
+  Route::resource('trunks','TrunksController');
+
   Route::resource('calls','CallsController');
 
 });
@@ -38,6 +43,7 @@ Route::group(['prefix' => 'services', 'namespace' => 'Services'], function() {
 
   Route::get('collector','ServicesController@collector');
   Route::get('import','ServicesController@import');
+  Route::get('billing','ServicesController@billing');
 
 });
 

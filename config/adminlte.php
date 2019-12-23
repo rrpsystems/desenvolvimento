@@ -51,8 +51,8 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_sidebar' => true,
+    'layout_fixed_navbar' => true,
     'layout_fixed_footer' => null,
 
     /*
@@ -189,6 +189,30 @@ return [
                 'text'  => 'Pbx',
                 'route'  => 'pbx.index',
 			    'icon'  => 'fas fa-fw fa-building',
+                'can'  => 'pbx-list',
+            ],
+            [
+                'text'  => 'Prefixes',
+                'route'  => 'prefixes.index',
+			    'icon'  => 'fas fa-fw fa-map-marker-alt',
+                'can'  => 'pbx-list',
+            ],
+            [
+                'text'  => 'Routes',
+                'route'  => 'routes.index',
+			    'icon'  => 'fas fa-fw fa-route',
+                'can'  => 'pbx-list',
+            ],
+            [
+                'text'  => 'Rates',
+                'route'  => 'rates.index',
+                'icon'  => 'fas fa-fw fa-dollar-sign',
+                'can'  => 'pbx-list',
+            ],
+            [
+                'text'  => 'Trunks',
+                'route'  => 'trunks.index',
+			    'icon'  => 'fas fa-fw fa-road',
                 'can'  => 'pbx-list',
             ],
             [

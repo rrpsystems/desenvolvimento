@@ -45,6 +45,7 @@ function telnet($name, $host, $port, $user, $password)
 
     fclose($conn);    
     wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Coleta Telnet Termino', $name);
+    unset($conn,$linha);
 }
 
 

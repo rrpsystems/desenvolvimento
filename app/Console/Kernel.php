@@ -25,6 +25,10 @@ class Kernel extends ConsoleKernel
                     ->everyTenMinutes();
                 //->withoutOverlapping();
         
+        $schedule->call('App\Http\Controllers\Services\ServicesController@billing')
+                    ->everyFiveMinutes();
+                //->withoutOverlapping();
+        
         // $schedule->command('inspire')
         //          ->hourly();
         

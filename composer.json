@@ -50,6 +50,7 @@
             "app/Helpers/panasonic.php",
             "app/Helpers/siemens.php",
             "app/Helpers/storage.php",
+            "app/Helpers/dialplan.php",
             "app/Helpers/basics.php"
         ]
     },
