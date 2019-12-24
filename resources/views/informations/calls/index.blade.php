@@ -51,22 +51,21 @@
                         <table class="table no-wrap table-sm table-striped table-valign-middle">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th></th>
+                                    <th>#</th>
                                     <th>Data</th>
                                     <th>Hora</th>
                                     <th>PBX</th>
                                     <th>Direção</th>
+                                    <th>Ring</th>
                                     <th>Ramal</th>
                                     <th>Tronco</th>
                                     <th>DDR</th>
                                     <th>Numero Disc.</th>
-                                    <th>Numero E164</th>
-                                    <th>Prefixo</th>
-                                    <th>Serviço</th>
-                                    <th>Valor R$</th>
-                                    <th>Tarifa</th>
-                                    <th>Ring</th>
+                                    <th>Localidade</th>
                                     <th>Duração</th>
+                                    <th>Serviço</th>
+                                    <th>Tarifa</th>
+                                    <th>Valor R$</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -78,17 +77,16 @@
                                         <td> {{ date('H:i:s', strtotime($call->calldate)) }} </td>
                                         <td> {{ $call->pbx }} </td>
                                         <td> @lang("calls.$call->direction")</td>
+                                        <td> {{ gmdate("H:i:s", $call->ring) }} </td>
                                         <td> {{ $call->extensions_id }} </td>
                                         <td> {{ $call->trunks_id }} </td>
                                         <td> {{ $call->did }} </td>
                                         <td> {{ $call->dialnumber }} </td>
-                                        <td> {{ $call->callnumber }} </td>
                                         <td> {{ $call->locale }} </td>
-                                        <td> {{ $call->cservice }} </td>
-                                        <td> R$ {{number_format($call->rate, 2, ',', '.') }} </td>
-                                        <td> {{ $call->rates_id }} </td>
-                                        <td> {{ gmdate("H:i:s", $call->ring) }} </td>
                                         <td> {{ gmdate("H:i:s", $call->billsec) }} </td>
+                                        <td> {{ $call->cservice }} </td>
+                                        <td> {{ $call->rates_id }} </td>
+                                        <td> R$ {{number_format($call->rate, 2, ',', '.') }} </td>
                                         <td> {{ $call->status_id }} </td>
                                     </tr>
                                 @empty

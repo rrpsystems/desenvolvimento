@@ -15,6 +15,14 @@ class CreateExtensionsTable extends Migration
     {
         Schema::create('extensions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('pbxes_id')->nullable();
+            $table->string('extension')->nullable();
+            $table->string('ename')->nullable();
+            $table->string('groups_id')->nullable();
+            $table->string('tenants_id')->nullable();
+            $table->string('sections_id')->nullable();
+            $table->string('departaments_id')->nullable();
+            $table->string('users_id')->nullable();
             $table->timestamps();
         });
     }

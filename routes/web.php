@@ -39,6 +39,18 @@ Route::group(['prefix' => 'configs', 'namespace' => 'Configs', 'middleware' => '
 
 });
 
+Route::group(['prefix' => 'dashboards', 'namespace' => 'Dashboards', 'middleware' => 'auth'], function() {
+
+  Route::resource('resumes', 'ResumesController');
+  
+});
+
+Route::group(['prefix' => 'maintenance', 'namespace' => 'Maintenance', 'middleware' => 'auth'], function() {
+
+  Route::resource('status', 'StatusController');
+  
+});
+
 Route::group(['prefix' => 'services', 'namespace' => 'Services'], function() {
 
   Route::get('collector','ServicesController@collector');

@@ -174,6 +174,16 @@ return [
        
     'menu' => [
 
+        ['header' => 'Dashboards'],
+        
+            [
+                'text'  => 'Resume',
+                'route'  => 'resumes.index',
+                'icon'  => 'fas fa-fw fa-archive',
+                'can'  => 'calls-list',
+            ],
+    
+            
         ['header' => 'Data'],
         
             [
@@ -227,7 +237,16 @@ return [
                 'icon'  => 'fas fa-fw fa-lock',
                 'can'  => 'roles-list',
             ],
+
+            ['header' => 'Maintenance'],
         
+            [
+                'text'  => 'Status',
+                'route'  => 'status.index',
+                'icon'  => 'fas fa-fw fa-archive',
+                'can'  => 'calls-list',
+            ],
+    
     ],
 
     /*
@@ -299,11 +318,11 @@ return [
         ],
         [
             'name' => 'Chartjs',
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
                 ],
             ],

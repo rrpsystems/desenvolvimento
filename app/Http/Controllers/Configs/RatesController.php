@@ -31,7 +31,7 @@ class RatesController extends Controller
         'SERVIÇOS' => 'SERVIÇOS',
         'OUTROS'   => 'OUTROS',
         'GRATUITO' => 'GRATUITO',
-        'TIE-LINE' => 'TIE-LINE',
+        'TIE_LINE' => 'TIE_LINE',
         ];
 
     private $directions = [

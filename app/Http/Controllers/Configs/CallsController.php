@@ -29,14 +29,14 @@ class CallsController extends Controller
                                 ->leftJoin('prefixes', 'prefixes_id', '=', 'prefix')
                                 ->where('dialnumber','like', '%'.$search.'%')
                                 ->orderBy('calldate', 'DESC')
-                                ->paginate(30);
+                                ->paginate(50);
         
         else:    
             $calls = $this->call->select('calls.id AS cid', '*')
                                 ->leftJoin('prefixes', 'prefixes_id', '=', 'prefix')
-                                ->whereIn('direction',['OC'])
+                                //->whereIn('direction',['OC'])
                                 ->orderBy('calldate', 'DESC')
-                                ->paginate(30);
+                                ->paginate(50);
         endif;
         //dd($calls);
         return view('informations.calls.index', compact('calls','search'));
