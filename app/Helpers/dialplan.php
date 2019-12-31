@@ -1,6 +1,7 @@
 <?php
 
-function dialNumber($prefixes,$phone){
+
+    function dialNumber($prefixes,$phone){
 
     foreach($prefixes as $prefix):
         if(substr($prefix->prefix,0,2) == 55):
@@ -43,8 +44,11 @@ function dialOc($number, $trunk, $pbx)
         $tddd     = $trunk->ddd;
         $drm      = $trunk->drm;    
         $dap      = $trunk->dap;    
+    else:
+        return NULL;
     endif;
-
+    
+    
     $number = $dap . substr($number,$drm);
     
     switch($dialplan):

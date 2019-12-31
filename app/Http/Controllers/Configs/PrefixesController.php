@@ -9,14 +9,6 @@ use App\Models\Prefix;
 class PrefixesController extends Controller
 {
     
-    private $services = [
-        'FIXO'          => 'FIXO',
-        'MOVEL'         => 'MOVEL',
-        'INTERNACIONAL' => 'INTERNACIONAL',
-        'GRATUITO'      => 'GRATUITO',
-        'SERVIÇO'       => 'SERVIÇO',
-        'OUTROS'        => 'OUTROS',
-        ];
 
         public function __construct(Prefix $prefix)
     {
@@ -28,7 +20,7 @@ class PrefixesController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $services = collect($this->services);
+        $services = services();
         
         if($search):
             $prefixes = $this->prefix->where('prefix','like', $search.'%')
@@ -51,7 +43,7 @@ class PrefixesController extends Controller
     
     public function create()
     {
-        $services = collect($this->services);
+        $services = services();
         return view('configs.prefixes.create', compact('services'));
 
     }
@@ -87,7 +79,7 @@ class PrefixesController extends Controller
     public function show($id)
     {
         $prefix = $this->prefix->findOrFail($id);
-        $services = collect($this->services);
+        $services = services();
         
         return view('configs.prefixes.show', compact('services','prefix'));
 
@@ -97,7 +89,7 @@ class PrefixesController extends Controller
     public function edit($id)
     {
         $prefix = $this->prefix->findOrFail($id);
-        $services = collect($this->services);
+        $services = services();
         
         return view('configs.prefixes.edit', compact('services','prefix'));
 
@@ -144,7 +136,7 @@ class PrefixesController extends Controller
     {
         !is_numeric($id) ? list($del, $id) = explode("-", $id) : '';
         
-        $services = collect($this->services);
+        $services = services();
         $prefix = $this->prefix->findOrFail($id);
         
         if(isset($del)):    

@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-end">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Configurações</a></li>
-                <li class="breadcrumb-item active">Troncos</li>
+                <li class="breadcrumb-item active">Ramais</li>
             </ol>     
         </div>
     </div>
@@ -20,20 +20,20 @@
                 <div class="card-header no-border">
                     <div class="d-flex bd-highlight">
                         <div class="mr-auto p-2 bd-highlight">
-                            <h3 class="card-title">Troncos</h3>
+                            <h3 class="card-title">Ramais</h3>
                         </div>
                         <div class="p-2 bd-highlight">
                             <div class="row">
-                                <form action="{{route('trunks.index')}}" method="GET" >
+                                <form action="{{route('extensions.index')}}" method="GET" >
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-prepend">
 											<span class="input-group-text">
-												<a href="{{route('trunks.index')}}">
+												<a href="{{route('extensions.index')}}">
 													<i class="fas fa-recycle"></i>
                                                 </a>
                                             </span>
                                         </span>
-                                        <input type="text" name="search" class="form-control" value="{{$search ?? ''}}" placeholder="Tronco">
+                                        <input type="text" name="search" class="form-control" value="{{$search ?? ''}}" placeholder="Ramal">
                                         <span class="input-group-append">
                                             <button type="submit" class="btn btn-outline-primary btn-flat">Pesquisar</button>
                                         </span>
@@ -42,8 +42,8 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('trunks-create')
-                                <a class="btn btn-outline-success btn-sm" href="{{ route('trunks.create') }}">
+                            @can('extensions-create')
+                                <a class="btn btn-outline-success btn-sm" href="{{ route('extensions.create') }}">
                         		    Cadastrar
                                 </a>
                             @endcan
@@ -56,40 +56,44 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th></th>
-                                    <th>Tronco</th>
-                                    <th>Nome</th>
                                     <th>PBX</th>
-                                    <th>Rota</th>
+                                    <th>Ramal</th>
+                                    <th>Nome</th>
+                                    <th>Grupo</th>
+                                    <th>Departamento</th>
+                                    <th>Login</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($trunks as $trunk)
+                                @forelse($extensions as $extension)
                                     <tr>
                                         <td></td>
-                                        <td> {{ $trunk->trunk }} </td>
-                                        <td> {{ $trunk->tname }} </td>
-                                        <td> {{ $trunk->tpbx }} </td>
-                                        <td> {{ $trunk->routes_route }} </td>
+                                        <td> {{ $extension->pbxes_id }} </td>
+                                        <td> {{ $extension->extension }} </td>
+                                        <td> {{ $extension->ename }} </td>
+                                        <td> {{ $extension->groups_id }} </td>
+                                        <td> {{ $extension->departaments_id }} </td>
+                                        <td> {{ $extension->users_id }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('trunks-list')
+                                            @can('extension-list')
                                                     <div class="p-1">
-                                                        <a class="btn btn-outline-info btn-xs" href="{{ route('trunks.show',$trunk->id) }}">
+                                                        <a class="btn btn-outline-info btn-xs" href="{{ route('extensions.show',$extension->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('trunks-edit')
+                                                @can('extension-edit')
                                                     <div class="p-1">
-                                                        <a class="btn btn-outline-warning btn-xs" href="{{ route('trunks.edit',$trunk->id) }}">
+                                                        <a class="btn btn-outline-warning btn-xs" href="{{ route('extensions.edit',$extension->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('trunks-delete')
+                                                @can('extension-delete')
                                                     <div class="p-1">
-                                                        <form action="{{ route('trunks.destroy', 'del-'.$trunk->id) }}" method="POST">
+                                                        <form action="{{ route('extensions.destroy', 'del-'.$extension->id) }}" method="POST">
                                                             @method('DELETE')
                                                             @csrf
                                                             <button class="btn btn-outline-danger btn-xs" >
@@ -103,7 +107,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="9" class="text-center"> Não foram encontrados dados para exibição!</td>
+                                        <td colspan="12" class="text-center"> Não foram encontrados dados para exibição!</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -116,9 +120,9 @@
                         </div>
                         <div class="p-2 bd-highlight">
                             @if(isset($search))
-                                {{ $trunks->appends(['search' => $search])->links('vendor.pagination.sm-float-rigth') }}
+                                {{ $extensions->appends(['search' => $search])->links('vendor.pagination.sm-float-rigth') }}
                             @else
-                                {{ $trunks->links('vendor.pagination.sm-float-rigth') }}
+                                {{ $extensions->links('vendor.pagination.sm-float-rigth') }}
                             @endif
 						</div>
                     </div>

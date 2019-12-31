@@ -26,6 +26,30 @@ class ServicesController extends Controller
         
     }
 
+    public function test()
+    {
+     
+        $now = strtotime(date('Y-m-d H:i:s'));
+        $calldate = strtotime(date('2019-11-30 21:22:00'));
+        
+        if($now < $calldate):
+            $calldate =  date('Y-m-d H:i:s', strtotime('-1 year', $calldate));
+        else:
+            $calldate =  date('Y-m-d H:i:s', strtotime('0 days',$calldate));
+        endif;
+        
+        dd($calldate);
+     
+        //pega os arquivos na pasta e importa para o banco de dados de acordo com o modelo do pbx.
+            $allfiles = Storage::disk('local')->files('bilhetes/REAL_SERV_IMPACTA');
+            
+            foreach ($allfiles as $file):
+                //Chama a função no Helpers/de acordo com o fabricante/modelo do PBX.
+                dd(intelbras_impacta($file,'REAL_SERV_IMPACTA'));
+               
+            endforeach;
+
+    }
     //Coleta os bilhetes do PBX
     public function collector()
     {
@@ -47,8 +71,10 @@ class ServicesController extends Controller
             $allfiles = Storage::disk('local')->files('bilhetes/'.$import->name);
             foreach ($allfiles as $file):
                 //Chama a função no Helpers/de acordo com o fabricante/modelo do PBX.
-                trim(strtolower($import->model))($file,$import->name);
-                mv_file($import->name,$file); 
+                $success = trim(strtolower($import->model))($file,$import->name);
+                if($success):
+                    mv_file($import->name,$file);
+                endif; 
             endforeach;
         endforeach;
 
@@ -89,14 +115,14 @@ class ServicesController extends Controller
 
             //verifica o tipo de serviço do prefixo e do numero
             switch($prefix->service):
-                case'FIXO':
+                case'STFC':
                     if($call->ddd == substr($prefix->prefix,0,4)):
                         $type = 'LOCAL';
                     else:
-                        $type = 'DDD';
+                        $type = 'LDN';
                     endif;
                 break;
-                case'MOVEL':
+                case'SMP':
                     if($call->ddd == substr($prefix->prefix,0,4)):
                         $type = 'VC1';    
                     elseif(substr($call->ddd,0,3) == substr($prefix->prefix,0,3)):
@@ -105,8 +131,8 @@ class ServicesController extends Controller
                         $type = 'VC3';
                     endif;
                 break;         
-                case'INTERNACIONAL':
-                    $type = 'DDI';
+                case'DDI':
+                    $type = 'LDI';
                 break; 
                 case'GRATUITO':
                     $type = 'GRATUITO';

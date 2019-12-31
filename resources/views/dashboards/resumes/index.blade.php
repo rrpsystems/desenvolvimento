@@ -23,28 +23,51 @@
                                 <div class="col-12 ">
                                     <form action="{{route('resumes.index')}}" method="GET">
                                         <div class="form-row justify-content-end">
+                                        <div class="form-group col-md-4 ">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"
+                                                            id="validationTooltipUsernamePrepend">PBX</span>
+                                                    </div>
+                                                    <select class="form-control select-pbxes" id="pbxes" name="pbxes" onchange="this.form.submit()">
+                                                                
+                                                        @foreach($pbxes as $pbx):
+                                                            @if($loop->first)
+                                                                <option value="all">Todos</option>
+                                                            @endif
+
+                                                            <option value="{{$pbx->name}}" @if($pbx->name == $p) selected @endif >{{ $pbx->name }}</option>        
+                                                        
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
                                             <div class="form-group col-md-4 ">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"
                                                             id="validationTooltipUsernamePrepend">Ramais</span>
                                                     </div>
-                                                    <select class="form-control" name="exten" onchange="this.form.submit()">
-                                                                
-                                                        @foreach($extens as $exten):
+                                                    <select class="form-control select-extensions_id" id="extensions_id" name="exten" onchange="this.form.submit()">
+                                                        @foreach($extensions as $group => $extension):
                                                             @if($loop->first)
                                                                 <option value="all">Todos</option>
                                                             @endif
-
-                                                            <option value="{{$exten->extensions_id}}" @if($exten->extensions_id == $e) selected @endif >{{ $exten->extensions_id }}</option>        
-                                                        
-                                                        @endforeach
+                                                            <optgroup label="{{$group}}">
+                                                                @foreach($extension as $extensio):
+                                                                    <option value="{{$extensio->extension}}" @if($extensio->extension == $e) selected @endif >
+                                                                        {{ $extensio->extension }} - {{ $extensio->ename }}
+                                                                    </option>        
+                                                                @endforeach
+                                                            </optgroup>    
+                                                        @endforeach    
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <div class="input-group">
-                                                    <select class="form-control" name="month" onchange="this.form.submit()">
+                                                    <select class="form-control select-month" id="month" name="month" onchange="this.form.submit()">
                                                         @foreach($months as $key => $month)
                                                             <option value="{{$key}}" @if($key == $m) selected @endif>{{$month}}</option>
                                                         @endforeach
@@ -183,9 +206,9 @@
                                 <tbody>
                                     <tr>
                                         <td> DDI </td>
-                                        <td> {{ $data->qtd->ddi }}</td>
-                                        <td> {{ ceil( $data->time->ddi / 60 ) }}</td>
-                                        <td> R$ {{ number_format( $data->val->ddi , 2, ',', '.') }}</td>
+                                        <td> {{ $data->qtd->ldi }}</td>
+                                        <td> {{ ceil( $data->time->ldi / 60 ) }}</td>
+                                        <td> R$ {{ number_format( $data->val->ldi , 2, ',', '.') }}</td>
                                     </tr>
                                     <tr>
                                         <td> DDD Movel </td>
@@ -195,9 +218,9 @@
                                     </tr>
                                     <tr>
                                         <td> DDD Fixo </td>
-                                        <td> {{ $data->qtd->ddd }}</td>
-                                        <td> {{ ceil( $data->time->ddd / 60 ) }}</td>
-                                        <td> R$ {{ number_format( $data->val->ddd, 2, ',', '.') }}</td>
+                                        <td> {{ $data->qtd->ldn }}</td>
+                                        <td> {{ ceil( $data->time->ldn / 60 ) }}</td>
+                                        <td> R$ {{ number_format( $data->val->ldn, 2, ',', '.') }}</td>
                                     </tr>
                                     <tr>
                                         <td> Local Movel </td>
@@ -272,8 +295,21 @@ th,td {
 
 @section('js')
 <script>
+ 
 
 $(function () {
+
+    $('.select-pbxes').select2({
+        placeholder: "PBX"
+    }),
+    
+    $('.select-extensions_id').select2({
+        placeholder: "Ramal"
+    }),
+    
+    $('.select-month').select2({
+        placeholder: "Mes"
+    })
 
     var $resumeChart = $('#resume-chart')
     var resumeChart  = new Chart($resumeChart, {
@@ -285,9 +321,9 @@ $(function () {
                         backgroundColor: '#007bff',
                         borderColor    : '#007bff',
                         data           : [  
-                                            {{ ceil( $data->time->ddi / 60 ) }},
+                                            {{ ceil( $data->time->ldi / 60 ) }},
                                             {{ ceil( ($data->time->vc2 + $data->time->vc3) / 60 ) }},
-                                            {{ ceil( $data->time->ddd / 60 ) }},
+                                            {{ ceil( $data->time->ldn / 60 ) }},
                                             {{ ceil( $data->time->vc1 / 60 ) }},
                                             {{ ceil( $data->time->local / 60 ) }},
                                             {{ ceil( $data->time->serviços / 60 ) }},
@@ -301,9 +337,9 @@ $(function () {
                         backgroundColor: '#28a745',
                         borderColor    : '#28a745',
                         data           : [ 
-                                            {{ $data->qtd->ddi }},
+                                            {{ $data->qtd->ldi }},
                                             {{  ($data->qtd->vc2 + $data->qtd->vc3) }},
-                                            {{  $data->qtd->ddd }},
+                                            {{  $data->qtd->ldn }},
                                             {{  $data->qtd->vc1 }},
                                             {{  $data->qtd->local }},
                                             {{  $data->qtd->serviços }},
@@ -317,9 +353,9 @@ $(function () {
                         backgroundColor: '#dc3545',
                         borderColor    : '#dc3545',
                         data           : [ 
-                                            {{ $data->val->ddi }},
+                                            {{ $data->val->ldi }},
                                             {{  ($data->val->vc2 + $data->val->vc3) }},
-                                            {{  $data->val->ddd }},
+                                            {{  $data->val->ldn }},
                                             {{  $data->val->vc1 }},
                                             {{  $data->val->local }},
                                             {{  $data->val->serviços }},
@@ -394,7 +430,7 @@ $(function () {
                     data: [
                         
                         @foreach($data->hour as $h)
-                            {{ ceil( $h->ic / $days ) }},
+                            {{ ceil( $h->ic /$days ) }},
                         @endforeach
 
                     ],
@@ -472,7 +508,9 @@ $(function () {
                 }
             }
     })
-    
+
+
+
     })
 
     </script>

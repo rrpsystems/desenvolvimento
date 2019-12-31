@@ -9,24 +9,7 @@ use App\Models\Pbx;
 
 class PbxController extends Controller
 {
-
-    private $models = [
-                'Panasonic_TDA_TDE_NS' => 'Panasonic_TDA_TDE_NS',
-                'Intelbras'            => 'Intelbras',
-                'Siemens_HP3000'       => 'Siemens_HP3000',
-                'Siemens_HP4000'       => 'Siemens_HP4000',
-                'Avaya_IPO'            => 'Avaya_IPO',
-                ];
-    
-    
-    private $connections = [
-                    'Arquivo' => 'Arquivo',
-                    'FTP'     => 'FTP',
-                    'TCP'     => 'TCP',
-                    'Telnet'  => 'Telnet',
-                    ];
-    
-    
+       
     public function __construct(Pbx $pbx)
     {
         $this->pbx = $pbx;        
@@ -36,8 +19,8 @@ class PbxController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $models = collect($this->models);
-        $connections = collect($this->connections);
+        $models = models();
+        $connections = connections();
         
         if($search):
             $pbxes = $this->pbx->where('name','like', '%'.$search.'%')
@@ -57,8 +40,8 @@ class PbxController extends Controller
     public function create()
     {
 
-        $models = collect($this->models);
-        $connections = collect($this->connections);
+        $models = models();
+        $connections = connections();
         return view('configs.pbx.create', compact('models','connections'));
     }
 
@@ -94,8 +77,8 @@ class PbxController extends Controller
     public function show($id)
     {
         $pbx = $this->pbx->findOrFail($id);
-        $models = collect($this->models);
-        $connections = collect($this->connections);
+        $models = models();
+        $connections = connections();
         
         return view('configs.pbx.show', compact('models','connections','pbx'));
 
@@ -105,8 +88,8 @@ class PbxController extends Controller
     public function edit($id)
     {
         $pbx = $this->pbx->findOrFail($id);
-        $models = collect($this->models);
-        $connections = collect($this->connections);
+        $models = models();
+        $connections = connections();
         
         return view('configs.pbx.edit', compact('models','connections','pbx'));
 
@@ -154,8 +137,8 @@ class PbxController extends Controller
     {
         !is_numeric($id) ? list($del, $id) = explode("-", $id) : '';
         
-        $models = collect($this->models);
-        $connections = collect($this->connections);
+        $models = models();
+        $connections = connections();
         $pbx = $this->pbx->findOrFail($id);
         
         if(isset($del)):    

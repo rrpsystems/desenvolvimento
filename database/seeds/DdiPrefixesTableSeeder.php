@@ -26,7 +26,7 @@ class DdiPrefixesTableSeeder extends Seeder
                             'dadd'        => '1', 
                             'countrycode' => $prefix, 
                             'locale'      => $locale, 
-                            'service'     => "INTERNACIONAL", 
+                            'service'     => "DDI", 
                         ]
                     );
                     $i++;

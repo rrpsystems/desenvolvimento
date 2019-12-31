@@ -33,7 +33,7 @@ class SmePrefixesTableSeeder extends Seeder
                     'dadd'        => strlen(trim($ff)), 
                     'countrycode' => "55", 
                     'locale'      => "CELULAR DDD $areacode", 
-                    'service'     => "MOVEL", 
+                    'service'     => "SMP", 
                 ]
             );
 

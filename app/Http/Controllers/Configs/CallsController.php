@@ -34,7 +34,7 @@ class CallsController extends Controller
         else:    
             $calls = $this->call->select('calls.id AS cid', '*')
                                 ->leftJoin('prefixes', 'prefixes_id', '=', 'prefix')
-                                //->whereIn('direction',['OC'])
+                                //->whereIn('pbx',['REAL_SERV_IMPACTA'])
                                 ->orderBy('calldate', 'DESC')
                                 ->paginate(50);
         endif;

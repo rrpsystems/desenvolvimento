@@ -11,12 +11,6 @@ use App\Models\Prefix;
 class RoutesController extends Controller
 {
     
-    private $dials = [
-        'Pais + DDD + Telefone'             => 'Pais + DDD + Telefone',
-        '0 + Operadora + DDD + Telefone'    => '0 + Operadora + DDD + Telefone',
-        '0 + DDD + Telefone'                => '0 + DDD + Telefone',
-        'DDD + Telefone'                    => 'DDD + Telefone',
-        ];
 
     public function __construct(Route $route, Pbx $pbx)
     {
@@ -45,7 +39,7 @@ class RoutesController extends Controller
     
     public function create()
     {
-        $dials    = collect($this->dials);
+        $dials    = dials();
         $pbxes    = $this->pbx->get();
         return view('configs.routes.create', compact('pbxes','dials'));
 
@@ -83,7 +77,7 @@ class RoutesController extends Controller
     public function show($id)
     {
         $route = $this->route->findOrFail($id);
-        $dials    = collect($this->dials);
+        $dials    = dials();
         $pbxes    = $this->pbx->get();
         return view('configs.routes.show', compact('route','pbxes','dials'));
 
@@ -93,7 +87,7 @@ class RoutesController extends Controller
     public function edit($id)
     {
         $route = $this->route->findOrFail($id);
-        $dials    = collect($this->dials);
+        $dials    = dials();
         $pbxes    = $this->pbx->get();
         return view('configs.routes.edit', compact('route','pbxes','dials'));
 
@@ -146,7 +140,7 @@ class RoutesController extends Controller
         !is_numeric($id) ? list($del, $id) = explode("-", $id) : '';
         
         $route = $this->route->findOrFail($id);
-        $dials    = collect($this->dials);
+        $dials    = dials();
         $pbxes    = $this->pbx->get();
     
         if(isset($del)):    

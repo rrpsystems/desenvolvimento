@@ -34,6 +34,7 @@ Route::group(['prefix' => 'configs', 'namespace' => 'Configs', 'middleware' => '
   Route::resource('routes','RoutesController');
   Route::resource('rates','RatesController');
   Route::resource('trunks','TrunksController');
+  Route::resource('extensions','ExtensionsController');
 
   Route::resource('calls','CallsController');
 
@@ -56,6 +57,7 @@ Route::group(['prefix' => 'services', 'namespace' => 'Services'], function() {
   Route::get('collector','ServicesController@collector');
   Route::get('import','ServicesController@import');
   Route::get('billing','ServicesController@billing');
+  Route::get('test','ServicesController@test');
 
 });
 

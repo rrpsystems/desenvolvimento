@@ -87,6 +87,7 @@ function panasonic_tda_tde_ns($file,$name){
         );
         //dd($call);
     endforeach;
+    return true;
 }
 
         

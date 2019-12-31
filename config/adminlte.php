@@ -226,6 +226,12 @@ return [
                 'can'  => 'pbx-list',
             ],
             [
+                'text'  => 'Extensions',
+                'route'  => 'extensions.index',
+			    'icon'  => 'fas fa-fw fa-user',
+                'can'  => 'extensions-list',
+            ],
+            [
                 'text'  => 'Usuarios',
                 'route'  => 'users.index',
 			    'icon'  => 'fas fa-fw fa-user',

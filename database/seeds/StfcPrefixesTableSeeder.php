@@ -33,7 +33,7 @@ class StfcPrefixesTableSeeder extends Seeder
                             'dadd'        => strlen(trim($ff)), 
                             'countrycode' => "55", 
                             'locale'      => $locale, 
-                            'service'     => "FIXO", 
+                            'service'     => "STFC", 
                         ]
                     );
                     $i++;

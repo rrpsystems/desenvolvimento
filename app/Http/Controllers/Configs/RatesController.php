@@ -11,36 +11,7 @@ use App\Models\Prefix;
 
 class RatesController extends Controller
 {
-  
-    private $services = [
-        'FIXO'          => 'FIXO',
-        'MOVEL'         => 'MOVEL',
-        'INTERNACIONAL' => 'INTERNACIONAL',
-        'GRATUITO'      => 'GRATUITO',
-        'SERVIÇO'       => 'SERVIÇO',
-        'OUTROS'        => 'OUTROS',
-        ];
     
-    private $types = [
-        'DDI'      => 'DDI',
-        'LOCAL'    => 'LOCAL',
-        'DDD'      => 'DDD',
-        'VC1'      => 'VC1',
-        'VC2'      => 'VC2',
-        'VC3'      => 'VC3',
-        'SERVIÇOS' => 'SERVIÇOS',
-        'OUTROS'   => 'OUTROS',
-        'GRATUITO' => 'GRATUITO',
-        'TIE_LINE' => 'TIE_LINE',
-        ];
-
-    private $directions = [
-        'IC' => 'IC',
-        'OC' => 'OC',
-        'IN' => 'IN',
-        'TL' => 'TL',
-        ];
-
         public function __construct(Rate $rate, Route $route, Prefix $prefix)
     {
         $this->rate = $rate;        
@@ -52,7 +23,7 @@ class RatesController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $services = collect($this->services);
+        $services = services();
         
         if($search):
             $rates = $this->rate->where('rname','like', '%'.$search.'%')
@@ -70,9 +41,9 @@ class RatesController extends Controller
 
     public function create()
     {
-        $services  = collect($this->services);
-        $directions  = collect($this->directions);
-        $types     = collect($this->types);
+        $services  = services();
+        $directions  = directions();
+        $types     = types();
         $routes    = $this->route->get();
         return view('configs.rates.create', compact('services','routes','types', 'directions'));
 
@@ -80,7 +51,6 @@ class RatesController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->all());
         $request->validate([
             'rname'            => 'required|unique:rates',
             'routes_route'     => "required|unique:rates,routes_route,NULL,id,prefixes_service,$request->prefixes_service,type,$request->type,direction,$request->direction",       
@@ -93,8 +63,6 @@ class RatesController extends Controller
             'ttmin'            => 'required|numeric',       
             'increment'        => 'required|numeric',       
             
-            //'name' => 'unique:table,field,NULL,id,field1,value1,field2,value2,field3,value3'
-            //'|unique:trunks,trunk,NULL,id,tpbx,' . $request->tpbx, 
         ]);
         
         try{
@@ -120,9 +88,9 @@ class RatesController extends Controller
     public function show($id)
     {
         $rate = $this->rate->findOrFail($id);
-        $services  = collect($this->services);
-        $directions  = collect($this->directions);
-        $types     = collect($this->types);
+        $services  = services();
+        $directions  = directions();
+        $types     = types();
         $routes    = $this->route->get();
         return view('configs.rates.show', compact('services','routes','types', 'directions','rate'));
 
@@ -131,9 +99,9 @@ class RatesController extends Controller
     public function edit($id)
     {
         $rate = $this->rate->findOrFail($id);
-        $services  = collect($this->services);
-        $directions  = collect($this->directions);
-        $types     = collect($this->types);
+        $services  = services();
+        $directions  = directions();
+        $types     = types();
         $routes    = $this->route->get();
         return view('configs.rates.edit', compact('services','routes','types', 'directions','rate'));
 
