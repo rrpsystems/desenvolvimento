@@ -223,7 +223,31 @@ return [
                 'text'  => 'Trunks',
                 'route'  => 'trunks.index',
 			    'icon'  => 'fas fa-fw fa-road',
-                'can'  => 'pbx-list',
+                'can'  => 'trunks-list',
+            ],
+            [
+                'text'  => 'Groups',
+                'route'  => 'groups.index',
+			    'icon'  => 'fas fa-fw fa-road',
+                'can'  => 'groups-list',
+            ],
+            [
+                'text'  => 'Tenants',
+                'route'  => 'tenants.index',
+			    'icon'  => 'fas fa-fw fa-road',
+                'can'  => 'tenants-list',
+            ],
+            [
+                'text'  => 'Sections',
+                'route'  => 'sections.index',
+			    'icon'  => 'fas fa-fw fa-road',
+                'can'  => 'sections-list',
+            ],
+            [
+                'text'  => 'Departaments',
+                'route'  => 'departaments.index',
+			    'icon'  => 'fas fa-fw fa-road',
+                'can'  => 'departaments-list',
             ],
             [
                 'text'  => 'Extensions',

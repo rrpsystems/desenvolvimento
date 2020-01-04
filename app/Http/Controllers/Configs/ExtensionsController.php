@@ -4,17 +4,21 @@ namespace App\Http\Controllers\Configs;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Departament;
 use App\Models\Extension;
+use App\Models\Group;
 use App\Models\Pbx;
 use App\User;
 
 class ExtensionsController extends Controller
 {
-    public function __construct(Extension $extension, Pbx $pbx, User $user)
+    public function __construct(Extension $extension, Pbx $pbx, User $user, Group $group, Departament $departament)
     {
+        $this->departament = $departament;        
         $this->extension = $extension;        
-        $this->pbx = $pbx;        
+        $this->group = $group;        
         $this->user = $user;        
+        $this->pbx = $pbx;        
     }
 
 
@@ -39,9 +43,11 @@ class ExtensionsController extends Controller
     public function create()
     {
         $pbxes  = $this->pbx->get();
+        $groups  = $this->group->get();
+        $departaments  = $this->departament->get();
         $users  = $this->user->get();
-        
-        return view('configs.extensions.create', compact('pbxes','users'));
+
+        return view('configs.extensions.create', compact('pbxes','users','groups','departaments'));
 
     }
 
@@ -73,20 +79,24 @@ class ExtensionsController extends Controller
     public function show($id)
     {
         $extension = $this->extension->findOrFail($id);
+        $departaments  = $this->departament->get();
+        $groups  = $this->group->get();
         $users  = $this->user->get();
         $pbxes  = $this->pbx->get();
 
-        return view('configs.extensions.show', compact('extension','pbxes','users'));
+        return view('configs.extensions.show', compact('extension','pbxes','users','groups','departaments'));
 
     }
 
     public function edit($id)
     {
         $extension = $this->extension->findOrFail($id);
+        $departaments  = $this->departament->get();
+        $groups  = $this->group->get();
         $users  = $this->user->get();
         $pbxes  = $this->pbx->get();
-
-        return view('configs.extensions.edit', compact('extension','pbxes','users'));
+        
+        return view('configs.extensions.edit', compact('extension','pbxes','users','groups','departaments'));
     }
 
     public function update(Request $request, $id)
@@ -135,11 +145,13 @@ class ExtensionsController extends Controller
         !is_numeric($id) ? list($del, $id) = explode("-", $id) : '';
         
         $extension = $this->extension->findOrFail($id);
+        $departaments  = $this->departament->get();
+        $groups  = $this->group->get();
         $users  = $this->user->get();
         $pbxes  = $this->pbx->get();
-
+        
         if(isset($del)):    
-            return view('configs.extensions.delete', compact('extension','pbxes','users'));
+            return view('configs.extensions.delete', compact('extension','pbxes','users','groups','departaments'));
             
         else:
             try{

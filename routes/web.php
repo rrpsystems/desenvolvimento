@@ -35,6 +35,10 @@ Route::group(['prefix' => 'configs', 'namespace' => 'Configs', 'middleware' => '
   Route::resource('rates','RatesController');
   Route::resource('trunks','TrunksController');
   Route::resource('extensions','ExtensionsController');
+  Route::resource('groups','GroupsController');
+  Route::resource('tenants','TenantsController');
+  Route::resource('sections','SectionsController');
+  Route::resource('departaments','DepartamentsController');
 
   Route::resource('calls','CallsController');
 

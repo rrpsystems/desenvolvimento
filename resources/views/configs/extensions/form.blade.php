@@ -59,11 +59,11 @@
         
             <select class="form-control {{ $errors->has('groups_id') ? 'is-invalid' : '' }} select-groups_id" id="groups_id" name="groups_id" value="{{old('groups_id') ?? $extension->groups_id ?? ''}}" >
                 <option></option>
-                @foreach ($pbxes as $pbx)
-                    @if(old('groups_id') == $pbx || ($extension->groups_id ?? '') == $pbx)
-                        <option value="{{$pbx->name}}" selected> {{$pbx->name}} </option>
+                @foreach ($groups as $group)
+                    @if(old('groups_id') == $group->group || ($extension->groups_id ?? '') == $group->group)
+                        <option value="{{$group->group}}" selected> {{$group->group}} </option>
                     @else
-                        <option value="{{$pbx}}"> {{$pbx->name}} </option>
+                        <option value="{{$group->group}}"> {{$group->group}} </option>
                     @endif
              
                 @endforeach
@@ -84,11 +84,11 @@
         
             <select class="form-control {{ $errors->has('departaments_id') ? 'is-invalid' : '' }} select-departaments_id" id="departaments_id" name="departaments_id" value="{{old('departaments_id') ?? $extension->departaments_id ?? ''}}" >
                 <option></option>
-                @foreach ($pbxes as $pbx)
-                    @if(old('departaments_id') == $pbx->name || ($extension->departaments_id ?? '') == $pbx->name)
-                        <option value="{{$pbx->name}}" selected>{{$pbx->name}}</option>
+                @foreach ($departaments as $departament)
+                    @if(old('departaments_id') == $departament->departament || ($extension->departaments_id ?? '') == $departament->departament)
+                        <option value="{{$departament->departament}}" selected>{{$departament->departament}}</option>
                     @else
-                        <option value="{{$pbx->name}}">{{$pbx->name}}</option>
+                        <option value="{{$departament->departament}}">{{$departament->departament}}</option>
                     @endif
              
                 @endforeach
@@ -136,19 +136,37 @@
  
   $(function () {
         $('.select-pbxes_id').select2({
-            placeholder: "PBX"
+            placeholder: "PBX",
+            allowClear: true,
+            language: {
+                noResults: function (params) {
+                    return "Não Há PBX Cadastrado";
+                }}
         }),
+
         $('.select-groups_id').select2({
             placeholder: "Grupo de Ramais",
-            allowClear: true
+            allowClear: true,
+            language: {
+                noResults: function (params) {
+                    return "Não Há Grupos Cadastrado";
+                }}
         }),
         $('.select-departaments_id').select2({
             placeholder: "Departamento dos Ramais",
-            allowClear: true
+            allowClear: true,
+            language: {
+                noResults: function (params) {
+                    return 'Não Há Departamentos Cadastrado';
+                }}
         }),
         $('.select-users_id').select2({
             placeholder: "Login do Usuario",
-            allowClear: true
+            allowClear: true,
+            language: {
+                noResults: function (params) {
+                    return "Não Há Usuarios Cadastrado";
+                }}
         })
     });
 
