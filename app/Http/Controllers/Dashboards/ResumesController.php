@@ -117,7 +117,7 @@ class ResumesController extends Controller
         
         endforeach;
     
-        $data = json_decode(json_encode($data));
+        //$data = json_decode(json_encode($data));
         
         return view('dashboards.resumes.index', compact('data', 'months','m','e', 'days','pbxes','p','extensions'));
     }

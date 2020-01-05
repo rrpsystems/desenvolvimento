@@ -50,6 +50,18 @@ Route::group(['prefix' => 'dashboards', 'namespace' => 'Dashboards', 'middleware
   
 });
 
+Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'middleware' => 'auth'], function() {
+
+  Route::resource('bypbx', 'ByPbxController');
+  Route::resource('bytrunks', 'ByTrunksController');
+  Route::resource('bygroups', 'ByGroupsController');
+  Route::resource('bytenants', 'ByTenantsController');
+  Route::resource('bysections', 'BySectionsController');
+  Route::resource('byextensions', 'ByExtensionsController');
+  Route::resource('bydepartaments', 'ByDepartamentsController');
+  
+});
+
 Route::group(['prefix' => 'maintenance', 'namespace' => 'Maintenance', 'middleware' => 'auth'], function() {
 
   Route::resource('status', 'StatusController');

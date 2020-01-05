@@ -101,6 +101,7 @@ class ServicesController extends Controller
                     $update = $this->call->where('id',$call->cid)
                                     ->update([
                                             'rate'      => '0', 
+                                            'cservice'      => 'INT', 
                                             'status_id' => '1'
                                         ]);
                     continue;

@@ -174,109 +174,138 @@ return [
        
     'menu' => [
 
-        ['header' => 'Dashboards'],
-        
             [
                 'text'  => 'Resume',
                 'route'  => 'resumes.index',
+                'active'    => ['/dashboards/resumes*'],
                 'icon'  => 'fas fa-fw fa-archive',
                 'can'  => 'calls-list',
             ],
     
+            [
+                'text'      => 'Reports',
+                'submenu'   => [
+                    [
+                        'text'  => 'By PBX',
+                        'route'  => 'bypbx.index',
+                        'active'    => ['/reports/bypbx*'],
+                        'icon'  => 'fas fa-fw fa-archive',
+                        'can'  => 'byextensions-list',
+                    ],
+                    [
+                        'text'  => 'By Extensions',
+                        'route'  => 'byextensions.index',
+                        'active'    => ['/reports/byextensions*'],
+                        'icon'  => 'fas fa-fw fa-archive',
+                        'can'  => 'byextensions-list',
+                    ],
+                ],
+            ],
             
-        ['header' => 'Data'],
+            
+        [   
+            'text' => 'Data',
+            'submenu'   => [
+                [
+                    'text'  => 'Calls',
+                    'route'  => 'calls.index',
+                    'icon'  => 'fas fa-fw fa-archive',
+                    'can'  => 'calls-list',
+                ],
+            ],
+        ],
         
-            [
-                'text'  => 'Calls',
-                'route'  => 'calls.index',
-                'icon'  => 'fas fa-fw fa-archive',
-                'can'  => 'calls-list',
+        [
+            'text' => 'settings',
+            'submenu'   => [
+                [
+                    'text'  => 'Pbx',
+                    'route'  => 'pbx.index',
+                    'icon'  => 'fas fa-fw fa-building',
+                    'can'  => 'pbx-list',
+                ],
+                [
+                    'text'  => 'Prefixes',
+                    'route'  => 'prefixes.index',
+                    'icon'  => 'fas fa-fw fa-map-marker-alt',
+                    'can'  => 'pbx-list',
+                ],
+                [
+                    'text'  => 'Routes',
+                    'route'  => 'routes.index',
+                    'icon'  => 'fas fa-fw fa-route',
+                    'can'  => 'pbx-list',
+                ],
+                [
+                    'text'  => 'Rates',
+                    'route'  => 'rates.index',
+                    'icon'  => 'fas fa-fw fa-dollar-sign',
+                    'can'  => 'pbx-list',
+                ],
+                [
+                    'text'  => 'Trunks',
+                    'route'  => 'trunks.index',
+                    'icon'  => 'fas fa-fw fa-road',
+                    'can'  => 'trunks-list',
+                ],
+                [
+                    'text'  => 'Groups',
+                    'route'  => 'groups.index',
+                    'icon'  => 'fas fa-fw fa-road',
+                    'can'  => 'groups-list',
+                ],
+                [
+                    'text'  => 'Tenants',
+                    'route'  => 'tenants.index',
+                    'icon'  => 'fas fa-fw fa-road',
+                    'can'  => 'tenants-list',
+                ],
+                [
+                    'text'  => 'Sections',
+                    'route'  => 'sections.index',
+                    'icon'  => 'fas fa-fw fa-road',
+                    'can'  => 'sections-list',
+                ],
+                [
+                    'text'  => 'Departaments',
+                    'route'  => 'departaments.index',
+                    'icon'  => 'fas fa-fw fa-road',
+                    'can'  => 'departaments-list',
+                ],
+                [
+                    'text'  => 'Extensions',
+                    'route'  => 'extensions.index',
+                    'active'    => ['/configs/extensions*'],
+                    'icon'  => 'fas fa-fw fa-user',
+                    'can'  => 'extensions-list',
+                ],
+                [
+                    'text'  => 'Usuarios',
+                    'route'  => 'users.index',
+                    'icon'  => 'fas fa-fw fa-user',
+                    'can'  => 'users-list',
+                ],
+                [
+                    'text'  => 'Permissions',
+                    'route'  => 'roles.index',
+                    'icon'  => 'fas fa-fw fa-lock',
+                    'can'  => 'roles-list',
+                ],
             ],
-    
-        
-        ['header' => 'settings'],
-            [
-                'text'  => 'Pbx',
-                'route'  => 'pbx.index',
-			    'icon'  => 'fas fa-fw fa-building',
-                'can'  => 'pbx-list',
-            ],
-            [
-                'text'  => 'Prefixes',
-                'route'  => 'prefixes.index',
-			    'icon'  => 'fas fa-fw fa-map-marker-alt',
-                'can'  => 'pbx-list',
-            ],
-            [
-                'text'  => 'Routes',
-                'route'  => 'routes.index',
-			    'icon'  => 'fas fa-fw fa-route',
-                'can'  => 'pbx-list',
-            ],
-            [
-                'text'  => 'Rates',
-                'route'  => 'rates.index',
-                'icon'  => 'fas fa-fw fa-dollar-sign',
-                'can'  => 'pbx-list',
-            ],
-            [
-                'text'  => 'Trunks',
-                'route'  => 'trunks.index',
-			    'icon'  => 'fas fa-fw fa-road',
-                'can'  => 'trunks-list',
-            ],
-            [
-                'text'  => 'Groups',
-                'route'  => 'groups.index',
-			    'icon'  => 'fas fa-fw fa-road',
-                'can'  => 'groups-list',
-            ],
-            [
-                'text'  => 'Tenants',
-                'route'  => 'tenants.index',
-			    'icon'  => 'fas fa-fw fa-road',
-                'can'  => 'tenants-list',
-            ],
-            [
-                'text'  => 'Sections',
-                'route'  => 'sections.index',
-			    'icon'  => 'fas fa-fw fa-road',
-                'can'  => 'sections-list',
-            ],
-            [
-                'text'  => 'Departaments',
-                'route'  => 'departaments.index',
-			    'icon'  => 'fas fa-fw fa-road',
-                'can'  => 'departaments-list',
-            ],
-            [
-                'text'  => 'Extensions',
-                'route'  => 'extensions.index',
-			    'icon'  => 'fas fa-fw fa-user',
-                'can'  => 'extensions-list',
-            ],
-            [
-                'text'  => 'Usuarios',
-                'route'  => 'users.index',
-			    'icon'  => 'fas fa-fw fa-user',
-                'can'  => 'users-list',
-            ],
-            [
-                'text'  => 'Permissions',
-                'route'  => 'roles.index',
-                'icon'  => 'fas fa-fw fa-lock',
-                'can'  => 'roles-list',
-            ],
+        ],
 
-            ['header' => 'Maintenance'],
-        
-            [
-                'text'  => 'Status',
-                'route'  => 'status.index',
-                'icon'  => 'fas fa-fw fa-archive',
-                'can'  => 'calls-list',
+        [
+            'text' => 'Maintenance',
+            'submenu'   => [
+                [
+                    'text'  => 'Status',
+                    'route'  => 'status.index',
+                    'icon'  => 'fas fa-fw fa-archive',
+                    'can'  => 'calls-list',
+                ],
             ],
-    
+        ],
+
     ],
 
     /*
