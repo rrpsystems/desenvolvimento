@@ -68,7 +68,6 @@
                                     @foreach($calls as $call)
 
                                     <tr>
-                                        <td></td>
                                         <td> {{ date('H:i:s', strtotime($call->calldate)) }} </td>
                                         <td> @lang("calls.$call->direction")</td>
                                         <td> {{ $call->trunks_id }} </td>

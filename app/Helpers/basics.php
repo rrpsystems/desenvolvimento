@@ -1,5 +1,11 @@
 <?php
 
+    function secHours($sec){
+
+        $is = gmdate("i:s", ($sec));    
+        $H = (gmdate("d", ($sec))-1)*24 + gmdate("H", ($sec));
+        return "$H:$is";
+    }
     function services(){
         $services = [
             'STFC'     => 'STFC',
@@ -32,6 +38,29 @@
     
     }
 
+    function rtype($t){
+        $types = [
+            'INT'      => 'INTERNO',
+            'LDI'      => 'DDI',
+            'LOCAL'    => 'FIXO LOCAL',
+            'LDN'      => 'FIXO DDD',
+            'VC1'      => 'MOVEL LOCAL',
+            'VC2'      => 'MOVEL DDD',
+            'VC3'      => 'MOVEL DDD',
+            'SERVIÇOS' => 'SERVIÇOS',
+            'OUTROS'   => 'OUTROS',
+            'GRATUITO' => 'GRATUITO',
+            'TIE_LINE' => 'TIE_LINE',
+        ];
+
+        if(array_key_exists($t, $types)):
+            return $types[$t];
+        else:
+            return $t;
+        endif;
+    
+    }
+
     function directions(){
         $directions = [
             'IC' => 'IC',
@@ -41,6 +70,20 @@
         ];
 
         return json_decode(json_encode($directions));
+    }
+
+    function rdirection($d){
+        $directions = [
+            'IC' => 'ENTRADA',
+            'OC' => 'SAIDA',
+            'IN' => 'INTERNO',
+            'TL' => 'TIE-LINE',
+        ];
+        if(array_key_exists($d, $directions)):
+            return $directions[$d];
+        else:
+            return $d;
+        endif;
     }
 
     function models(){
