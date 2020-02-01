@@ -199,6 +199,13 @@ return [
                         'icon'  => 'fas fa-fw fa-archive',
                         'can'  => 'byextensions-list',
                     ],
+                    [
+                        'text'  => 'By Trunks',
+                        'route'  => 'bytrunks.index',
+                        'active'    => ['/reports/bytrunks*'],
+                        'icon'  => 'fas fa-fw fa-archive',
+                        'can'  => 'bytrunks-list',
+                    ],
                 ],
             ],
             

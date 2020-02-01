@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-end">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Relatorios</a></li>
-                <li class="breadcrumb-item"><a href="#">Por Ramais</a></li>
+                <li class="breadcrumb-item"><a href="#">Por Troncos</a></li>
                 <li class="breadcrumb-item active">Filtro</li>
             </ol>     
         </div>
@@ -21,7 +21,7 @@
                 <div class="card-header no-border">
                     <div class="d-flex bd-highlight">
                         <div class="mr-auto p-2 bd-highlight">
-                            <h3 class="card-title">Relatorio Por Ramais</h3>
+                            <h3 class="card-title">Relatorio Por Troncos</h3>
                         </div>
                         <div class="p-2 bd-highlight">
                             <div class="row">
@@ -33,7 +33,7 @@
                 </div>
                 <div class="card-body p-3">
 
-                <form action="{{route('byextensions.store')}}" method="POST">
+                <form action="{{route('bytrunks.store')}}" method="POST">
                     @csrf                    
                     <div class="form-row">
                     
@@ -82,7 +82,7 @@
                     <div class="form-group col-12">
                         <div class="d-flex bd-highlight">
                             <div class="mr-auto p-2 bd-highlight">
-                                <label for="extensions">Ramal / Ramais</label>
+                                <label for="trunks">Tronco / Troncos</label>
                             </div>
                             <div class="p-2 bd-highlight">
                                 <div class="form-check form-check-inline">
@@ -94,27 +94,27 @@
 					        </div>
 					    </div>
                     
-                        <select class="form-control {{ $errors->has('extensions') ? 'is-invalid' : '' }} select-extensions" id="extensions" name="extensions[]" multiple="multiple" data-width="100%" >
+                        <select class="form-control {{ $errors->has('trunks') ? 'is-invalid' : '' }} select-trunks" id="trunks" name="trunks[]" multiple="multiple" data-width="100%" >
                             <option></option>
-                            @forelse($extensions as $pbx => $extension)        
-                                <optgroup label="{{$pbx}}">     
+                            @forelse($trunks as $route => $trunk)        
+                                <optgroup label="{{$route}}">     
                                            
-                                    @foreach($extension as $exten)
-                                        <option value="{{ $exten->extension}}" 
-                                            @if (old("extensions"))
-                                                {{ (in_array($exten->extension, old("extensions")) ? "selected":"")}}
+                                    @foreach($trunk as $trk)
+                                        <option value="{{ $trk->trunk}}" 
+                                            @if (old("trunks"))
+                                                {{ (in_array($trk->trunk, old("trunks")) ? "selected":"")}}
                                             @endif
                                         >
-                                            {{ $exten->extension}} - {{$exten->ename}}
+                                            {{ $trk->trunk}} - {{$trk->tname}}
                                         </option>
                                     @endforeach
                                 </optgroup>
                             @empty  
                             @endforelse
                         </select>
-                        @if ($errors->has('extensions'))
+                        @if ($errors->has('trunks'))
                             <div class="invalid-feedback">
-                                @lang($errors->first('extensions').'-extensions')
+                                @lang($errors->first('trunks').'-trunks')
                             </div>
                         @endif
                     </div>
@@ -343,7 +343,7 @@
 <script>
  
   $(function () {
-        $('.select-extensions').select2({
+        $('.select-trunks').select2({
             placeholder: "Selecione Ramais"
         })
 
@@ -357,11 +357,11 @@
 
     $("#checkbox").click(function(){
         if($("#checkbox").is(':checked') ){
-            $("#extensions > optgroup > option").prop("selected","selected");
-            $("#extensions").trigger("change");
+            $("#trunks > optgroup > option").prop("selected","selected");
+            $("#trunks").trigger("change");
         }else{
-            $("#extensions > optgroup > option").prop("selected","");
-            $("#extensions").trigger("change");
+            $("#trunks > optgroup > option").prop("selected","");
+            $("#trunks").trigger("change");
         }
     });
 

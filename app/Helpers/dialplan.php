@@ -184,7 +184,7 @@ function dialIc($number, $trunk, $pbx)
     $number = $dap . substr($number,$drm);
     
     if (preg_match('/^(?:(?:\+|00)?(55)\s?)?(?:\(?([0-0]?[0-9]{1}[0-9]{1})\)?\s?)??(?:((?:9\d|[2-9])\d{3}\-?\d{4}))$/', $number, $matches) === false):
-        return null;
+        return NULL;
     endif;
     
     $ddi = $matches[1] ?? '';
@@ -197,11 +197,11 @@ function dialIc($number, $trunk, $pbx)
     elseif(!empty($ddd)):
         return substr($tddd,0,2).$ddd.$phone;
 
-    elseif(!empty($number)):
+    elseif(!empty($phone)):
         return $tddd.$phone;
 
     else:
-        return $number;
+        return ltrim($number,'0');
     endif;
     
 }

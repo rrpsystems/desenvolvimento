@@ -65,6 +65,7 @@ Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'middleware' => '
 Route::group(['prefix' => 'maintenance', 'namespace' => 'Maintenance', 'middleware' => 'auth'], function() {
 
   Route::resource('status', 'StatusController');
+  Route::resource('rebilling', 'RebillingController');
   
 });
 

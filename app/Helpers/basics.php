@@ -6,6 +6,7 @@
         $H = (gmdate("d", ($sec))-1)*24 + gmdate("H", ($sec));
         return "$H:$is";
     }
+    
     function services(){
         $services = [
             'STFC'     => 'STFC',
@@ -57,6 +58,29 @@
             return $types[$t];
         else:
             return $t;
+        endif;
+    
+    }
+    
+    function status($s){
+        $status = [
+            ''   => 'Á Tarifar',
+            '1'  => 'Tarifada',
+            '91' => 'Prefxo Não Cadastrado',
+            '92' => 'Verificar 92',
+            '93' => 'Verificar 93',
+            '94' => 'Verificar 94',
+            '95' => 'Verificar 95',
+            '96' => 'Verificar 96',
+            '97' => 'Verificar 97',
+            '98' => 'Verificar 98',
+            '99' => 'Verificar 99',
+        ];
+
+        if(array_key_exists($s, $status)):
+            return $status[$s];
+        else:
+            return $s;
         endif;
     
     }

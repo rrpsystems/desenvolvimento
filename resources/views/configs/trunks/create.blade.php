@@ -22,6 +22,7 @@
             <div class="col-12 p-0">
                 <form  action="{{route('trunks.store')}}" method="POST">
                     @csrf
+                    <input type="hidden" name="page" value="{{$trunk->page}}">
                     <div class="card card-success card-outline" style="width:350px">
                         <div class="card-header no-border bg-success">
                             <div class="d-flex flex-row bd-highlight align-items-center ">
@@ -47,7 +48,11 @@
                                 </div>
 
                                 <div class="p-1 bd-highlight">
+                                @if($trunk->page == 'error')
+                                    <a class="btn btn-outline-danger" href="{{route('status.show', ['trunks'])}}" >Cancelar</a>      
+                                @else
                                     <a class="btn btn-outline-danger" href="{{route('trunks.index')}}" >Cancelar</a>      
+                                @endif
                                 </div>
 
                                 <div class="p-1 bd-highlight">

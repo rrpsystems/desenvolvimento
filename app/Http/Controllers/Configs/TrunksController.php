@@ -37,11 +37,25 @@ class TrunksController extends Controller
     }
  
 
-    public function create()
+    public function create(Request $request)
     {
-        $pbxes    = $this->pbx->get();
-        $routes    = $this->route->get();
-        return view('configs.trunks.create', compact('pbxes','routes'));
+            $trunk = collect([
+                'page' => 'start', 
+                ]);
+
+            if($request->input('trunk')):
+                $trunk = collect([
+                    'tpbx' => $request->input('tpbx'),
+                    'trunk' => $request->input('trunk'), 
+                    'page' => 'error', 
+                ]);
+
+            endif;
+            $trunk = json_decode(json_encode($trunk));
+            $pbxes  = $this->pbx->get();
+            $routes = $this->route->get();
+            
+            return view('configs.trunks.create', compact('trunk','pbxes','routes'));
 
     }
 
@@ -57,7 +71,11 @@ class TrunksController extends Controller
         try{
             $trunk = $this->trunk->create($request->all());
             toast('Tronco Cadastrado com Sucesso !','success');
-            return redirect()->route('trunks.index');
+            if($request->input('page')=='error'):
+                return redirect()->route('status.show',['trunks']);
+            else:
+                return redirect()->route('trunks.index');
+            endif;
 
         } catch(\Exception $e) {
 
@@ -89,7 +107,6 @@ class TrunksController extends Controller
         $trunk  = $this->trunk->findOrFail($id);
         $pbxes  = $this->pbx->get();
         $routes = $this->route->get();
-
         return view('configs.trunks.edit', compact('trunk','pbxes','routes'));
     }
 

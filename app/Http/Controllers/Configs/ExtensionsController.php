@@ -40,14 +40,28 @@ class ExtensionsController extends Controller
 
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        $extension = collect([
+            'page' => 'start', 
+            ]);
+
+        if($request->input('extension')):
+            $extension = collect([
+                'pbxes_id' => $request->input('pbxes_id'),
+                'extension' => $request->input('extension'), 
+                'page' => 'error', 
+            ]);
+
+        endif;
+        $extension = json_decode(json_encode($extension));
+        
         $pbxes  = $this->pbx->get();
         $groups  = $this->group->get();
         $departaments  = $this->departament->get();
         $users  = $this->user->get();
 
-        return view('configs.extensions.create', compact('pbxes','users','groups','departaments'));
+        return view('configs.extensions.create', compact('extension','pbxes','users','groups','departaments'));
 
     }
 
@@ -61,7 +75,13 @@ class ExtensionsController extends Controller
         try{
             $extension = $this->extension->create($request->all());
             toast('Ramal Cadastrado com Sucesso !','success');
-            return redirect()->route('extensions.index');
+            
+            if($request->input('page')=='error'):
+                return redirect()->route('status.show',['extensions']);
+            
+            else:
+                return redirect()->route('extensions.index');
+            endif;
 
         } catch(\Exception $e) {
 

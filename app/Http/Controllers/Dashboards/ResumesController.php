@@ -48,34 +48,34 @@ class ResumesController extends Controller
         endif;
         
         $data=(object)[
-            'time'  => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-            'qtd'   => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-            'val'   => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
+            'time'  => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+            'qtd'   => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+            'val'   => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
             'hour'  => [
-                        '00' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '01' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '02' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '03' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '04' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '05' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '06' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '07' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '08' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '09' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '10' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '11' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '12' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '13' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '14' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '15' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '16' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '17' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '18' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '19' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '20' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '21' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '22' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],
-                        '23' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0],          
+                        '00' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '01' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '02' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '03' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '04' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '05' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '06' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '07' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '08' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '09' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '10' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '11' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '12' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '13' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '14' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '15' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '16' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '17' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '18' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '19' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '20' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '21' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '22' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],
+                        '23' => ['vc1'=> 0,'vc2'=> 0,'vc3'=> 0,'ldi'=> 0,'ldn'=> 0,'local'=> 0,'gratuito'=> 0,'serviços'=> 0,'outros'=> 0,'tie_line'=> 0,'total'=> 0,'in'=> 0,'oc'=> 0,'ic'=> 0, 'interno'=> 0, 'int'=> 0],          
                     ]       
         ];
         
@@ -95,6 +95,7 @@ class ResumesController extends Controller
                             ->first();
         $days = $days->count?$days->count:1;
     
+        //dd($cdrs)
         foreach($cdrs as $cdr):
             
             if($cdr->direction == 'OC'):
@@ -117,7 +118,7 @@ class ResumesController extends Controller
         
         endforeach;
     
-        //$data = json_decode(json_encode($data));
+        $data = json_decode(json_encode($data));
         
         return view('dashboards.resumes.index', compact('data', 'months','m','e', 'days','pbxes','p','extensions'));
     }
