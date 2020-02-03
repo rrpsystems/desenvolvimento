@@ -65,6 +65,7 @@
     function status($s){
         $status = [
             ''   => 'Á Tarifar',
+            '0'  => 'Á Tarifar',
             '1'  => 'Tarifada',
             '91' => 'Prefxo Não Cadastrado',
             '92' => 'Verificar 92',
@@ -108,6 +109,12 @@
         else:
             return $d;
         endif;
+    }
+
+        function ucname($string) {
+            $string =ucwords(strtolower($string));
+
+            return $string;
     }
 
     function models(){

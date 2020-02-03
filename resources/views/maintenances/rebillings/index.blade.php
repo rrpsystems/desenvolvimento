@@ -58,7 +58,7 @@
                     <br>
                     <div class="form-row">
                     
-                        <div class="form-group col-5 col-md-3">
+                        <div class="form-group col-6 col-md-3">
                             <label for="start_date">Data Inicial:</label>
                             <input type="date" class="form-control {{ $errors->has('start_date') ? 'is-invalid' : '' }}" name="start_date" id="start_date" value="{{ old('start_date')?substr(old('start_date'),0,10):date('Y-m-01') }}" >
                             @if ($errors->has('start_date'))
@@ -69,7 +69,7 @@
                         </div>
                     
                     
-                        <div class="form-group col-5 col-md-3">
+                        <div class="form-group col-6 col-md-3">
                             <label for="end_date">Data Final:</label>
                             <input type="date" class="form-control {{ $errors->has('end_date') ? 'is-invalid' : '' }}" name="end_date" id="end_date" value="{{ old('end_date')?substr(old('end_date'),0,10):date('Y-m-t') }}">
                             @if ($errors->has('end_date'))

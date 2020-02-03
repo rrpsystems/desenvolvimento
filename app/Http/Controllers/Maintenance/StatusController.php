@@ -9,23 +9,29 @@ use App\Models\Call;
 use App\Models\Pbx;
 use App\Models\Trunk;
 use App\Models\Extension;
+use App\Models\Accountcode;
+use App\Models\Prefix;
+use App\User;
 
 
 class StatusController extends Controller
 {
    
-    public function __construct(Call $call, Trunk $trunk, Pbx $pbx, Extension $extension)
+    public function __construct(Call $call, Trunk $trunk, Pbx $pbx, Extension $extension, Accountcode $accountcode, User $user, Prefix $prefix)
     {
         $this->call = $call;        
         $this->pbx = $pbx;        
         $this->trunk = $trunk;        
         $this->extension = $extension;        
+        $this->accountcode = $accountcode;        
+        $this->user = $user;        
+        $this->prefix = $prefix;        
     }
 
 
     public function index()
     {
-        
+        //toast(trans('messages.users'),'success');
         $extensions = collect([
             'NCadastrados' => $this->call
                             ->distinct('extensions_id')
@@ -35,6 +41,16 @@ class StatusController extends Controller
                             ->orWhereNull('accountcodes_id')
                             ->count(),
             'Cadastrados' => $this->extension->count(),
+        ]);
+        
+        $accountcodes = collect([
+            'NCadastrados' => $this->call
+                            ->distinct('accountcodes_id')
+                            ->leftJoin('accountcodes', 'accountcode', '=', 'accountcodes_id')
+                            ->whereNull('accountcode')
+                            ->where('accountcodes_id','<>','')
+                            ->count(),
+            'Cadastrados' => $this->accountcode->count(),
         ]);
         
         $trunks = collect([
@@ -48,17 +64,25 @@ class StatusController extends Controller
         ]);
         
         $calls = collect([
-            'primeiro' => $this->call->orderBy('calldate', 'ASC')->first()->calldate,
-            'ultimo'   => $this->call->orderBy('calldate', 'DESC')->first()->calldate,
-            'total'    => $this->call->count(),
+            'primeiro'  => $this->call->orderBy('calldate', 'ASC')->first()->calldate,
+            'ultimo'    => $this->call->orderBy('calldate', 'DESC')->first()->calldate,
+            'total'     => $this->call->count(),
             'tarifadas' => $this->call->where('status_id', '1')->count(),
-            'erros'    => $this->call->whereBetween('status_id',[91,99])->count(),
+            'erros'     => $this->call->whereBetween('status_id',[91,99])->count(),
         ]);
         
-        $extensions = json_decode(json_encode($extensions));
-        $trunks = json_decode(json_encode($trunks));
-        $calls = json_decode(json_encode($calls));
-        return view('maintenances.status.index', compact('calls','extensions','trunks'));
+        $informations = collect([
+            'users'     => $this->user->count(),
+            'prefixes'  => $this->prefix->count(),
+        ]);
+
+        $extensions   = json_decode(json_encode($extensions));
+        $accountcodes = json_decode(json_encode($accountcodes));
+        $trunks       = json_decode(json_encode($trunks));
+        $calls        = json_decode(json_encode($calls));
+        $informations = json_decode(json_encode($informations));
+   
+        return view('maintenances.status.index', compact('accountcodes','calls','extensions','trunks','informations'));
     }
 
     public function show($id)
@@ -94,14 +118,15 @@ class StatusController extends Controller
                 return view('maintenances.status.extensions', compact('extensions'));
                 break;
         
-            case 'accountscode':
-                $accountscode = $this->call
-                            ->distinct('trunks_id')
-                            ->leftJoin('trunks', 'trunk', '=', 'trunks_id')
-                            ->whereNull('trunk')    
-                            ->get();
+            case 'accountcodes':
+                $accountcodes = $this->call
+                                ->distinct('accountcodes_id')
+                                ->leftJoin('accountcodes', 'accountcode', '=', 'accountcodes_id')
+                                ->whereNull('accountcode')
+                                ->where('accountcodes_id','<>','')
+                                ->get();
                
-            return view('maintenances.status.trunks', compact('trunks'));
+            return view('maintenances.status.accountcodes', compact('accountcodes'));
             break;
         endswitch;
         return redirect()->back();

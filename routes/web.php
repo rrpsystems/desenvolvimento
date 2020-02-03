@@ -35,12 +35,12 @@ Route::group(['prefix' => 'configs', 'namespace' => 'Configs', 'middleware' => '
   Route::resource('rates','RatesController');
   Route::resource('trunks','TrunksController');
   Route::resource('extensions','ExtensionsController');
+  Route::resource('accountcodes','AccountcodesController');
   Route::resource('groups','GroupsController');
   Route::resource('tenants','TenantsController');
   Route::resource('sections','SectionsController');
   Route::resource('departaments','DepartamentsController');
-
-  Route::resource('calls','CallsController');
+  Route::resource('phonebooks','PhonebooksController');
 
 });
 
@@ -66,6 +66,7 @@ Route::group(['prefix' => 'maintenance', 'namespace' => 'Maintenance', 'middlewa
 
   Route::resource('status', 'StatusController');
   Route::resource('rebilling', 'RebillingController');
+  Route::resource('calls','CallsController');
   
 });
 

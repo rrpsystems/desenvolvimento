@@ -33,16 +33,14 @@
                 </div>
                 <div class="card-body p-3">
 
-
                     <h5 class="mt-4 mb-2">Informações de Ligações </h5>
                     <div class="row">
-                        
+
                         <div class="col-md-3 col-sm-6 col-12">
                             <div class="info-box bg-info">
                                 <span class="info-box-icon">
                                     <i class="far fa-calendar-alt"></i>
                                 </span>
-                                
                                 <div class="info-box-content">
                                     <span class="info-box-text">
                                         Registros
@@ -50,11 +48,9 @@
                                     <span class="info-box-number">
                                        Primeiro {{ date('d/m/Y', strtotime($calls->primeiro)) }}
                                     </span>
-
                                     <div class="progress">
                                         <div class="progress-bar" style="width: 0%"></div>
                                     </div>
-                                    
                                     <span class="progress-description">
                                         Ultimo {{ date('d/m/Y', strtotime($calls->ultimo)) }}
                                     </span>
@@ -65,17 +61,15 @@
                         <div class="col-md-3 col-sm-6 col-12">
                             <div class="info-box bg-primary">
                                 <span class="info-box-icon">
-                                    <i class="far fa-bookmark"></i>
+                                    <i class="fas fa-info"></i>
                                 </span>
-                                
                                 <div class="info-box-content">
                                     <span class="info-box-text">
                                         Total de Registros
                                     </span>
                                     <span class="info-box-number">
-                                        {{ $calls->total }}
+                                        {{ number_format($calls->total,0,'','.') }}
                                     </span>
-
                                     <div class="progress">
                                         <div class="progress-bar" style="width: 100%"></div>
                                     </div>
@@ -91,160 +85,247 @@
                                 <span class="info-box-icon">
                                     <i class="far fa-thumbs-up"></i>
                                 </span>
-
                                 <div class="info-box-content">
                                     <span class="info-box-text">
                                         Ligações Tarifadas
                                     </span>
                                     <span class="info-box-number">
-                                        {{ $calls->tarifadas }}
+                                        {{ number_format($calls->tarifadas,0,'','.') }}
                                     </span>
-
                                     <div class="progress">
                                         <div class="progress-bar" style="width: {{substr(($calls->tarifadas * 100 ) / $calls->total, 0, 4)}}%"></div>
                                     </div>
                                     <span class="progress-description">
-                                    {{ substr(($calls->tarifadas * 100 ) / $calls->total, 0, 4) }}% Ligações Tarifadas
+                                        {{ substr(($calls->tarifadas * 100 ) / $calls->total, 0, 4) }}% Correto
                                     </span>
                                 </div>
                             </div>
                         </div>
             
                         <div class="col-md-3 col-sm-6 col-12">
-                        <a href="{{ route('status.show','calls') }}">
-                            <div class="info-box bg-danger">
-                                <span class="info-box-icon">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                </span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">
-                                        Ligações
+                            <a href="{{ route('status.show','calls') }}">
+                                <div class="info-box bg-danger">
+                                    <span class="info-box-icon">
+                                        <i class="far fa-thumbs-down"></i>
                                     </span>
-                                    <span class="info-box-number">
-                                    {{ $calls->erros }}
-                                    </span>
-
-                                    <div class="progress">
-                                        <div class="progress-bar" style="width: {{substr(($calls->erros * 100 ) / $calls->total, 0,4)}}%"></div>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">
+                                            Ligações Com Erros
+                                        </span>
+                                        <span class="info-box-number">
+                                            {{ number_format($calls->erros,0,'','.') }}
+                                        </span>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: {{substr(($calls->erros * 100 ) / $calls->total, 0,4)}}%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            {{ substr(($calls->erros * 100 ) / $calls->total, 0,4) }}% Errado
+                                        </span>
                                     </div>
-                                    <span class="progress-description">
-                                        {{ substr(($calls->erros * 100 ) / $calls->total, 0,4) }}% Ligações com Erro
-                                    </span>
                                 </div>
-                            </div>
+                            </a>
                         </div>
-                        </a>
+        
                     </div>
 
-                          <hr>                
+                    <hr>                
 
                     <h5 class="mt-4 mb-2">Cadastros</h5>
                     <div class="row">
                         
                         <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box bg-primary">
+                                <span class="info-box-icon">
+                                    <i class="fas fa-info"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">
+                                        Usuarios Cadastrados
+                                    </span>
+                                    <span class="info-box-number">
+                                        {{ number_format($informations->users,0,'','.') }}
+                                    </span>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-description">
+                                        Registros no Banco
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box bg-primary">
+                                <span class="info-box-icon">
+                                    <i class="fas fa-info"></i>
+                                </span>                                                            
+                                <div class="info-box-content">
+                                    <span class="info-box-text">
+                                        Prefixos Cadastrados
+                                    </span>
+                                    <span class="info-box-number">
+                                        {{ number_format($informations->prefixes,0,'','.') }}
+                                    </span>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-description">
+                                        Registros no Banco
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 col-12">
                             <div class="info-box bg-success">
                                 <span class="info-box-icon">
                                     <i class="far fa-thumbs-up"></i>
                                 </span>
-
                                 <div class="info-box-content">
                                     <span class="info-box-text">
                                         Troncos Cadastrados
                                     </span>
                                     <span class="info-box-number">
-                                       {{ $trunks->Cadastrados }}
+                                       {{ number_format($trunks->Cadastrados,0,'','.') }}
                                     </span>
-
                                     <div class="progress">
                                         <div class="progress-bar" style="width: {{ substr(($trunks->Cadastrados * 100 ) / ($trunks->NCadastrados+$trunks->Cadastrados), 0,4) }}%"></div>
-                                    </div>
-                                    
+                                    </div>                                    
                                     <span class="progress-description">
-                                    {{ substr(($trunks->Cadastrados * 100 ) / ($trunks->NCadastrados+$trunks->Cadastrados), 0,4) }}% No Sistema
+                                        {{ substr(($trunks->Cadastrados * 100 ) / ($trunks->NCadastrados+$trunks->Cadastrados), 0,4) }}% Correto
                                     </span>
                                 </div>
                             </div>
                         </div>
-            
+
                         <div class="col-md-3 col-sm-6 col-12">
                             <a href="{{ route('status.show','trunks') }}">
-                            <div class="info-box bg-danger">
-                                <span class="info-box-icon">
-                                    <i class="far fa-thumbs-down"></i>
-                                </span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">
-                                        Troncos Não Cadastrados
+                                <div class="info-box bg-danger">
+                                    <span class="info-box-icon">
+                                        <i class="far fa-thumbs-down"></i>
                                     </span>
-                                    <span class="info-box-number">
-                                        {{ $trunks->NCadastrados }}
-                                    </span>
-
-                                    <div class="progress">
-                                        <div class="progress-bar" style="width: {{ substr(($trunks->NCadastrados * 100 ) / ($trunks->NCadastrados+$trunks->Cadastrados), 0,4) }}%"></div>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">
+                                            Troncos Não Cadastrados
+                                        </span>
+                                        <span class="info-box-number">
+                                            {{ number_format($trunks->NCadastrados,0,'','.') }}
+                                        </span>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: {{ substr(($trunks->NCadastrados * 100 ) / ($trunks->NCadastrados+$trunks->Cadastrados), 0,4) }}%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            {{ substr(($trunks->NCadastrados * 100 ) / ($trunks->NCadastrados+$trunks->Cadastrados), 0,4) }}% Errado
+                                        </span>
                                     </div>
-                                    <span class="progress-description">
-                                    {{ substr(($trunks->NCadastrados * 100 ) / ($trunks->NCadastrados+$trunks->Cadastrados), 0,4) }}% No Sistema
-                                    </span>
                                 </div>
-                            </div>
                             </a>
-                        </div>
-            
+                        </div>                        
+    
+                    </div>
+
+                    <hr>
+                    <br>
+    
+                    <div class="row">
+                            
                         <div class="col-md-3 col-sm-6 col-12">
                             <div class="info-box bg-success">
                                 <span class="info-box-icon">
                                     <i class="far fa-thumbs-up"></i>
                                 </span>
-
                                 <div class="info-box-content">
                                     <span class="info-box-text">
                                         Ramais Cadastrados
                                     </span>
                                     <span class="info-box-number">
-                                        {{ $extensions->Cadastrados }}
+                                        {{ number_format($extensions->Cadastrados,0,'','.') }}
                                     </span>
-
                                     <div class="progress">
                                         <div class="progress-bar" style="width: {{ substr(($extensions->Cadastrados * 100 ) / ($extensions->NCadastrados+$extensions->Cadastrados), 0,4) }}%"></div>
                                     </div>
                                     <span class="progress-description">
-                                    {{ substr(($extensions->Cadastrados * 100 ) / ($extensions->NCadastrados+$extensions->Cadastrados), 0,4) }}% No Sistema
+                                        {{ substr(($extensions->Cadastrados * 100 ) / ($extensions->NCadastrados+$extensions->Cadastrados), 0,4) }}% Correto
                                     </span>
                                 </div>
                             </div>
                         </div>
             
                         <div class="col-md-3 col-sm-6 col-12">
-                        <a href="{{ route('status.show','extensions') }}">
-                            <div class="info-box bg-danger">
+                            <a href="{{ route('status.show','extensions') }}">
+                                <div class="info-box bg-danger">
                                     <span class="info-box-icon">
-                                    <i class="far fa-thumbs-down"></i>
+                                        <i class="far fa-thumbs-down"></i>
+                                    </span>                                                
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">
+                                            Ramais Não Cadastrados
+                                        </span>
+                                        <span class="info-box-number">
+                                            {{ number_format($extensions->NCadastrados,0,'','.') }}
+                                        </span>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: {{ substr(($extensions->NCadastrados * 100 ) / ($extensions->NCadastrados+$extensions->Cadastrados), 0,4) }}%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            {{ substr(($extensions->NCadastrados * 100 ) / ($extensions->NCadastrados+$extensions->Cadastrados), 0,4) }}% Errado
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>    
+                    
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box bg-success">
+                                <span class="info-box-icon">
+                                    <i class="far fa-thumbs-up"></i>
                                 </span>
-                                                                
                                 <div class="info-box-content">
                                     <span class="info-box-text">
-                                        Ramais Não Cadastrados
+                                        Codigos Conta Cadastrados
                                     </span>
                                     <span class="info-box-number">
-                                    {{ $extensions->NCadastrados }}
+                                       {{ number_format($accountcodes->Cadastrados,0,'','.') }}
                                     </span>
-
                                     <div class="progress">
-                                        <div class="progress-bar" style="width: {{ substr(($extensions->NCadastrados * 100 ) / ($extensions->NCadastrados+$extensions->Cadastrados), 0,4) }}%"></div>
-                                    </div>
+                                        <div class="progress-bar" style="width: {{ substr(($accountcodes->Cadastrados * 100 ) / ($accountcodes->NCadastrados+($accountcodes->Cadastrados==0?1:$accountcodes->Cadastrados)), 0,4) }}%"></div>
+                                    </div>                                    
                                     <span class="progress-description">
-                                    {{ substr(($extensions->NCadastrados * 100 ) / ($extensions->NCadastrados+$extensions->Cadastrados), 0,4) }}% No Sistema
+                                        {{ substr(($accountcodes->Cadastrados * 100 ) / ($accountcodes->NCadastrados+($accountcodes->Cadastrados==0?1:$accountcodes->Cadastrados)), 0,4) }}% Correto
                                     </span>
                                 </div>
                             </div>
-                        </a>
                         </div>
-                        
+            
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <a href="{{ route('status.show','accountcodes') }}">
+                                <div class="info-box bg-danger">
+                                    <span class="info-box-icon">
+                                        <i class="far fa-thumbs-down"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">
+                                            Codigos Conta Não Cadastrados
+                                        </span>
+                                        <span class="info-box-number">
+                                            {{ number_format($accountcodes->NCadastrados,0,'','.') }}
+                                        </span>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: {{ substr(($accountcodes->NCadastrados * 100 ) / ($accountcodes->NCadastrados+($accountcodes->Cadastrados==0?1:$accountcodes->Cadastrados)), 0,4) }}%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            {{ substr(($accountcodes->NCadastrados * 100 ) / ($accountcodes->NCadastrados+($accountcodes->Cadastrados==0?1:$accountcodes->Cadastrados)), 0,4) }}% Errado
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>                    
+    
                     </div>
+    
                 </div>
+
                 <div class="card-footer clearfix">
                     <div class="d-flex bd-highlight">
                         <div class="mr-auto p-2 bd-highlight">
@@ -253,39 +334,11 @@
 					    </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-@stop
-
-@section('js')
-<script>
- 
-  $(function () {
-        $('.select-extensions').select2({
-            placeholder: "Selecione Ramais"
-        })
-
-    });
-
-    $(document).ready(function(){
     
-        $("#delete :input").prop("disabled", true);
-        $("#show :input").prop("disabled", true);
-    });
+            </div>
+    
+        </div>
+    
+    </div>
 
-    $("#checkbox").click(function(){
-        if($("#checkbox").is(':checked') ){
-            $("#extensions > optgroup > option").prop("selected","selected");
-            $("#extensions").trigger("change");
-        }else{
-            $("#extensions > optgroup > option").prop("selected","");
-            $("#extensions").trigger("change");
-        }
-    });
-
-</script>
-@stop
-@section('css')
-<link rel="stylesheet" href="{{ asset('vendor/css/icheck/icheck-bootstrap.min.css') }}">
 @stop

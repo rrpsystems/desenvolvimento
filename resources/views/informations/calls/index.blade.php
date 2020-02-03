@@ -56,11 +56,11 @@
                                     <th>Hora</th>
                                     <th>PBX</th>
                                     <th>Direção</th>
-                                    <th>Ring</th>
                                     <th>Ramal</th>
                                     <th>Tronco</th>
                                     <th>DDR</th>
                                     <th>Numero Disc.</th>
+                                    <th>Agenda</th>
                                     <th>Localidade</th>
                                     <th>Duração</th>
                                     <th>Serviço</th>
@@ -77,17 +77,17 @@
                                         <td> {{ date('H:i:s', strtotime($call->calldate)) }} </td>
                                         <td> {{ $call->pbx }} </td>
                                         <td> @lang("calls.$call->direction")</td>
-                                        <td> {{ gmdate("H:i:s", $call->ring) }} </td>
                                         <td> {{ $call->extensions_id }} </td>
                                         <td> {{ $call->trunks_id }} </td>
                                         <td> {{ $call->did }} </td>
                                         <td> {{ $call->dialnumber }} </td>
+                                        <td> {{ $call->phonename }} </td>
                                         <td> {{ $call->locale }} </td>
                                         <td> {{ gmdate("H:i:s", $call->billsec) }} </td>
                                         <td> {{ $call->cservice }} </td>
                                         <td> {{ $call->rates_id }} </td>
                                         <td> R$ {{number_format($call->rate, 2, ',', '.') }} </td>
-                                        <td> {{ $call->status_id }} </td>
+                                        <td> {{ status($call->status_id) }} </td>
                                     </tr>
                                 @empty
                                     <tr>

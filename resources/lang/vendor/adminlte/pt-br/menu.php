@@ -16,6 +16,13 @@ return [
     'Important'                     => 'Importante',
     'Warning'                       => 'Aviso',
     'Information'                   => 'Informação',
+    
+    'Resume'                        => 'Resumo',
+    
+    'Reports'                       => 'Relatorios',
+    'By Extensions'                 => 'Por Ramais',
+    'By Trunks'                     => 'Por Troncos',
+    
     'settings'                      => 'Configurações',
     'Permissions'                   => 'Permissões',
     'Connections'                   => 'Coletores',
@@ -25,5 +32,18 @@ return [
     'Prefixes'                      => 'Prefixos',
     'Routes'                        => 'Rotas',
     'Rates'                         => 'Tarifas',
+    'Trunks'                        => 'Troncos',
+    'Groups'                        => 'Grupos',
+    'Tenants'                       => 'Empresas',
+    'Sections'                      => 'Sessões',
+    'Departaments'                  => 'Departamentos',
+    'Extensions'                    => 'Ramais',
+    'Accountcodes'                  => 'Codigos de Conta',
+    'Phonebooks'                    => 'Agenda Telefonica',
+    
+    'Maintenance'                   => 'Manutenções',
+    'Status'                        => 'Informações',
+    'Rebilling'                     => 'Retarifação',
+    'Database Calls'                => 'Banco de Ligações',
     
 ];

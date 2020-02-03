@@ -16,10 +16,8 @@ class RebillingController extends Controller
 
    public function index(Request $request)
     {
-        //
-      //  $calls = $this->call->where('status_id','<>', '1')->get();
-       // dd($calls);
-       return view('maintenances.rebillings.index');
+
+        return view('maintenances.rebillings.index');
     }
 
     
@@ -28,31 +26,43 @@ class RebillingController extends Controller
         if($request->input('billing') == 'errors'):
             $calls = $this->call->whereBetween('status_id',[91,99])->get();
 
-            foreach($calls as $call):
-                $callnumber=''; $update='';
-                
-                if($call->direction == 'IC'):
-                    $callnumber = dialIc($call->dialnumber, $call->trunks_id, $call->pbx);
-                
-                elseif($call->direction == 'OC'):
-                    $callnumber = dialOc($call->dialnumber, $call->trunks_id, $call->pbx);
-                
-                endif;
-                $update = $this->call->where('id',$call->id)
-                                                    ->update([
-                                                    'callnumber' => $callnumber,
-                                                    'status_id' => '0'
-                    ]);
-                //dd($call);
-            
-            endforeach;
-            
         elseif($request->input('billing') == 'period'):
-        
-        else:
-            dd($request->all());
-        
+            $start_datetime = $request->input('start_date').' 00:00:00';
+            $end_datetime   = $request->input('end_date').' 23:59:59';
+            
+            $request->validate([
+            
+                'start_date' => 'required|date|before:end_date',
+                'end_date' => 'required|date|after:start_date',
+            ]);
+                
+            $calls = $this->call->whereBetween('calldate', [$start_datetime, $end_datetime])->get();
+            
+        else:    
+            $calls = $this->call->get();
+            
         endif;
+        
+        foreach($calls as $call):
+            $callnumber=''; $update='';
+            
+            if($call->direction == 'IC'):
+                $callnumber = dialIc($call->dialnumber, $call->trunks_id, $call->pbx);
+            
+            elseif($call->direction == 'OC'):
+                $callnumber = dialOc($call->dialnumber, $call->trunks_id, $call->pbx);
+            
+            endif;
+            $update = $this->call->where('id',$call->id)
+                                                ->update([
+                                                'callnumber' => $callnumber,
+                                                'status_id' => '0'
+                ]);
+            
+        endforeach;
+
+        toast(trans('messages.rebilling_calls'), 'success');
+        return redirect()->back();
     }
 
 }

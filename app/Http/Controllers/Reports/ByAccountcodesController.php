@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Reports;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ByPbxController extends Controller
+class ByAccountcodesController extends Controller
 {
     /**
      * Display a listing of the resource.

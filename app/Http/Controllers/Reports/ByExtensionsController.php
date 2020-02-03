@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reports;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Pbx;
 use App\Models\Call;
 use App\Models\Extension;
@@ -62,7 +63,9 @@ class ByExtensionsController extends Controller
             'types' => 'required|min:1',
         ]);
 
-        $calls = $this->call->select('calls.id AS cid', '*')
+        $calls = $this->call->select('calls.id AS cid', (DB::raw(
+                                    "(SELECT phonename FROM phonebooks WHERE callnumber LIKE CONCAT(phonenumber,'%') ORDER BY length(phonenumber) DESC LIMIT 1) AS phonename "
+                                )),'*')
                                 ->leftJoin('prefixes', 'prefixes_id', '=', 'prefix')
                                 ->whereBetween('calldate', [$start_datetime, $end_datetime])
                                 ->whereIn('extensions_id',$extensions)
@@ -88,7 +91,7 @@ class ByExtensionsController extends Controller
         $this->byextension->AliasNbPages();
                                 
         //Insere um nome no cabeçalho
-        $this->byextension->rName = 'Relatório Detalhado Por Ramais';
+        $this->byextension->rName = trans('reports.d_exten');
         //Insere a data de emissao
         $this->byextension->rTitle = utf8_encode(strftime('%A, %d de %B de %Y', strtotime('today')));
         //VARIAVEIS DE SOMARIZAÇÃO
@@ -140,16 +143,16 @@ class ByExtensionsController extends Controller
                         endif;
                         
                         //imprime as ligações
-                        $this->byextension->Cell(25,19, utf8_decode(''), 0, 0, 'C', $true);
-                        $this->byextension->Cell(50,19, utf8_decode(date('H:i:s', strtotime($c->calldate))), 0, 0, 'C', $true);
-                        $this->byextension->Cell(60,19, utf8_decode(rdirection($c->direction)), 0, 0, 'C', $true);
-                        $this->byextension->Cell(50,19, utf8_decode($c->trunks_id), 0, 0, 'C', $true);
+                        $this->byextension->Cell(25,19,  utf8_decode( ''), 0, 0, 'C', $true);
+                        $this->byextension->Cell(50,19,  utf8_decode( date('H:i:s', strtotime($c->calldate) )), 0, 0, 'C', $true);
+                        $this->byextension->Cell(60,19,  utf8_decode( trans('reports.'.$c->direction) ), 0, 0, 'C', $true);
+                        $this->byextension->Cell(50,19,  utf8_decode( $c->trunks_id), 0, 0, 'C', $true);
                         $this->byextension->Cell(110,19, utf8_decode( substr($c->dialnumber,0,16)), 0, 0, 'C', $true);
                         $this->byextension->Cell(160,19, utf8_decode( substr($c->locale,0,22) ), 0, 0, 'C', $true);
-                        $this->byextension->Cell(160,19, utf8_decode(  substr('Agenda',0,22) ), 0, 0, 'C', $true);
-                        $this->byextension->Cell(70,19, utf8_decode(rtype($c->cservice)), 0, 0, 'C', $true);
-                        $this->byextension->Cell(50,19, utf8_decode(gmdate("H:i:s", $c->billsec)), 0, 0, 'C', $true);
-                        $this->byextension->Cell(50,19, utf8_decode(number_format($c->rate, 2, ',', '.')), 0, 1, 'C', $true);
+                        $this->byextension->Cell(160,19, utf8_decode( substr($c->phonename,0,22) ), 0, 0, 'C', $true);
+                        $this->byextension->Cell(70,19,  utf8_decode( trans('reports.'.$c->cservice) ), 0, 0, 'C', $true);
+                        $this->byextension->Cell(50,19,  utf8_decode( gmdate("H:i:s", $c->billsec) ), 0, 0, 'C', $true);
+                        $this->byextension->Cell(50,19,  utf8_decode( number_format( $c->rate, 2, ',', '.') ), 0, 1, 'C', $true);
                                             
                     endforeach;
                 endforeach;
@@ -160,30 +163,30 @@ class ByExtensionsController extends Controller
                     $this->byextension->AddPage();
                 endif;
                                 
-                // imprime o resuma das ligaçoes do ramal
+                // imprime o resumo das ligaçoes do ramal
                 $this->byextension->SetY( 423 ); 
                 $this->byextension->SetFillColor(224, 224, 224);
             
                 $this->byextension->SetFont('arial', 'B', 11);
                 $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
-                $this->byextension->Cell(65, 19, utf8_decode("Resumo"), 0, 0, 'L', true);
-                $this->byextension->Cell(130, 19, utf8_decode("Médio"), 0, 0, 'C', true);
+                $this->byextension->Cell(65, 19, utf8_decode(trans('reports.resume')), 0, 0, 'L', true);
+                $this->byextension->Cell(130, 19, utf8_decode(trans('reports.medio')), 0, 0, 'C', true);
                 $this->byextension->Cell(65, 19, utf8_decode(""), 0, 0, 'C', true);
-                $this->byextension->Cell(65, 19, utf8_decode("Total"), 0, 0, 'C', true);
+                $this->byextension->Cell(65, 19, utf8_decode(trans('reports.total')), 0, 0, 'C', true);
                 $this->byextension->Cell(67, 19, utf8_decode(""), 0, 1, 'C', true);
             
                 $this->byextension->SetFont('arial', 'B', 11);
                 $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
-                $this->byextension->Cell(65, 19, utf8_decode("Tipo"), 0, 0, 'L');
-                $this->byextension->Cell(65, 19, utf8_decode("Duração"), 0, 0, 'C');
-                $this->byextension->Cell(65, 19, utf8_decode("Valor"), 0, 0, 'C');
-                $this->byextension->Cell(65, 19, utf8_decode("Qtd."), 0, 0, 'C');
-                $this->byextension->Cell(65, 19, utf8_decode("Duração"), 0, 0, 'C');
-                $this->byextension->Cell(67, 19, utf8_decode("Valor"), 0, 1, 'C');
+                $this->byextension->Cell(65, 19, utf8_decode(trans('reports.type')), 0, 0, 'L');
+                $this->byextension->Cell(65, 19, utf8_decode(trans('reports.duraction')), 0, 0, 'C');
+                $this->byextension->Cell(65, 19, utf8_decode(trans('reports.value')), 0, 0, 'C');
+                $this->byextension->Cell(65, 19, utf8_decode(trans('reports.qtd')), 0, 0, 'C');
+                $this->byextension->Cell(65, 19, utf8_decode(trans('reports.duraction')), 0, 0, 'C');
+                $this->byextension->Cell(67, 19, utf8_decode(trans('reports.value')), 0, 1, 'C');
                 $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
             
                 $this->byextension->SetFont('arial', 'B', 11);
-                $this->byextension->Cell(65, 19, utf8_decode("Interno"), 0, 0, 'L', true);
+                $this->byextension->Cell(65, 19, utf8_decode(trans('reports.internal')), 0, 0, 'L', true);
                 $this->byextension->setFont('arial', '', 11);
                 $this->byextension->Cell(65, 19, utf8_decode(secHours(($TIN / ($IN==0?1:$IN) ))), 0, 0, 'C', true);
                 $this->byextension->Cell(65, 19, utf8_decode("R$ ". number_format(($VIN / ($IN==0?1:$IN) ), 2, ',', '.')), 0, 0, 'C', true);
@@ -193,7 +196,7 @@ class ByExtensionsController extends Controller
                 $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
             
                 $this->byextension->SetFont('arial', 'B', 11);
-                $this->byextension->Cell(65, 19, utf8_decode("Entrada"), 0, 0, 'L');
+                $this->byextension->Cell(65, 19, utf8_decode(trans('reports.incomining')), 0, 0, 'L');
                 $this->byextension->setFont('arial', '', 11);
                 $this->byextension->Cell(65, 19, utf8_decode(secHours(($TIC / ($IC==0?1:$IC) ))), 0, 0, 'C');
                 $this->byextension->Cell(65, 19, utf8_decode("R$ ". number_format(($VIC / ($IC==0?1:$IC) ), 2, ',', '.')), 0, 0, 'C');
@@ -203,7 +206,7 @@ class ByExtensionsController extends Controller
                 $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
             
                 $this->byextension->SetFont('arial', 'B', 11);
-                $this->byextension->Cell(65, 19, utf8_decode("Saida"), 0, 0, 'L', true);
+                $this->byextension->Cell(65, 19, utf8_decode(trans('reports.outgoing')), 0, 0, 'L', true);
                 $this->byextension->setFont('arial', '', 11);
                 $this->byextension->Cell(65, 19, utf8_decode(secHours(($TOC / ($OC==0?1:$OC) ))), 0, 0, 'C', true);
                 $this->byextension->Cell(65, 19, utf8_decode("R$ ". number_format(($VOC / ($OC==0?1:$OC) ), 2, ',', '.')), 0, 0, 'C', true);
@@ -213,7 +216,7 @@ class ByExtensionsController extends Controller
                 $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
             
                 $this->byextension->SetFont('arial', 'B', 11);
-                $this->byextension->Cell(65, 19, utf8_decode("Total"), 0, 0, 'L');
+                $this->byextension->Cell(65, 19, utf8_decode(trans('reports.total')), 0, 0, 'L');
                 $this->byextension->setFont('arial', '', 11);
                 $this->byextension->Cell(65, 19, utf8_decode(secHours(( ($TIN+$TIC+$TOC) / $lines)) ), 0, 0, 'C');
                 $this->byextension->Cell(65, 19, utf8_decode("R$ ". number_format( (($VIN+$VIC+$VOC) / $lines) , 2, ',', '.')), 0, 0, 'C');
@@ -231,11 +234,11 @@ class ByExtensionsController extends Controller
             // nao imprime o cabeçalho das tabelas
             $this->byextension->rPrint = false;
             // envia as variaveis referentes ao cabeçalho
-            $this->byextension->rUser  = 'TOTALIZAÇÃO DO RELATORIO';
-            $this->byextension->rGroup = 'TOTALIZAÇÃO DO RELATORIO';
+            $this->byextension->rUser  = trans('reports.finish');
+            $this->byextension->rGroup = trans('reports.finish');
             $this->byextension->rStart = $start_datetime;
-            $this->byextension->rExten = 'TOTALIZAÇÃO DO RELATORIO';
-            $this->byextension->rDepto = 'TOTALIZAÇÃO DO RELATORIO';
+            $this->byextension->rExten = trans('reports.finish');
+            $this->byextension->rDepto = trans('reports.finish');
             $this->byextension->rEnd   = $end_datetime;
             
             $this->byextension->AddPage();
@@ -244,24 +247,24 @@ class ByExtensionsController extends Controller
             
             $this->byextension->SetFont('arial', 'B', 11);
             $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
-            $this->byextension->Cell(65, 19, utf8_decode("Resumo"), 0, 0, 'L', true);
-            $this->byextension->Cell(130, 19, utf8_decode("Médio"), 0, 0, 'C', true);
+            $this->byextension->Cell(65, 19, utf8_decode(trans('reports.resume')), 0, 0, 'L', true);
+            $this->byextension->Cell(130, 19, utf8_decode(trans('reports.medio')), 0, 0, 'C', true);
             $this->byextension->Cell(65, 19, utf8_decode(""), 0, 0, 'C', true);
-            $this->byextension->Cell(65, 19, utf8_decode("Total"), 0, 0, 'C', true);
+            $this->byextension->Cell(65, 19, utf8_decode(trans('reports.total')), 0, 0, 'C', true);
             $this->byextension->Cell(67, 19, utf8_decode(""), 0, 1, 'C', true);
             
             $this->byextension->SetFont('arial', 'B', 11);
             $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
-            $this->byextension->Cell(65, 19, utf8_decode("Tipo"), 0, 0, 'L');
-            $this->byextension->Cell(65, 19, utf8_decode("Duração"), 0, 0, 'C');
-            $this->byextension->Cell(65, 19, utf8_decode("Valor"), 0, 0, 'C');
-            $this->byextension->Cell(65, 19, utf8_decode("Qtd."), 0, 0, 'C');
-            $this->byextension->Cell(65, 19, utf8_decode("Duração"), 0, 0, 'C');
-            $this->byextension->Cell(67, 19, utf8_decode("Valor"), 0, 1, 'C');
+            $this->byextension->Cell(65, 19, utf8_decode(trans('reports.type')), 0, 0, 'L');
+            $this->byextension->Cell(65, 19, utf8_decode(trans('reports.duraction')), 0, 0, 'C');
+            $this->byextension->Cell(65, 19, utf8_decode(trans('reports.value')), 0, 0, 'C');
+            $this->byextension->Cell(65, 19, utf8_decode(trans('reports.qtd')), 0, 0, 'C');
+            $this->byextension->Cell(65, 19, utf8_decode(trans('reports.duraction')), 0, 0, 'C');
+            $this->byextension->Cell(67, 19, utf8_decode(trans('reports.value')), 0, 1, 'C');
             $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
             
             $this->byextension->SetFont('arial', 'B', 11);
-            $this->byextension->Cell(65, 19, utf8_decode("Interno"), 0, 0, 'L', true);
+            $this->byextension->Cell(65, 19, utf8_decode(trans('reports.internal')), 0, 0, 'L', true);
             $this->byextension->setFont('arial', '', 11);
             $this->byextension->Cell(65, 19, utf8_decode( secHours( ($STIN / ($SIN==0?1:$SIN) ))), 0, 0, 'C', true);
             $this->byextension->Cell(65, 19, utf8_decode("R$ ". number_format(($SVIN / ($SIN==0?1:$SIN) ), 2, ',', '.')), 0, 0, 'C', true);
@@ -271,7 +274,7 @@ class ByExtensionsController extends Controller
             $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
             
             $this->byextension->SetFont('arial', 'B', 11);
-            $this->byextension->Cell(65, 19, utf8_decode("Entrada"), 0, 0, 'L');
+            $this->byextension->Cell(65, 19, utf8_decode(trans('reports.incomining')), 0, 0, 'L');
             $this->byextension->setFont('arial', '', 11);
             $this->byextension->Cell(65, 19, utf8_decode( secHours( ($STIC / ($SIC==0?1:$SIC) ))), 0, 0, 'C');
             $this->byextension->Cell(65, 19, utf8_decode("R$ ". number_format(($SVIC / ($SIC==0?1:$SIC) ), 2, ',', '.')), 0, 0, 'C');
@@ -281,7 +284,7 @@ class ByExtensionsController extends Controller
             $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
             
             $this->byextension->SetFont('arial', 'B', 11);
-            $this->byextension->Cell(65, 19, utf8_decode("Saida"), 0, 0, 'L', true);
+            $this->byextension->Cell(65, 19, utf8_decode(trans('reports.outgoing')), 0, 0, 'L', true);
             $this->byextension->setFont('arial', '', 11);
             $this->byextension->Cell(65, 19, utf8_decode( secHours( ($STOC / ($SOC==0?1:$SOC) ) ) ), 0, 0, 'C', true);
             $this->byextension->Cell(65, 19, utf8_decode("R$ ". number_format(($SVOC / ($SOC==0?1:$SOC) ), 2, ',', '.')), 0, 0, 'C', true);
@@ -291,7 +294,7 @@ class ByExtensionsController extends Controller
             $this->byextension->Cell(393, 19, utf8_decode(""), 0, 0, 'L');
             
             $this->byextension->SetFont('arial', 'B', 11);
-            $this->byextension->Cell(65, 19, utf8_decode("Total"), 0, 0, 'L');
+            $this->byextension->Cell(65, 19, utf8_decode(trans('reports.total')), 0, 0, 'L');
             $this->byextension->setFont('arial', '', 11);
             $this->byextension->Cell(65, 19, utf8_decode(secHours( ($STIN+$STIC+$STOC) / $SLIN) ), 0, 0, 'C');
             $this->byextension->Cell(65, 19, utf8_decode("R$ ". number_format( (($SVIN+$SVIC+$SVOC) / $SLIN) , 2, ',', '.')), 0, 0, 'C');
@@ -303,19 +306,18 @@ class ByExtensionsController extends Controller
             //NÃO HA DADOS
             $this->byextension->rPrint = false;
             // envia as variaveis referentes ao cabeçalho
-            $this->byextension->rUser   = 'NÃO HA DADOS PARA O PERIODO';
-            $this->byextension->rGroup  = 'OU FILTROS SELECIONADO';
+            $this->byextension->rUser   = trans('reports.empty');
+            $this->byextension->rGroup  = trans('reports.empty');
             $this->byextension->rStart  = $start_datetime;
-            $this->byextension->rExten  = 'NÃO HA DADOS PARA O PERIODO';
-            $this->byextension->rDepto  = 'OU FILTROS SELECIONADO';
+            $this->byextension->rExten  = trans('reports.empty');
+            $this->byextension->rDepto  = trans('reports.empty');
             $this->byextension->rEnd    = $end_datetime;
             
             $this->byextension->AddPage();
 
         endif;
 
-
-        $file = auth()->user()->name.' byExtension.pdf';
+        $file = str_replace(' ','_', auth()->user()->name.' '.trans('reports.d_exten').'.pdf');
         $this->byextension->Output($file,'F');
         $url = asset($file);
                           
