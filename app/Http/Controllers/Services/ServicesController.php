@@ -64,6 +64,7 @@ class ServicesController extends Controller
 
     public function import()
     {    
+        //set_time_limit(500);
         $imports = $this->pbx->get();
         
         foreach($imports as $import):
@@ -88,9 +89,22 @@ class ServicesController extends Controller
                             ->leftJoin('trunks','trunk','trunks_id')
                             ->leftJoin('routes', 'trunks.routes_route', 'route')
                             ->where('status_id','0')
+                            ->orderBy('calldate','DESC')
+                            ->limit(5000)
                             ->get();
         
         foreach($calls as $call):
+            //Verifica se Possui um tronco cadastrado
+            if($call->callnumber == 'error_92'):
+                $update = $this->call->where('id',$call->cid)
+                                    ->update([
+                                            'rate'       => '0', 
+                                            'callnumber' => '',
+                                            'status_id'  => '92'
+                                        ]);
+                    continue;
+            endif;
+
             //verifica se possui um prefixo cadastrado para o numero
             $prefix = $this->prefix->whereRaw( "'$call->callnumber' LIKE CONCAT(prefix,'%')" )
                                     ->orderByRaw('length(prefix) DESC')->first();
@@ -102,6 +116,15 @@ class ServicesController extends Controller
                                     ->update([
                                             'rate'      => '0', 
                                             'cservice'      => 'INT', 
+                                            'status_id' => '1'
+                                        ]);
+                    continue;
+                
+                elseif($call->prefix_id == 'NI' && $call->direction == 'IC'):
+                    $update = $this->call->where('id',$call->cid)
+                                    ->update([
+                                            'rate'      => '0', 
+                                            'cservice'      => 'NI', 
                                             'status_id' => '1'
                                         ]);
                     continue;

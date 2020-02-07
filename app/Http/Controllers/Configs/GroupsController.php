@@ -27,11 +27,10 @@ class GroupsController extends Controller
                                 ->paginate(30);
         
         else:    
-//            $groups = $this->group->select('groups.id', 'group', 'extension', 'ename')
-//                                    ->leftJoin('extensions', 'groups_id', '=', 'group')
             $groups = $this->group->orderBy('group') ->paginate(30);
+
         endif;
-        //dd($groups);
+
         return view('configs.groups.index', compact('groups','search'));
     
     }
@@ -51,7 +50,7 @@ class GroupsController extends Controller
         
         try{
             $group = $this->group->create($request->all());
-            toast('Grupo Cadastrado com Sucesso !','success');
+            toast(trans('messages.cad_suc_group'),'success');
             return redirect()->route('groups.index');
 
         } catch(\Exception $e) {
@@ -62,7 +61,7 @@ class GroupsController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar o Grupo !','error');
+            toast(trans('messages.cad_err_group'),'error');
             return redirect()->back();
         }
 
@@ -96,7 +95,7 @@ class GroupsController extends Controller
 
         if(isset($group->id)):
             if($group->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar o Grupo !','error');
+                toast(trans('messages.edi_err_group'),'error');
                 return redirect()->back();
 
             endif;
@@ -105,7 +104,7 @@ class GroupsController extends Controller
         try{
             $group = $this->group->findOrFail($id);
             $group->update($request->all());
-            toast('Grupo atualizado com sucesso !','success');
+            toast(trans('messages.edi_suc_group'),'success');
             return redirect()->route('groups.index');
 
         } catch(\Exception $e) {
@@ -116,7 +115,7 @@ class GroupsController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar o Groupo !','error');
+            toast(trans('messages.edi_err_group'),'error');
             return redirect()->back();
         }
     }
@@ -135,7 +134,7 @@ class GroupsController extends Controller
             try{
                 $group = $this->group->findOrFail($id);
                 $group->delete();
-                toast('Grupo excluido com sucesso!','success');    
+                toast(trans('messages.del_suc_group'),'success');
                 return redirect()->route('groups.index');
     
             } catch(\Exception $e) {
@@ -146,7 +145,7 @@ class GroupsController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir o Groupo !','error');
+                toast(trans('messages.del_err_group'),'error');
                 return redirect()->back();
             }        
         endif;

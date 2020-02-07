@@ -3,10 +3,11 @@
 // resources/lang/pt-br/messages.php
 
 return [
-    'IN' => 'Inerna',
+    'IN' => 'Interna',
     'IC' => 'Entrada',
     'OC' => 'Saida',
     'TL' => 'TIE-LINE',
     'TR' => 'Transf.',
     'NA' => 'N Atend.',
+    'NI' => 'Numero Não Identificado.',
 ];

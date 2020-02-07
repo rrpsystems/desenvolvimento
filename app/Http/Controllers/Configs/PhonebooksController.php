@@ -50,7 +50,7 @@ class PhonebooksController extends Controller
         
         try{
             $phonebook = $this->phonebook->create($request->all());
-            toast('Telefone Cadastrado com Sucesso !','success');
+            toast(trans('messages.cad_suc_phonebook'),'success');
             return redirect()->route('phonebooks.index');
 
         } catch(\Exception $e) {
@@ -61,7 +61,7 @@ class PhonebooksController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar o Telefone !','error');
+            toast(trans('messages.cad_err_phonebook'),'error');
             return redirect()->back();
         }
 
@@ -93,7 +93,7 @@ class PhonebooksController extends Controller
 
         if(isset($phonebook->id)):
             if($phonebook->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar o Contato na Agenda Telefonica !','error');
+                toast(trans('messages.edi_err_phonebook'),'error');
                 return redirect()->back();
 
             endif;
@@ -102,7 +102,7 @@ class PhonebooksController extends Controller
         try{
             $phonebook = $this->phonebook->findOrFail($id);
             $phonebook->update($request->all());
-            toast('Contato da Agenda Telefonica atualizado com sucesso !','success');
+            toast(trans('messages.edi_suc_phonebook'),'success');
             return redirect()->route('phonebooks.index');
 
         } catch(\Exception $e) {
@@ -113,7 +113,7 @@ class PhonebooksController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar a Empresa !','error');
+            toast(trans('messages.edi_err_phonebook'),'error');
             return redirect()->back();
         }
     }
@@ -132,7 +132,7 @@ class PhonebooksController extends Controller
             try{
                 $phonebook = $this->phonebook->findOrFail($id);
                 $phonebook->delete();
-                toast('Contato da Agenda Telefonica excluido com sucesso!','success');    
+                toast(trans('messages.del_suc_phonebook'),'success');
                 return redirect()->route('phonebooks.index');
     
             } catch(\Exception $e) {
@@ -143,7 +143,7 @@ class PhonebooksController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir o Contato da Agenda Telefonica !','error');
+                toast(trans('messages.del_err_phonebook'),'error');
                 return redirect()->back();
             }        
         endif;

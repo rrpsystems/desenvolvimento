@@ -59,7 +59,7 @@ class PrefixesController extends Controller
         
         try{
             $prefix = $this->prefix->create($request->all());
-            toast('Prefixo Cadastrado com Sucesso !','success');
+            toast(trans('messages.cad_suc_prefix'),'success');
             return redirect()->route('prefixes.index');
 
         } catch(\Exception $e) {
@@ -70,7 +70,7 @@ class PrefixesController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar o Prefixo !','error');
+            toast(trans('messages.cad_err_prefix'),'error');
             return redirect()->back();
         }
 
@@ -106,7 +106,7 @@ class PrefixesController extends Controller
 
         if(isset($prefix->id)):
             if($prefix->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar o Prefixo !','error');
+                toast(trans('messages.edi_err_prefix'),'error');
                 return redirect()->back();
 
             endif;
@@ -115,7 +115,7 @@ class PrefixesController extends Controller
         try{
             $prefix = $this->prefix->findOrFail($id);
             $prefix->update($request->all());
-            toast('Prefixo atualizado com sucesso !','success');
+            toast(trans('messages.edi_suc_prefix'),'success');
             return redirect()->route('prefixes.index');
 
         } catch(\Exception $e) {
@@ -126,7 +126,7 @@ class PrefixesController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar o Prefixo !','error');
+            toast(trans('messages.edi_err_prefix'),'error');
             return redirect()->back();
         }
     }
@@ -146,7 +146,7 @@ class PrefixesController extends Controller
             try{
                 $prefix = $this->prefix->findOrFail($id);
                 $prefix->delete();
-                toast('Prefixo excluido com sucesso!','success');    
+                toast(trans('messages.del_suc_prefix'),'success');
                 return redirect()->route('prefixes.index');
     
             } catch(\Exception $e) {
@@ -157,7 +157,7 @@ class PrefixesController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir o Prefixo !','error');
+                toast(trans('messages.del_err_prefix'),'error');
                 return redirect()->back();
             }        
         endif;

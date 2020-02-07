@@ -26,6 +26,7 @@ class CallsController extends Controller
 
     public function index(Request $request)
     {
+        
         $search = $request->input('search');
         if($search):
             $calls = $this->call->select('calls.id AS cid', (DB::raw(
@@ -41,6 +42,7 @@ class CallsController extends Controller
                 "(SELECT phonename FROM phonebooks WHERE callnumber LIKE CONCAT(phonenumber,'%') ORDER BY length(phonenumber) DESC LIMIT 1) AS phonename "
                 )), '*')
                                 ->leftJoin('prefixes', 'prefixes_id', '=', 'prefix')
+                                ->where('pbx','NSX1000_VALPAMED')
                                 ->orderBy('calldate', 'DESC')
                                 ->paginate(50);
         endif;

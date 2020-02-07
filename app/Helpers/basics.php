@@ -68,7 +68,7 @@
             '0'  => 'Á Tarifar',
             '1'  => 'Tarifada',
             '91' => 'Prefxo Não Cadastrado',
-            '92' => 'Verificar 92',
+            '92' => 'Tronco Não Cadastrado',
             '93' => 'Verificar 93',
             '94' => 'Verificar 94',
             '95' => 'Verificar 95',

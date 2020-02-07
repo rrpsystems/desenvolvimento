@@ -56,9 +56,7 @@ class StatusController extends Controller
         $trunks = collect([
             'NCadastrados' => $this->call
                             ->distinct('trunks_id')
-                            ->leftJoin('trunks', 'trunk', '=', 'trunks_id')
-                            ->whereNull('trunk')    
-                            ->whereIn('direction',['IC','OC'])    
+                            ->where('status_id','92')   
                             ->count(),
             'Cadastrados' => $this->trunk->count(),
         ]);
@@ -90,18 +88,19 @@ class StatusController extends Controller
 
         switch ($id):
             case 'trunks':
-                $trunks = $this->call
-                            ->distinct('trunks_id')
-                            ->leftJoin('trunks', 'trunk', '=', 'trunks_id')
-                            ->whereNull('trunk')    
-                            ->whereIn('direction',['IC','OC']) 
-                            ->get();
+                
+                $trunks = $this->call->distinct('trunks_id')
+                                        //->join('trunks', 'tpbx','=','pbx')
+                                        ->join('trunks', 'trunks_id','=','trunk')
+                                        ->where('status_id','92')
+                                        //->where('tpbx','pbx_id')
+                                        ->get();
                
                 return view('maintenances.status.trunks', compact('trunks'));
                 break;
             
             case 'calls':
-                $calls = $this->call->whereBetween('status_id',[91,99])->get();
+                $calls = $this->call->whereBetween('status_id',[91,99])->paginate(50);
                
                 return view('maintenances.status.calls', compact('calls'));
                 break;

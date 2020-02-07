@@ -25,8 +25,11 @@ function telnet($name, $host, $port, $user, $password)
         exit();        
     else:
         // Se a conexão foi bem sucedida manda o usuario e a senha
+        sleep(3);
         fwrite($conn, trim($user)."\r\n");
+        sleep(3);
         fwrite($conn, trim($password)."\r\n");
+        sleep(3);
         // Cria um cabecalho no arquivo para facilitar a identificação de falhas
         wr_file($name, "\r\n"                                                    , $filename);
         wr_file($name, "--------------------------------------------------------", $filename);
@@ -46,7 +49,7 @@ function telnet($name, $host, $port, $user, $password)
             else:
                 $control ++;
                 //controle para equipamentos que nao enviam o feof de desconexão
-                if($control == 100000):
+                if($control == 200000):
                     break;
           
                 endif;

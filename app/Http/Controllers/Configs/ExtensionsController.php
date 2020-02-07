@@ -74,8 +74,8 @@ class ExtensionsController extends Controller
         
         try{
             $extension = $this->extension->create($request->all());
-            toast('Ramal Cadastrado com Sucesso !','success');
-            
+            toast(trans('messages.cad_suc_extension'),'success');
+             
             if($request->input('page')=='error'):
                 return redirect()->route('status.show',['extensions']);
             
@@ -91,7 +91,7 @@ class ExtensionsController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar o Ramal !','error');
+            toast(trans('messages.cad_err_extension'),'error');
             return redirect()->back();
         }
     }
@@ -130,7 +130,7 @@ class ExtensionsController extends Controller
 
         if(isset($extension->id)):
             if($extension->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar o Ramal !','error');
+                toast(trans('messages.edi_err_extension'),'error');
                 $request->validate([
                     'extension' => 'required|unique:extensions,extension,NULL,id,pbxes_id,' . $request->pbxes_id, 
                     'pbxes_id'  => 'required|unique:extensions,pbxes_id,NULL,id,extension,' . $request->extension,  
@@ -144,7 +144,7 @@ class ExtensionsController extends Controller
         try{
             $extension = $this->extension->findOrFail($id);
             $extension->update($request->all());
-            toast('Ramal atualizado com sucesso !','success');
+            toast(trans('messages.edi_suc_extension'),'success');
             return redirect()->route('extensions.index');
 
         } catch(\Exception $e) {
@@ -155,7 +155,7 @@ class ExtensionsController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar o Ramal !','error');
+            toast(trans('messages.edi_err_extension'),'error');
             return redirect()->back();
         }
     }
@@ -178,7 +178,7 @@ class ExtensionsController extends Controller
                 
                 $extentension = $this->extension->findOrFail($id);
                 $extentension->delete();
-                toast('Ramal excluido com sucesso!','success');    
+                toast(trans('messages.del_suc_extension'),'success');
                 return redirect()->route('extensions.index');
     
             } catch(\Exception $e) {
@@ -189,7 +189,7 @@ class ExtensionsController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir o Ramal !','error');
+                toast(trans('messages.cad_err_extension'),'error');
                 return redirect()->back();
             }        
         endif;

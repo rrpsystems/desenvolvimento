@@ -53,7 +53,7 @@ class DepartamentsController extends Controller
         
         try{
             $departament = $this->departament->create($request->all());
-            toast('Seção Cadastrada com Sucesso !','success');
+            toast(trans('messages.cad_suc_departament'),'success');
             return redirect()->route('departaments.index');
 
         } catch(\Exception $e) {
@@ -64,7 +64,7 @@ class DepartamentsController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar o Departamento !','error');
+            toast(trans('messages.cad_err_departament'),'error');
             return redirect()->back();
         }
     }
@@ -101,7 +101,7 @@ class DepartamentsController extends Controller
 
         if(isset($departament->id)):
             if($departament->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar o Departamento !','error');
+                toast(trans('messages.edi_err_departament'),'error');
                 $request->validate([
                     'departament' => 'unique:departaments,departament,NULL,id,sections_id,' . $request->sections_id, 
                 ]);
@@ -114,7 +114,7 @@ class DepartamentsController extends Controller
         try{
             $departament = $this->departament->findOrFail($id);
             $departament->update($request->all());
-            toast('Departamento atualizado com sucesso !','success');
+            toast(trans('messages.edi_suc_departament'),'success');
             return redirect()->route('departaments.index');
 
         } catch(\Exception $e) {
@@ -125,7 +125,7 @@ class DepartamentsController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar o Departamento !','error');
+            toast(trans('messages.edi_err_departament'),'error');
             return redirect()->back();
         }
     }
@@ -145,7 +145,7 @@ class DepartamentsController extends Controller
             try{
                 $departament  = $this->departament->findOrFail($id);
                 $departament->delete();
-                toast('Departamento Excluido com sucesso!','success');    
+                toast(trans('messages.del_suc_departament'),'success');
                 return redirect()->route('departaments.index');
     
             } catch(\Exception $e) {
@@ -156,7 +156,7 @@ class DepartamentsController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir o Departamento !','error');
+                toast(trans('messages.del_err_departament'),'error');
                 return redirect()->back();
             }        
         endif;

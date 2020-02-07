@@ -45,7 +45,7 @@ function dialOc($number, $trunk, $pbx)
         $drm      = $trunk->drm;    
         $dap      = $trunk->dap;    
     else:
-        return NULL;
+        return 'error_92';
     endif;
     
     
@@ -175,10 +175,13 @@ function dialIc($number, $trunk, $pbx)
                                 ->where('trunk',$trunk)
                                 ->where('tpbx',$pbx)
                                 ->first();
+    
     if($trunk):
-        $drm = $trunk->drm;    
-        $dap = $trunk->dap;    
+        $drm  = $trunk->drm;    
+        $dap  = $trunk->dap;    
         $tddd = $trunk->ddd;    
+    else:
+        return 'error_92';
     endif;
 
     $number = $dap . substr($number,$drm);
@@ -187,8 +190,8 @@ function dialIc($number, $trunk, $pbx)
         return NULL;
     endif;
     
-    $ddi = $matches[1] ?? '';
-    $ddd = preg_replace('/^0/', '', $matches[2] ?? '');
+    $ddi   = $matches[1] ?? '';
+    $ddd   = preg_replace('/^0/', '', $matches[2] ?? '');
     $phone = $matches[3] ?? '';
     
     if(!empty($ddi)):

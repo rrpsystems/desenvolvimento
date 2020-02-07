@@ -60,6 +60,7 @@
                                     <th>Tronco</th>
                                     <th>DDR</th>
                                     <th>Numero Disc.</th>
+                                    <th>Numero Sist.</th>
                                     <th>Agenda</th>
                                     <th>Localidade</th>
                                     <th>Duração</th>
@@ -81,6 +82,7 @@
                                         <td> {{ $call->trunks_id }} </td>
                                         <td> {{ $call->did }} </td>
                                         <td> {{ $call->dialnumber }} </td>
+                                        <td> {{ $call->callnumber }} </td>
                                         <td> {{ $call->phonename }} </td>
                                         <td> {{ $call->locale }} </td>
                                         <td> {{ gmdate("H:i:s", $call->billsec) }} </td>

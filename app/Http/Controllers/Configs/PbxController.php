@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Configs;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pbx;
-//use App\Models\Connection;
 
 class PbxController extends Controller
 {
@@ -56,7 +55,7 @@ class PbxController extends Controller
         
         try{
             $pbx = $this->pbx->create($request->all());
-            toast('PBX Cadastrado com Sucesso !','success');
+            toast(trans('messages.cad_suc_pbx'),'success');
             return redirect()->route('pbx.index');
 
         } catch(\Exception $e) {
@@ -67,7 +66,7 @@ class PbxController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar o PBX !','error');
+            toast(trans('messages.cad_err_pbx'),'error');
             return redirect()->back();
         }
 
@@ -107,7 +106,7 @@ class PbxController extends Controller
 
         if(isset($name->id)):
             if($name->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar o PBX !','error');
+                toast(trans('messages.edi_suc_pbx'),'error');
                 return redirect()->back();
 
             endif;
@@ -116,7 +115,7 @@ class PbxController extends Controller
         try{
             $pbx = $this->pbx->findOrFail($id);
             $pbx->update($request->all());
-            toast('PBX atualizado com sucesso !','success');
+            toast(trans('messages.edi_suc_pbx'),'success');
             return redirect()->route('pbx.index');
 
         } catch(\Exception $e) {
@@ -127,7 +126,7 @@ class PbxController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar o PBX !','error');
+            toast(trans('messages.edi_err_pbx'),'error');
             return redirect()->back();
         }
     }
@@ -148,7 +147,7 @@ class PbxController extends Controller
             try{
                 $pbx = $this->pbx->findOrFail($id);
                 $pbx->delete();
-                toast('PBX excluido com sucesso!','success');    
+                toast(trans('messages.del_suc_pbx'),'success');
                 return redirect()->route('pbx.index');
     
             } catch(\Exception $e) {
@@ -159,7 +158,7 @@ class PbxController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir o PBX !','error');
+                toast(trans('messages.del_err_pbx'),'error');
                 return redirect()->back();
             }        
         endif;

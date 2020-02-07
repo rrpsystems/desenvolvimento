@@ -36,6 +36,11 @@ function panasonic_tda_tde_ns($file,$name){
                 $direction = 'IN';
                 break;
                 
+            case 'LOG':
+                list($a, $dialnumber) = explode('LOG',trim(substr($cdr,28,50)));
+                $lg=1;
+                break;
+                
             case '<D>':
                 list($a, $did, $dialnumber) = preg_split('/(<D>|<I>)/', trim(substr($cdr,28,50)));
                 $callnumber = dialIc($dialnumber, $trunks_id, $pbx);
@@ -49,42 +54,63 @@ function panasonic_tda_tde_ns($file,$name){
                 break;
                         
             default :
-                $dialnumber = trim(substr($cdr,28,50));
-                $callnumber = dialOc($dialnumber, $trunks_id, $pbx);
-                $direction = 'OC';
+                if(is_numeric(trim(substr($cdr,28,2)) ) ):
+                    $dialnumber = trim(substr($cdr,28,50));
+                    $callnumber = dialOc($dialnumber, $trunks_id, $pbx);
+                    $direction = 'OC';
+                else:
+                    continue;
+                endif;
         endswitch;
     
-        $call = App\Models\Call::updateOrCreate(
-            ['pbx' => $pbx, 
-            'calldate' => $calldate, 
-            'extensions_id' => $extensions_id, 
-            'trunks_id' => $trunks_id, 
-            'did' => $did, 
-            'direction' => $direction, 
-            'dialnumber' => $dialnumber, 
-            'ring' => $ring, 
-            'billsec' => $billsec, 
-            'accountcodes_id' => $accountcodes_id, 
-            'projectcodes_id' => $projectcodes_id, 
-            'disposition' => $disposition, 
-            ],
-            
-            ['pbx' => $pbx, 
-            'calldate' => $calldate, 
-            'extensions_id' => $extensions_id, 
-            'trunks_id' => $trunks_id, 
-            'did' => $did, 
-            'direction' => $direction, 
-            'dialnumber' => $dialnumber, 
-            'callnumber' => $callnumber, 
-            'ring' => $ring, 
-            'billsec' => $billsec, 
-            'accountcodes_id' => $accountcodes_id, 
-            'projectcodes_id' => $projectcodes_id, 
-            'disposition' => $disposition, 
-            'status_id' => $status_id, 
-            ]
-        );
+        if($lg==1):
+            $log = App\Models\Agent::updateOrCreate(
+                ['pbx' => $pbx, 
+                'logdate' => $calldate, 
+                'extensions_id' => $extensions_id, 
+                'status_id' => $dialnumber, 
+                ],
+                
+                ['pbx' => $pbx, 
+                'logdate' => $calldate, 
+                'extensions_id' => $extensions_id, 
+                'status_id' => $dialnumber, 
+                ]
+            );
+        else:
+            $call = App\Models\Call::updateOrCreate(
+                ['pbx' => $pbx, 
+                'calldate' => $calldate, 
+                'extensions_id' => $extensions_id, 
+                'trunks_id' => $trunks_id, 
+                'did' => $did, 
+                'direction' => $direction, 
+                'dialnumber' => $dialnumber==''?'NI':$dialnumber, 
+                'ring' => $ring, 
+                'billsec' => $billsec, 
+                'accountcodes_id' => $accountcodes_id, 
+                'projectcodes_id' => $projectcodes_id, 
+                'disposition' => $disposition, 
+                ],
+                
+                ['pbx' => $pbx, 
+                'calldate' => $calldate, 
+                'extensions_id' => $extensions_id, 
+                'trunks_id' => $trunks_id, 
+                'did' => $did, 
+                'direction' => $direction, 
+                'dialnumber' => $dialnumber==''?'NI':$dialnumber, 
+                'callnumber' => $callnumber, 
+                'ring' => $ring, 
+                'billsec' => $billsec, 
+                'accountcodes_id' => $accountcodes_id, 
+                'projectcodes_id' => $projectcodes_id, 
+                'disposition' => $disposition, 
+                'status_id' => $status_id, 
+                ]
+            );
+        endif;
+        $lg=0;
         //dd($call);
     endforeach;
     return true;
