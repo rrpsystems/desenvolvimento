@@ -8,37 +8,97 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Pbx;
 use App\Models\Call;
 use App\Models\Extension;
+use App\Models\Departament;
+use App\Models\Section;
+use App\Models\Tenant;
 use App\Models\Reports\ByExtension;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
 class ByExtensionsController extends Controller
 {
 
-    public function __construct(Pbx $pbx, Call $call, Extension $extension, ByExtension $byextension)
+    public function __construct(Pbx $pbx, Call $call, Extension $extension, Departament $departament, Section $section, Tenant $tenant, ByExtension $byextension)
     {
         $this->pbx = $pbx;        
         $this->call = $call;        
         $this->extension = $extension;        
+        $this->departament = $departament;        
+        $this->section = $section;        
+        $this->tenant = $tenant;        
         $this->byextension = new $byextension('L', 'pt', 'A4');        
     }
 
     public function index()
     {
-        $extensions = $this->extension->select('extension', 'ename','pbxes_id')->get()->groupBY('pbxes_id');
+        $authUser = auth()->user()->email;
         
-        return view('reports.byextensions.index', compact('extensions'));
-    }
+        $extenUser = $this->extension->where('users_id',$authUser)->first();
+        dd(auth()->user()->hasRole('Root'));
+        switch(true):
+            case auth()->user()->can('rep_bygroups-list'):
+                if($extenUser->groups_id):
+                    $extensions = $this->extension
+                                            ->where('groups_id', $extenUser->groups_id )
+                                            ->where('groups_id', '<>','')
+                                            ->get()->groupBy('pbxes_id');
+                    break;
+                endif;
 
-   
-    public function create()
-    {
-        //
+            case auth()->user()->can('rep_bytenants-list'):
+                $sect = $this->tenant->join('sections', 'tenants_id', 'tenant')
+                                    ->join('departaments', 'section','=','sections_id')
+                                    ->where('departament','=',$extenUser->departaments_id)
+                                    ->where('departament','<>','')
+                                    ->first(); 
+                if($sect):
+                    $extensions =  $this->tenant->join('sections', 'tenants_id', 'tenant')
+                                                ->join('departaments', 'section','=','sections_id')
+                                                ->join('extensions', 'departaments_id', 'departament')
+                                                ->where('tenant', $sect->tenant)
+                                                ->get()
+                                            ->groupBy('section');
+                    break;
+                endif;
+
+            case auth()->user()->can('rep_bysections-list'):
+                $dpto = $this->section->join('departaments', 'section','=','sections_id')
+                                      ->where('departament','=',$extenUser->departaments_id)
+                                      ->where('departament','<>','')
+                                      ->first(); 
+                if($dpto):
+                    $extensions =  $this->section->join('departaments', 'section','=','sections_id')
+                                            ->join('extensions', 'departaments_id', 'departament')
+                                            ->where('section', $dpto->section)
+                                            ->get()
+                                            ->groupBy('departaments_id');
+                    break;
+                endif;
+                
+            case auth()->user()->can('rep_bydepartaments-list'):
+                if($extenUser->departaments_id):
+                    $extensions = $this->extension
+                                        ->where('departaments_id', $extenUser->departaments_id)
+                                        ->where('departament','<>','')
+                                        ->get()->groupBy('pbxes_id');
+                    break;
+                endif;
+                
+            case auth()->user()->can('rep_byextensions-list'):
+                $extensions = $this->extension->where('users_id', $authUser)->get()->groupBy('pbxes_id');
+                break;
+            
+            default:
+                $extensions = [];
+
+        endswitch;
+
+        return view('reports.byextensions.index', compact('extensions'));
     }
 
    
     public function store(Request $request)
     {
-
+        //dd($request->input('report'));
         $start_datetime = $request->input('start_date').' '.$request->input('start_time');
         $end_datetime   = $request->input('end_date').' '.$request->input('end_time');
         $extensions = $request->input('extensions');
@@ -46,7 +106,9 @@ class ByExtensionsController extends Controller
         $dialNumber = $request->input('dialNumber');
         $types=$request->input('types');
         $types[]='INT';
-        
+        $report=implode(",", $request->input('report'));
+
+        //dd($report);
         $request->merge([
             'start_date' => $start_datetime,
             'end_date'   => $end_datetime,
@@ -63,7 +125,7 @@ class ByExtensionsController extends Controller
             'types' => 'required|min:1',
         ]);
 
-        $calls = $this->call->select('calls.id AS cid', (DB::raw(
+            $calls = $this->call->select('calls.id AS cid', (DB::raw(
                                     "(SELECT phonename FROM phonebooks WHERE callnumber LIKE CONCAT(phonenumber,'%') ORDER BY length(phonenumber) DESC LIMIT 1) AS phonename "
                                 )),'*')
                                 ->leftJoin('prefixes', 'prefixes_id', '=', 'prefix')
@@ -82,16 +144,20 @@ class ByExtensionsController extends Controller
                                             return date('d/m/Y', strtotime($item->calldate));
                                         }
                                     ], $preserveKeys = true);
-        
+
         //altera a localização para ajustar as datas para portugues brasil
         setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
         date_default_timezone_set('America/Sao_Paulo');
                                 
         //Inicio Relatorio.
         $this->byextension->AliasNbPages();
-                                
-        //Insere um nome no cabeçalho
-        $this->byextension->rName = trans('reports.d_exten');
+        if($report == 'detail'):
+            //Insere um nome no cabeçalho
+            $this->byextension->rName = trans('reports.d_exten');
+        else:
+            //Insere um nome no cabeçalho
+            $this->byextension->rName = trans('reports.c_exten');
+        endif;
         //Insere a data de emissao
         $this->byextension->rTitle = utf8_encode(strftime('%A, %d de %B de %Y', strtotime('today')));
         //VARIAVEIS DE SOMARIZAÇÃO
@@ -110,9 +176,13 @@ class ByExtensionsController extends Controller
                 $this->byextension->rDepto = $exten->departaments_id;
                 $this->byextension->rEnd   = $end_datetime;
                                     
-                // imprime cabeçalho da tabela
-                $this->byextension->rPrint   = true;
-
+                if($report == 'detail'):
+                    // imprime cabeçalho da tabela
+                    $this->byextension->rPrint   = true;
+                else:
+                    // Não imprime cabeçalho da tabela
+                    $this->byextension->rPrint   = false;
+                endif;
                 $this->byextension->AddPage();
                 // variaveis
                 $lines = 0; $line = 0; 
@@ -123,11 +193,13 @@ class ByExtensionsController extends Controller
                 foreach($ds as $d => $cs):
                     //imprime a data
                     $line++;
-                    $this->byextension->SetFillColor(224, 224, 224);
-                    $this->byextension->Cell(60,19, utf8_decode($d), 0, 0, 'C', true);
-                    $this->byextension->Cell(725,19, utf8_decode(''), 0, 1, 'C', true);
-                    $true = false;
-                                    
+                    //if($report == 'detail'):
+                    //    $this->byextension->SetFillColor(224, 224, 224);
+                    //    $this->byextension->Cell(60,19, utf8_decode($d), 0, 0, 'C', true);
+                    //    $this->byextension->Cell(725,19, utf8_decode(''), 0, 1, 'C', true);
+                    //endif;                
+                        $true = false;
+
                     foreach($cs as $c):
                         $lines++;
                                     
@@ -141,19 +213,20 @@ class ByExtensionsController extends Controller
                             $IC ++; $TIC += $c->billsec; $VIC += $c->rate;
                         
                         endif;
-                        
-                        //imprime as ligações
-                        $this->byextension->Cell(25,19,  utf8_decode( ''), 0, 0, 'C', $true);
-                        $this->byextension->Cell(50,19,  utf8_decode( date('H:i:s', strtotime($c->calldate) )), 0, 0, 'C', $true);
-                        $this->byextension->Cell(60,19,  utf8_decode( trans('reports.'.$c->direction) ), 0, 0, 'C', $true);
-                        $this->byextension->Cell(50,19,  utf8_decode( $c->trunks_id), 0, 0, 'C', $true);
-                        $this->byextension->Cell(110,19, utf8_decode( substr($c->dialnumber,0,16)), 0, 0, 'C', $true);
-                        $this->byextension->Cell(160,19, utf8_decode( substr($c->locale,0,22) ), 0, 0, 'C', $true);
-                        $this->byextension->Cell(160,19, utf8_decode( substr($c->phonename,0,22) ), 0, 0, 'C', $true);
-                        $this->byextension->Cell(70,19,  utf8_decode( trans('reports.'.$c->cservice) ), 0, 0, 'C', $true);
-                        $this->byextension->Cell(50,19,  utf8_decode( gmdate("H:i:s", $c->billsec) ), 0, 0, 'C', $true);
-                        $this->byextension->Cell(50,19,  utf8_decode( number_format( $c->rate, 2, ',', '.') ), 0, 1, 'C', $true);
-                                            
+
+                        if($report == 'detail'):
+                            //imprime as ligações
+                            $this->byextension->Cell(70,19,  utf8_decode( ($c->accountcodes_id?'* ':'  ').date('d/m/Y', strtotime($c->calldate) ) ), 0, 0, 'C', $true);
+                            $this->byextension->Cell(70,19,  utf8_decode( date('H:i:s', strtotime($c->calldate) )), 0, 0, 'C', $true);
+                            $this->byextension->Cell(60,19,  utf8_decode( trans('reports.'.$c->direction) ), 0, 0, 'C', $true);
+                            $this->byextension->Cell(50,19,  utf8_decode( $c->trunks_id), 0, 0, 'C', $true);
+                            $this->byextension->Cell(120,19, utf8_decode( substr($c->dialnumber,0,16)), 0, 0, 'C', $true);
+                            $this->byextension->Cell(155,19, utf8_decode( substr($c->locale,0,22) ), 0, 0, 'C', $true);
+                            $this->byextension->Cell(155,19, utf8_decode( substr($c->phonename,0,22) ), 0, 0, 'C', $true);
+                            //$this->byextension->Cell(70,19,  utf8_decode( trans('reports.'.$c->cservice) ), 0, 0, 'C', $true);
+                            $this->byextension->Cell(50,19,  utf8_decode( gmdate("H:i:s", $c->billsec) ), 0, 0, 'C', $true);
+                            $this->byextension->Cell(55,19,  utf8_decode( number_format( $c->rate, 2, ',', '.') ), 0, 1, 'C', $true);
+                        endif;                
                     endforeach;
                 endforeach;
                                 
@@ -324,27 +397,4 @@ class ByExtensionsController extends Controller
         return view('reports.byextensions.show', compact('url', 'file'));
     }
 
-   
-    public function show($id)
-    {
-        //
-    }
-
-   
-    public function edit($id)
-    {
-        //
-    }
-
-   
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-   
-    public function destroy($id)
-    {
-        //
-    }
 }

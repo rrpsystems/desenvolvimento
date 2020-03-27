@@ -22,5 +22,7 @@ return [
     'confirmed-password' => 'As senhas são diferentes !',
     'required-password' => 'A senha é obrigatoria !',
     'min.string-password' => 'A senha deve conter no minimo 6 digitos !',
+
+    'required' => 'Este Campo é Obrigatorio !',
     
 ];

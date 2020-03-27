@@ -12,6 +12,11 @@ return [
     
     //reports By Extensions
     'd_exten'         => 'Relatório Detalhado Por Ramais',
+    'c_exten'         => 'Relatório Resumido Por Ramais',
+    
+    //reports By Account Codes
+    'd_acccode'         => 'Relatório Detalhado Por Codigos de Conta',
+    'c_acccode'         => 'Relatório Resumido Por Codigos de Conta',
     
     
     //messages reports general

@@ -30,5 +30,61 @@ class AuthServiceProvider extends ServiceProvider
         });
         //
 
+        Gate::define('dashboard', function ($user) {
+            $permissions = $user->getAllPermissions();
+            $perm = '';
+            
+            foreach($permissions as $permission):
+                if( substr($permission->name,0,4) == 'dsb_'):
+                    $perm = $permission->name;
+                    return true;
+                endif;
+            endforeach;
+
+            return $user->can($perm);
+        });
+        
+        Gate::define('reports', function ($user) {
+            $permissions = $user->getAllPermissions();
+            $perm = '';
+            
+            foreach($permissions as $permission):
+                if( substr($permission->name,0,4) == 'rep_'):
+                    $perm = $permission->name;
+                    return true;
+                endif;
+            endforeach;
+
+            return $user->can($perm);
+        });
+        
+        Gate::define('settings', function ($user) {
+            $permissions = $user->getAllPermissions();
+            $perm = '';
+            
+            foreach($permissions as $permission):
+                if( substr($permission->name,0,4) == 'cfg_'):
+                    $perm = $permission->name;
+                    return true;
+                endif;
+            endforeach;
+
+            return $user->can($perm);
+        });
+        
+        Gate::define('maintenances', function ($user) {
+            $permissions = $user->getAllPermissions();
+            $perm = '';
+            
+            foreach($permissions as $permission):
+                if( substr($permission->name,0,4) == 'mnt_'):
+                    $perm = $permission->name;
+                    return true;
+                endif;
+            endforeach;
+
+            return $user->can($perm);
+        });
+
     }
 }

@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('route-create')
+                            @can('cfg_routes-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('routes.create') }}">
                         		    Cadastrar
                                 </a>
@@ -77,21 +77,21 @@
                                         <td> {{ $route->dialplan }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('route-list')
+                                            @can('cfg_routes-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('routes.show',$route->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('route-edit')
+                                                @can('cfg_routes-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('routes.edit',$route->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('route-delete')
+                                                @can('cfg_routes-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('routes.destroy', 'del-'.$route->id) }}" method="POST">
                                                             @method('DELETE')

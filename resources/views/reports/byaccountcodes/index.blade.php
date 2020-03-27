@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-end">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Relatorios</a></li>
-                <li class="breadcrumb-item"><a href="#">Por Ramais</a></li>
+                <li class="breadcrumb-item"><a href="#">Por Codigo de Contas</a></li>
                 <li class="breadcrumb-item active">Filtro</li>
             </ol>     
         </div>
@@ -49,7 +49,7 @@
 
         </div><!--card-header-->
             
-            <form action="{{route('byextensions.store')}}" method="POST">
+            <form action="{{route('byaccountcodes.store')}}" method="POST">
               @csrf                    
             
               <div class="card-body">
@@ -62,7 +62,7 @@
                         <div class="form-group col-12">
                           <div class="d-flex bd-highlight">
                             <div class="mr-auto p-2 bd-highlight">
-                              <label for="extensions">Ramal / Ramais</label>
+                              <label for="accountcodes">Codigo / Codigos</label>
                             </div>
                             <div class="p-2 bd-highlight">
                               <div class="form-check form-check-inline">
@@ -74,22 +74,22 @@
                             </div>
                           </div>
                       
-                          <select class="form-control {{ $errors->has('extensions') ? 'is-invalid' : '' }} 
-                                  select-extensions" id="extensions" name="extensions[]" multiple="multiple" 
+                          <select class="form-control {{ $errors->has('accountcodes') ? 'is-invalid' : '' }} 
+                                  select-accountcodes" id="accountcodes" name="accountcodes[]" multiple="multiple" 
                                   data-width="100%" >
                             
                             <option></option>
                             
-                            @forelse($extensions as $pbx => $extension)        
+                            @forelse($accountcodes as $pbx => $accountcode)        
                               <optgroup label="{{$pbx}}">     
                                              
-                                @foreach($extension as $exten)
-                                  <option value="{{ $exten->extension}}" 
-                                    @if (old("extensions"))
-                                      {{ (in_array($exten->extension, old("extensions")) ? "selected":"")}}
+                                @foreach($accountcode as $account)
+                                  <option value="{{ $account->accountcode}}" 
+                                    @if (old("accountcodes"))
+                                      {{ (in_array($account->accountcode, old("accountcodes")) ? "selected":"")}}
                                     @endif
                                   >
-                                    {{ $exten->extension}} - {{$exten->ename}}
+                                      **** - {{$account->aname}}
                                   </option>
                                 @endforeach
                           
@@ -100,9 +100,9 @@
                           
                           </select>
                           
-                          @if ($errors->has('extensions'))
+                          @if ($errors->has('accountcodes'))
                               <div class="invalid-feedback">
-                                  @lang($errors->first('extensions').'-extensions')
+                                  @lang($errors->first('accountcodes').'-accountcodes')
                               </div>
                           @endif
     
@@ -435,7 +435,7 @@
 <script>
  
   $(function () {
-        $('.select-extensions').select2({
+        $('.select-accountcodes').select2({
             placeholder: "Selecione Ramais"
         })
 
@@ -449,11 +449,11 @@
 
     $("#checkbox").click(function(){
         if($("#checkbox").is(':checked') ){
-            $("#extensions > optgroup > option").prop("selected","selected");
-            $("#extensions").trigger("change");
+            $("#accountcodes > optgroup > option").prop("selected","selected");
+            $("#accountcodes").trigger("change");
         }else{
-            $("#extensions > optgroup > option").prop("selected","");
-            $("#extensions").trigger("change");
+            $("#accountcodes > optgroup > option").prop("selected","");
+            $("#accountcodes").trigger("change");
         }
     });
 

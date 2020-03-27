@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('phonebooks-create')
+                            @can( 'cfg_phonebooks-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('phonebooks.create') }}">
                         		    Cadastrar
                                 </a>
@@ -69,21 +69,21 @@
                                         <td> {{ $phonebook->phonename }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('phonebooks-list')
+                                            @can( 'cfg_phonebooks-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('phonebooks.show',$phonebook->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('phonebooks-edit')
+                                                @can( 'cfg_phonebooks-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('phonebooks.edit',$phonebook->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('phonebooks-delete')
+                                                @can( 'cfg_phonebooks-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('phonebooks.destroy', 'del-'.$phonebook->id) }}" method="POST">
                                                             @method('DELETE')

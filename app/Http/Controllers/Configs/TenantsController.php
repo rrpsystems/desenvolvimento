@@ -46,7 +46,7 @@ class TenantsController extends Controller
         
         try{
             $tenant = $this->tenant->create($request->all());
-            toast('Empresa Cadastrada com Sucesso !','success');
+            toast(trans('messages.cad_suc_tenant'),'success');
             return redirect()->route('tenants.index');
 
         } catch(\Exception $e) {
@@ -57,7 +57,7 @@ class TenantsController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar a Empresa !','error');
+            toast(trans('messages.cad_err_tenant'),'error');
             return redirect()->back();
         }
 
@@ -91,7 +91,7 @@ class TenantsController extends Controller
 
         if(isset($tenant->id)):
             if($tenant->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar a Empresa !','error');
+                toast(trans('messages.edi_err_tenant'),'error');
                 return redirect()->back();
 
             endif;
@@ -100,7 +100,7 @@ class TenantsController extends Controller
         try{
             $tenant = $this->tenant->findOrFail($id);
             $tenant->update($request->all());
-            toast('Empresa atualizada com sucesso !','success');
+            toast(trans('messages.edi_suc_tenant'),'success');
             return redirect()->route('tenants.index');
 
         } catch(\Exception $e) {
@@ -111,7 +111,7 @@ class TenantsController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar a Empresa !','error');
+            toast(trans('messages.edi_err_tenant'),'error');
             return redirect()->back();
         }
     }
@@ -130,7 +130,7 @@ class TenantsController extends Controller
             try{
                 $tenant = $this->tenant->findOrFail($id);
                 $tenant->delete();
-                toast('Empresa excluida com sucesso!','success');    
+                toast(trans('messages.del_suc_tenant'),'success');
                 return redirect()->route('tenants.index');
     
             } catch(\Exception $e) {
@@ -141,7 +141,7 @@ class TenantsController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir a Empresa !','error');
+                toast(trans('messages.del_err_tenant'),'error');
                 return redirect()->back();
             }        
         endif;

@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('trunks-create')
+                            @can( 'cfg_trunks-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('trunks.create') }}">
                         		    Cadastrar
                                 </a>
@@ -73,21 +73,21 @@
                                         <td> {{ $trunk->routes_route }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('trunks-list')
+                                            @can( 'cfg_trunks-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('trunks.show',$trunk->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('trunks-edit')
+                                                @can( 'cfg_trunks-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('trunks.edit',$trunk->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('trunks-delete')
+                                                @can( 'cfg_trunks-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('trunks.destroy', 'del-'.$trunk->id) }}" method="POST">
                                                             @method('DELETE')

@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('sections-create')
+                            @can( 'cfg_sections-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('sections.create') }}">
                         		    Cadastrar
                                 </a>
@@ -69,21 +69,21 @@
                                         <td> {{ $section->tenants_id }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('sections-list')
+                                            @can( 'cfg_sections-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('sections.show',$section->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('sections-edit')
+                                                @can( 'cfg_sections-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('sections.edit',$section->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('sections-delete')
+                                                @can( 'cfg_sections-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('sections.destroy', 'del-'.$section->id) }}" method="POST">
                                                             @method('DELETE')

@@ -57,7 +57,7 @@ class RoutesController extends Controller
         
         try{
             $route = $this->route->create($request->all());
-            toast('Rota Cadastrada com Sucesso !','success');
+            toast(trans('messages.cad_suc_route'),'success');
             return redirect()->route('routes.index');
 
         } catch(\Exception $e) {
@@ -68,7 +68,7 @@ class RoutesController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar a Rota !','error');
+            toast(trans('messages.cad_err_route'),'error');
             return redirect()->back();
         }
     }
@@ -106,7 +106,7 @@ class RoutesController extends Controller
 
         if(isset($route->id)):
             if($route->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar a Rota !','error');
+                toast(trans('messages.edi_err_route'),'error');
                 $request->validate([
                     'route' => 'required|unique:routes,route,NULL,id,rpbx,' . $request->rpbx, 
                 ]);
@@ -119,7 +119,7 @@ class RoutesController extends Controller
         try{
             $route = $this->route->findOrFail($id);
             $route->update($request->all());
-            toast('Rota atualizada com sucesso !','success');
+            toast(trans('messages.edi_suc_route'),'success');
             return redirect()->route('routes.index');
 
         } catch(\Exception $e) {
@@ -130,7 +130,7 @@ class RoutesController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar a Rota !','error');
+            toast(trans('messages.edi_err_route'),'error');
             return redirect()->back();
         }
     }
@@ -150,7 +150,7 @@ class RoutesController extends Controller
             try{
                 $route  = $this->route->findOrFail($id);
                 $route->delete();
-                toast('Rota excluida com sucesso!','success');    
+                toast(trans('messages.del_suc_route'),'success');
                 return redirect()->route('routes.index');
     
             } catch(\Exception $e) {
@@ -161,7 +161,7 @@ class RoutesController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir a Rota !','error');
+                toast(trans('messages.del_err_route'),'error');
                 return redirect()->back();
             }        
         endif;

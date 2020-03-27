@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('roles-create')
+                            @can('cfg_roles-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('roles.create') }}">
                         		    Cadastrar
                                 </a>
@@ -67,21 +67,21 @@
                                         <td> {{ $role->name }} </td>
                                         <td>
                                             <div class="form-inline">
-                                                @can('roles-list')
+                                                @can('cfg_roles-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('roles.show',$role->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('roles-edit')
+                                                @can('cfg_roles-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('roles.edit',$role->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('roles-delete')
+                                                @can('cfg_roles-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('roles.destroy', 'del-'.$role->id) }}" method="POST">
                                                             @method('DELETE')

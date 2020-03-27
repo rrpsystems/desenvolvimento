@@ -169,19 +169,30 @@ function dialOc($number, $trunk, $pbx)
 //Ligações de Entrada
 function dialIc($number, $trunk, $pbx)
 {
-    $drm=NULL; $dap=NULL; $tddd=NULL;
+    $drm=NULL; $dap=NULL; $tddd=NULL; $phone=NULL;
+    //consulta o tronco cadastrado para obter a rota e o ddd do mesmo
     $trunk = App\Models\Trunk::select('ddd','drm','dap')
                                 ->leftJoin('routes', 'routes_route', '=', 'route')
                                 ->where('trunk',$trunk)
                                 ->where('tpbx',$pbx)
                                 ->first();
-    
+
+    //se hover o tronco cadastrado preenche as variaveis com as informações se não retorna o codigo de erro 92    
     if($trunk):
         $drm  = $trunk->drm;    
         $dap  = $trunk->dap;    
         $tddd = $trunk->ddd;    
     else:
         return 'error_92';
+    endif;
+    
+    //verifica se a operadora esta enviando o numero de telefone nacional com um zero na frente, caso sim remove para a consulta
+    if(substr( $number,1 ) == '0'):
+        $phone = ltrim($number,'0');
+
+        if(strlen($phone) == 10 || strlen($phone) == 11 ):
+            $number = ltrim($number,'0');
+        endif;
     endif;
 
     $number = $dap . substr($number,$drm);

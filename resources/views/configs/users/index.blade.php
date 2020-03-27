@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('users-create')
+                            @can( 'cfg_users-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('users.create') }}">
                         		    Cadastrar
                                 </a>
@@ -71,14 +71,14 @@
                                         <td> {{ $user->role }} </td>
                                         <td>
                                             <div class="form-inline">
-                                                @can('users-edit')
+                                                @can( 'cfg_users-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('users.edit',$user->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('users-delete')
+                                                @can( 'cfg_users-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('users.destroy', 'del-'.$user->id) }}" method="POST">
                                                             @method('DELETE')

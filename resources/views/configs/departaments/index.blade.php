@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('departaments-create')
+                            @can('cfg_departaments-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('departaments.create') }}">
                         		    Cadastrar
                                 </a>
@@ -69,21 +69,21 @@
                                         <td> {{ $departament->sections_id }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('departaments-list')
+                                            @can('cfg_departaments-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('departaments.show',$departament->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('departaments-edit')
+                                                @can('cfg_departaments-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('departaments.edit',$departament->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('departaments-delete')
+                                                @can('cfg_departaments-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('departaments.destroy', 'del-'.$departament->id) }}" method="POST">
                                                             @method('DELETE')

@@ -70,7 +70,8 @@ class TrunksController extends Controller
         
         try{
             $trunk = $this->trunk->create($request->all());
-            toast('Tronco Cadastrado com Sucesso !','success');
+            toast(trans('messages.cad_suc_trunk'),'success');
+            
             if($request->input('page')=='error'):
                 return redirect()->route('status.show',['trunks']);
             else:
@@ -85,7 +86,7 @@ class TrunksController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar o tronco !','error');
+            toast(trans('messages.cad_err_trunk'),'error');
             return redirect()->back();
         }
     }
@@ -124,7 +125,7 @@ class TrunksController extends Controller
 
         if(isset($trunk->id)):
             if($trunk->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar o Tronco !','error');
+                toast(trans('messages.edi_err_trunk'),'error');
                 $request->validate([
                     'trunk' => 'unique:trunks,trunk,NULL,id,tpbx,' . $request->tpbx, 
                 ]);
@@ -137,7 +138,7 @@ class TrunksController extends Controller
         try{
             $trunk = $this->trunk->findOrFail($id);
             $trunk->update($request->all());
-            toast('Tronco atualizado com sucesso !','success');
+            toast(trans('messages.edi_suc_trunk'),'success');
             return redirect()->route('trunks.index');
 
         } catch(\Exception $e) {
@@ -148,7 +149,7 @@ class TrunksController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar o Tronco !','error');
+            toast(trans('messages.edi_err_trunk'),'error');
             return redirect()->back();
         }
     }
@@ -169,7 +170,7 @@ class TrunksController extends Controller
             try{
                 $trunk  = $this->trunk->findOrFail($id);
                 $trunk->delete();
-                toast('Tronco excluido com sucesso!','success');    
+                toast(trans('messages.del_suc_trunk'),'success');
                 return redirect()->route('trunks.index');
     
             } catch(\Exception $e) {
@@ -180,7 +181,7 @@ class TrunksController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir o Tronco !','error');
+                toast(trans('messages.del_err_trunk'),'error');
                 return redirect()->back();
             }        
         endif;

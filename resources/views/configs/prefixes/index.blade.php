@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('pbx-create')
+                            @can('cfg_prefixes-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('prefixes.create') }}">
                         		    Cadastrar
                                 </a>
@@ -73,21 +73,21 @@
                                         <td> {{ $prefix->service }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('pbx-list')
+                                            @can('cfg_prefixes-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('prefixes.show',$prefix->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('pbx-edit')
+                                                @can('cfg_prefixes-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('prefixes.edit',$prefix->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('pbx-delete')
+                                                @can('cfg_prefixes-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('prefixes.destroy', 'del-'.$prefix->id) }}" method="POST">
                                                             @method('DELETE')

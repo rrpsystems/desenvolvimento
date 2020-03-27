@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('pbx-create')
+                            @can( 'cfg_pbx-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('pbx.create') }}">
                         		    Cadastrar
                                 </a>
@@ -75,21 +75,21 @@
                                         <td> {{ $pbx->port }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('pbx-list')
+                                            @can( 'cfg_pbx-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('pbx.show',$pbx->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('pbx-edit')
+                                                @can( 'cfg_pbx-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('pbx.edit',$pbx->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('pbx-delete')
+                                                @can( 'cfg_pbx-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('pbx.destroy', 'del-'.$pbx->id) }}" method="POST">
                                                             @method('DELETE')

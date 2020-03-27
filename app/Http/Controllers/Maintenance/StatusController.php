@@ -90,10 +90,7 @@ class StatusController extends Controller
             case 'trunks':
                 
                 $trunks = $this->call->distinct('trunks_id')
-                                        //->join('trunks', 'tpbx','=','pbx')
-                                        ->join('trunks', 'trunks_id','=','trunk')
                                         ->where('status_id','92')
-                                        //->where('tpbx','pbx_id')
                                         ->get();
                
                 return view('maintenances.status.trunks', compact('trunks'));

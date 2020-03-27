@@ -12,16 +12,21 @@
                     <th class="text-center">Excluir</th>
                 </tr>
             </thead>
-                <tr class="bg-primary"><td colspan="6">Configurações:</td></tr>
+                @php($control = '')
 
                 @forelse( $permissions as $name => $permission)
-                    @isset($roles)
-                        @continue( $roles->name == 'Root')
-                    @endisset
+
+                    @if( $control != substr($name,0,3))
+                        <tr class="bg-primary"><td colspan="6">@lang('messages.'.substr($name,0,3))</td></tr>
+                    @endif
+
+                    @php($control = substr($name,0,3))
+                    
+
                     <tr>
                         <td class="text-center"></td>
                         <td>
-                        @lang("messages.$name")
+                            @lang("messages.$name")
                         </td>
                         <td class="text-center">
                             @foreach($permission as $per)

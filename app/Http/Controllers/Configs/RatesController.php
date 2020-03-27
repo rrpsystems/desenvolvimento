@@ -67,7 +67,7 @@ class RatesController extends Controller
         
         try{
             $rate = $this->rate->create($request->all());
-            toast('Tarifa Cadastrada com Sucesso !','success');
+            toast(trans('messages.cad_suc_rate'),'success');
             return redirect()->route('rates.index');
 
         } catch(\Exception $e) {
@@ -78,7 +78,7 @@ class RatesController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar a tarifa !','error');
+            toast(trans('messages.cad_err_rate'),'error');
             return redirect()->back();
         }
         
@@ -131,7 +131,7 @@ class RatesController extends Controller
                             
         if(isset($rate->id)):
             if($rate->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar a tarifa !','error');
+                toast(trans('messages.edi_err_rate'),'error');
                 $request->validate([
                     'routes_route' => "required|unique:rates,routes_route,NULL,id,prefixes_service,$request->prefixes_service,type,$request->type,direction,$request->direction",       
                 ]);
@@ -141,7 +141,7 @@ class RatesController extends Controller
             
         if(isset($rname->id)):
             if($rname->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar a tarifa !','error');
+                toast(trans('messages.edi_err_rate'),'error');
                 $request->validate([
                     'rname'            => 'required|unique:rates',
                 ]);
@@ -152,7 +152,7 @@ class RatesController extends Controller
         try{
             $rate = $this->rate->findOrFail($id);
             $rate->update($request->all());
-            toast('Tarifa atualizada com sucesso !','success');
+            toast(trans('messages.edi_suc_rate'),'success');
             return redirect()->route('rates.index');
 
         } catch(\Exception $e) {
@@ -163,7 +163,7 @@ class RatesController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar a tarifa !','error');
+            toast(trans('messages.edi_err_rate'),'error');
             return redirect()->back();
         }
     }

@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('accountcodes-create')
+                            @can('cfg_accountcodes-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('accountcodes.create') }}">
                         		    Cadastrar
                                 </a>
@@ -77,21 +77,21 @@
                                         <td> {{ $accountcode->users_id }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('accountcode-list')
+                                            @can('cfg_accountcodes-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('accountcodes.show',$accountcode->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('accountcode-edit')
+                                                @can('cfg_accountcodes-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('accountcodes.edit',$accountcode->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('accountcode-delete')
+                                                @can('cfg_accountcodes-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('accountcodes.destroy', 'del-'.$accountcode->id) }}" method="POST">
                                                             @method('DELETE')

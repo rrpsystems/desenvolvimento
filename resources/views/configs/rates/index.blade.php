@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('rates-create')
+                            @can( 'cfg_rates-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('rates.create') }}">
                         		    Cadastrar
                                 </a>
@@ -85,21 +85,21 @@
                                         <td> R$ {{number_format( $rate->connection, 2, '.', ' ') }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('rate-list')
+                                            @can( 'cfg_rates-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('rates.show',$rate->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('rate-edit')
+                                                @can( 'cfg_rates-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('rates.edit',$rate->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('rate-delete')
+                                                @can( 'cfg_rates-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('rates.destroy', 'del-'.$rate->id) }}" method="POST">
                                                             @method('DELETE')

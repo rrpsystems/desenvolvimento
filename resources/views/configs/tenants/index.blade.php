@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('tenants-create')
+                            @can( 'cfg_tenants-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('tenants.create') }}">
                         		    Cadastrar
                                 </a>
@@ -67,21 +67,21 @@
                                         <td> {{ $tenant->tenant }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('tenants-list')
+                                            @can( 'cfg_tenants-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('tenants.show',$tenant->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('tenants-edit')
+                                                @can( 'cfg_tenants-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('tenants.edit',$tenant->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('tenants-delete')
+                                                @can( 'cfg_tenants-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('tenants.destroy', 'del-'.$tenant->id) }}" method="POST">
                                                             @method('DELETE')

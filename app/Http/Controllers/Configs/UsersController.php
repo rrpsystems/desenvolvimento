@@ -66,7 +66,7 @@ class UsersController extends Controller
         try{
             $user = $this->user->create($request->all());
             $user->assignRole($request->role);
-            toast('Usuario Cadastrado com Sucesso !','success');
+            toast(trans('messages.cad_suc_user'),'success');
             return redirect()->route('users.index');
 
         } catch(\Exception $e) {
@@ -77,7 +77,7 @@ class UsersController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar o Usuario !','error');
+            toast(trans('messages.cad_err_user'),'error');
             return redirect()->back();
         }
     }
@@ -115,7 +115,7 @@ class UsersController extends Controller
             $user = $this->user->findOrFail($id);
             $user->update($request->filled('password') ? $request->all() : $request->except(['password']));
             $user->syncRoles($request->role);            
-            toast('Usuario Editado com Sucesso !','success');
+            toast(trans('messages.edi_suc_user'),'success');
             return redirect()->route('users.index');
 
         } catch(\Exception $e) {
@@ -126,7 +126,7 @@ class UsersController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar editar o Usuario !','error');
+            toast(trans('messages.edi_err_user'),'error');
             return redirect()->back();
         }
     }
@@ -151,7 +151,7 @@ class UsersController extends Controller
             try{
                 $user = $this->user->findOrFail($id);
                 $user->delete();
-                toast('Usuario Excluido com sucesso!','success');    
+                toast(trans('messages.del_suc_user'),'success');
                 return redirect()->route('users.index');
     
             } catch(\Exception $e) {
@@ -162,7 +162,7 @@ class UsersController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir o usuario !','error');
+                toast(trans('messages.del_err_user'),'error');
                 return redirect()->back();
             }        
         endif;

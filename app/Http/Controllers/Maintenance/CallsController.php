@@ -42,7 +42,7 @@ class CallsController extends Controller
                 "(SELECT phonename FROM phonebooks WHERE callnumber LIKE CONCAT(phonenumber,'%') ORDER BY length(phonenumber) DESC LIMIT 1) AS phonename "
                 )), '*')
                                 ->leftJoin('prefixes', 'prefixes_id', '=', 'prefix')
-                                ->where('pbx','NSX1000_VALPAMED')
+                                //->where('pbx','NSX1000_VALPAMED')
                                 ->orderBy('calldate', 'DESC')
                                 ->paginate(50);
         endif;

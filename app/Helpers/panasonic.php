@@ -7,7 +7,7 @@ function panasonic_tda_tde_ns($file,$name){
     
     foreach($cdrs as $cdr):
         $pbx='' ; $calldate=''; $extensions_id=''; $trunks_id=''; $did=''; $direction=''; $dialnumber=''; $callnumber='';
-        $ring=''; $billsec=''; $accountcodes_id=''; $projectcodes_id=''; $disposition=''; $status_id='';  
+        $ring=''; $billsec=''; $accountcodes_id=''; $projectcodes_id=''; $disposition=''; $status_id=''; $lg=0; 
         
         if(!is_numeric(substr($cdr,0,2)) ):
             continue;
@@ -100,7 +100,7 @@ function panasonic_tda_tde_ns($file,$name){
                 'did' => $did, 
                 'direction' => $direction, 
                 'dialnumber' => $dialnumber==''?'NI':$dialnumber, 
-                'callnumber' => $callnumber, 
+                'callnumber' => $dialnumber==''?'NI':$callnumber, 
                 'ring' => $ring, 
                 'billsec' => $billsec, 
                 'accountcodes_id' => $accountcodes_id, 

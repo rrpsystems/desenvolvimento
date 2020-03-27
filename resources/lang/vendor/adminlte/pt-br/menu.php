@@ -22,6 +22,13 @@ return [
     'Reports'                       => 'Relatorios',
     'By Extensions'                 => 'Por Ramais',
     'By Trunks'                     => 'Por Troncos',
+    'By PBX'                        => 'Por PBX',
+    'By Groups'                     => 'Por Grupos',
+    'By Tenants'                    => 'Por Empresas',
+    'By Sections'                   => 'Por Seções',
+    'By Departaments'               => 'Por Departamentos',
+    'By Accountcodes'               => 'Por Codigos de Conta',
+    'By Phonebooks'                 => 'Por Agenda',
     
     'settings'                      => 'Configurações',
     'Permissions'                   => 'Permissões',

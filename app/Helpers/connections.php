@@ -11,10 +11,10 @@ function telnet($name, $host, $port, $user, $password)
     wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Coleta Telnet Inicio', $name);
  
     //tempo maximo de execução em Segundos
-    set_time_limit(90);
+    set_time_limit(180);
  
     //desativa saida de erros
-    error_reporting(0);
+    error_reporting(1);
  
     // Abre um socket e passa o host e a porta como parametros
     $conn = stream_socket_client(trim($host).':'.trim($port), $errno, $errstr, 30);
@@ -22,14 +22,14 @@ function telnet($name, $host, $port, $user, $password)
     
     if (!$conn):
         wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> '.$errstr.' => '. $errno, $name);
-        exit();        
+        return NULL;        
     else:
         // Se a conexão foi bem sucedida manda o usuario e a senha
         sleep(3);
         fwrite($conn, trim($user)."\r\n");
         sleep(3);
         fwrite($conn, trim($password)."\r\n");
-        sleep(3);
+        sleep(1);
         // Cria um cabecalho no arquivo para facilitar a identificação de falhas
         wr_file($name, "\r\n"                                                    , $filename);
         wr_file($name, "--------------------------------------------------------", $filename);
@@ -49,7 +49,7 @@ function telnet($name, $host, $port, $user, $password)
             else:
                 $control ++;
                 //controle para equipamentos que nao enviam o feof de desconexão
-                if($control == 200000):
+                if($control == 300000):
                     break;
           
                 endif;

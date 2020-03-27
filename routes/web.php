@@ -59,6 +59,8 @@ Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'middleware' => '
   Route::resource('bysections', 'BySectionsController');
   Route::resource('byextensions', 'ByExtensionsController');
   Route::resource('bydepartaments', 'ByDepartamentsController');
+  Route::resource('byaccountcodes', 'ByAccountcodesController');
+  Route::resource('byphonebooks', 'ByPhonebooksController');
   
 });
 

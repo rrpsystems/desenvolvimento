@@ -59,7 +59,7 @@ class RolesController extends Controller
         try{
             $role = $this->role->create(['name' => $request->input('name')]);
             $role->syncPermissions($request->input('permission'));
-            toast('Permissão cadastrada com sucesso!','success');
+            toast(trans('messages.cad_suc_rule'),'success');
             return redirect()->route('roles.index');
 
         } catch(\Exception $e) {
@@ -70,7 +70,7 @@ class RolesController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar a permissão!','error');
+            toast(trans('messages.cad_err_rule'),'error');
             return redirect()->back();
 
         }
@@ -80,12 +80,13 @@ class RolesController extends Controller
     public function show($id)
     {
         $roles = $this->role->findOrFail($id);
-        $permissions = $this->permission->distinct()->get()
+        $permissions = $this->permission->distinct()->orderBy('name')->get()
                                             ->groupBy( function($item) {
+                                                
                                                 list($role, $action) = explode("-", $item->name);
                                                 return $role;
-                                            //return $item->created_at->format('Y-m-d');
-                                        });
+                                            });
+        
         $select = $this->permission->join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
                                         ->where("role_has_permissions.role_id",$id)
                                             ->get();
@@ -105,12 +106,14 @@ class RolesController extends Controller
     public function edit($id)
     {
         $roles = $this->role->findOrFail($id);
-        $permissions = $this->permission->distinct()->get()
+        $permissions = $this->permission->distinct()->orderBy('name')->get()
                                             ->groupBy( function($item) {
+                                                
                                                 list($role, $action) = explode("-", $item->name);
                                                 return $role;
-                                            //return $item->created_at->format('Y-m-d');
-                                        });
+                                            });
+                                                                                
+        
         $select = $this->permission->join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
                                         ->where("role_has_permissions.role_id",$id)
                                             ->get();
@@ -131,7 +134,7 @@ class RolesController extends Controller
         $name = $this->role->where('name',$request->input('name'))->first();
         if(isset($name->id)):
             if($name->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar a permissão!','error');
+                toast(trans('messages.edi_err_rule'),'error');
                 return redirect()->back();
 
             endif;
@@ -143,7 +146,7 @@ class RolesController extends Controller
             $role->name = $request->input('name');
             $role->save();
             $role->syncPermissions($request->input('permission'));
-            toast('Permissão atualizada com sucesso!','success');
+            toast(trans('messages.edi_suc_rule'),'success');
             return redirect()->route('roles.index');
 
         } catch(\Exception $e) {
@@ -154,7 +157,7 @@ class RolesController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar a permissão!','error');
+            toast(trans('messages.edi_err_rule'),'error');
             return redirect()->back();
         }
     }
@@ -167,11 +170,10 @@ class RolesController extends Controller
 
         $roles = $this->role->findOrFail($id);
         
-        $permissions = $this->permission->distinct()->get()
+        $permissions = $this->permission->distinct()->orderBy('name')->get()
                                         ->groupBy( function($item) {
                                             list($role, $action) = explode("-", $item->name);
                                             return $role;
-                                            //return $item->created_at->format('Y-m-d');
                                         });
 
         $select = $this->permission->join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
@@ -193,7 +195,7 @@ class RolesController extends Controller
             try{
                 $roles = $this->role->findOrFail($id);
                 $roles->delete();
-                toast('Permissão Excluida com sucesso!','success');    
+                toast(trans('messages.del_suc_rule'),'success');
                 return redirect()->route('roles.index');
     
             } catch(\Exception $e) {
@@ -204,7 +206,7 @@ class RolesController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir a permissão!','error');
+                toast(trans('messages.del_err_rule'),'error');
                 return redirect()->back();
             }        
         endif;

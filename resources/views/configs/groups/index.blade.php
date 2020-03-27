@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('groups-create')
+                            @can( 'cfg_groups-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('groups.create') }}">
                         		    Cadastrar
                                 </a>
@@ -69,21 +69,21 @@
                                         <td></td>
                                         <td>
                                             <div style="float: right;" class="form-inline">
-                                            @can('groups-list')
+                                            @can( 'cfg_groups-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('groups.show',$group->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('groups-edit')
+                                                @can( 'cfg_groups-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('groups.edit',$group->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('groups-delete')
+                                                @can( 'cfg_groups-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('groups.destroy', 'del-'.$group->id) }}" method="POST">
                                                             @method('DELETE')

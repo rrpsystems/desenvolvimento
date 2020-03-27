@@ -121,10 +121,10 @@ class ByTrunksController extends Controller
                                         
                 foreach($ds as $d => $cs):
                     //imprime a data
-                    $line++;
-                    $this->bytrunk->SetFillColor(224, 224, 224);
-                    $this->bytrunk->Cell(60,19, utf8_decode($d), 0, 0, 'C', true);
-                    $this->bytrunk->Cell(725,19, utf8_decode(''), 0, 1, 'C', true);
+                    //$line++;
+                    //$this->bytrunk->SetFillColor(224, 224, 224);
+                    //$this->bytrunk->Cell(60,19, utf8_decode($d), 0, 0, 'C', true);
+                    //$this->bytrunk->Cell(725,19, utf8_decode(''), 0, 1, 'C', true);
                     $true = false;
                                     
                     foreach($cs as $c):
@@ -142,15 +142,15 @@ class ByTrunksController extends Controller
                         endif;
                         
                         //imprime as ligações
-                        $this->bytrunk->Cell(25,19, utf8_decode(''), 0, 0, 'C', $true);
+                        $this->bytrunk->Cell(70,19, utf8_decode(date('d/m/Y', strtotime($c->calldate))), 0, 0, 'C', $true);
                         $this->bytrunk->Cell(70,19, utf8_decode(date('H:i:s', strtotime($c->calldate))), 0, 0, 'C', $true);
                         $this->bytrunk->Cell(80,19, utf8_decode(rdirection($c->direction)), 0, 0, 'C', $true);
-                        $this->bytrunk->Cell(70,19, utf8_decode($c->extensions_id), 0, 0, 'C', $true);
-                        $this->bytrunk->Cell(130,19, utf8_decode( substr($c->dialnumber,0,16)), 0, 0, 'C', $true);
+                        //$this->bytrunk->Cell(70,19, utf8_decode($c->extensions_id), 0, 0, 'C', $true);
+                        $this->bytrunk->Cell(150,19, utf8_decode( substr($c->dialnumber,0,16)), 0, 0, 'C', $true);
                         $this->bytrunk->Cell(180,19, utf8_decode( substr($c->locale,0,22) ), 0, 0, 'C', $true);
                         $this->bytrunk->Cell(90,19, utf8_decode(rtype($c->cservice)), 0, 0, 'C', $true);
                         $this->bytrunk->Cell(70,19, utf8_decode(gmdate("H:i:s", $c->billsec)), 0, 0, 'C', $true);
-                        $this->bytrunk->Cell(70,19, utf8_decode(number_format($c->rate, 2, ',', '.')), 0, 1, 'C', $true);
+                        $this->bytrunk->Cell(75,19, utf8_decode(number_format($c->rate, 2, ',', '.')), 0, 1, 'C', $true);
                                             
                     endforeach;
                 endforeach;

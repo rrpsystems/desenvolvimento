@@ -53,7 +53,7 @@ class SectionsController extends Controller
         
         try{
             $section = $this->section->create($request->all());
-            toast('Seção Cadastrada com Sucesso !','success');
+            toast(trans('messages.cad_suc_section'),'success');
             return redirect()->route('sections.index');
 
         } catch(\Exception $e) {
@@ -64,7 +64,7 @@ class SectionsController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar cadastrar a seção !','error');
+            toast(trans('messages.cad_err_section'),'error');
             return redirect()->back();
         }
     }
@@ -101,7 +101,7 @@ class SectionsController extends Controller
 
         if(isset($section->id)):
             if($section->id != $id):
-                toast('Ocorreu um erro ao tentar atualizar a Seção !','error');
+                toast(trans('messages.edi_err_section'),'error');
                 $request->validate([
                     'section' => 'unique:sections,section,NULL,id,tenants_id,' . $request->tenants_id, 
                 ]);
@@ -114,7 +114,7 @@ class SectionsController extends Controller
         try{
             $section = $this->section->findOrFail($id);
             $section->update($request->all());
-            toast('Seção atualizada com sucesso !','success');
+            toast(trans('messages.edi_suc_section'),'success');
             return redirect()->route('sections.index');
 
         } catch(\Exception $e) {
@@ -125,7 +125,7 @@ class SectionsController extends Controller
             
             endif;
             
-            toast('Ocorreu um erro ao tentar atualizar a Seção !','error');
+            toast(trans('messages.edi_err_section'),'error');
             return redirect()->back();
         }
     }
@@ -145,7 +145,7 @@ class SectionsController extends Controller
             try{
                 $section  = $this->section->findOrFail($id);
                 $section->delete();
-                toast('Seção excluida com sucesso!','success');    
+                toast(trans('messages.del_suc_section'),'success');
                 return redirect()->route('sections.index');
     
             } catch(\Exception $e) {
@@ -156,7 +156,7 @@ class SectionsController extends Controller
                 
                 endif;
                 
-                toast('Ocorreu um erro ao tentar excluir a Seção !','error');
+                toast(trans('messages.del_err_section'),'error');
                 return redirect()->back();
             }        
         endif;

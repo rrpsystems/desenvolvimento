@@ -18,7 +18,7 @@
 
 <div class="d-flex justify-content-center">
     
-    <object data="{{asset($file)}}" type="application/pdf" width="100%" height="550">
+    <object data="{{asset($file)}}" type="application/pdf" width="100%" height="600">
         <a href="{{asset($file)}}">
             <button type="button" class="btn btn-primary">
                 Download

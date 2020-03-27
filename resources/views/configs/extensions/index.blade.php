@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="p-2 bd-highlight">
-                            @can('extensions-create')
+                            @can('cfg_extensions-create')
                                 <a class="btn btn-outline-success btn-sm" href="{{ route('extensions.create') }}">
                         		    Cadastrar
                                 </a>
@@ -77,21 +77,21 @@
                                         <td> {{ $extension->users_id }} </td>
                                         <td>
                                             <div class="form-inline">
-                                            @can('extension-list')
+                                            @can('cfg_extensions-list')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-info btn-xs" href="{{ route('extensions.show',$extension->id) }}">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('extension-edit')
+                                                @can('cfg_extensions-edit')
                                                     <div class="p-1">
                                                         <a class="btn btn-outline-warning btn-xs" href="{{ route('extensions.edit',$extension->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </div>
                                                 @endcan
-                                                @can('extension-delete')
+                                                @can('cfg_extensions-delete')
                                                     <div class="p-1">
                                                         <form action="{{ route('extensions.destroy', 'del-'.$extension->id) }}" method="POST">
                                                             @method('DELETE')

@@ -63,17 +63,18 @@ class ByExtension extends Fpdf
             $this->Cell(0, 1, "", "B", 1, 'C');
             $this->SetFont('arial', 'B', 11);
             $this->SetFillColor(160, 160, 160);
-            $this->Cell(5, 20, utf8_decode(''), 'T,B', 0, 'C', true);
+            //$this->Cell(5, 20, utf8_decode(''), 'T,B', 0, 'C', true);
             //$this->Cell(50, 20, utf8_decode(""), 'T,B', 0, 'C', true);
-            $this->Cell(70, 20, utf8_decode('Data / Hora'), 'T,B', 0, 'C', true);
+            $this->Cell(70, 20, utf8_decode('Data'), 'T,B', 0, 'C', true);
+            $this->Cell(70, 20, utf8_decode('Hora'), 'T,B', 0, 'C', true);
             $this->Cell(60, 20, utf8_decode("Direção"), 'T,B', 0, 'C', true);
             $this->Cell(50, 20, utf8_decode("Tronco"), 'T,B', 0, 'C', true);
-            $this->Cell(110, 20, utf8_decode("Numero discado"), 'T,B', 0, 'C', true);
-            $this->Cell(160, 20, utf8_decode("Localidade"), 'T,B', 0, 'C', true);
-            $this->Cell(160, 20, utf8_decode("Agenda"), 'T,B', 0, 'C', true);
-            $this->Cell(70, 20, utf8_decode("Serviço"), 'T,B', 0, 'C', true);
+            $this->Cell(120, 20, utf8_decode("Numero discado"), 'T,B', 0, 'C', true);
+            $this->Cell(155, 20, utf8_decode("Localidade"), 'T,B', 0, 'C', true);
+            $this->Cell(155, 20, utf8_decode("Agenda"), 'T,B', 0, 'C', true);
+            //$this->Cell(70, 20, utf8_decode("Serviço"), 'T,B', 0, 'C', true);
             $this->Cell(50, 20, utf8_decode("Duração"), 'T,B', 0, 'C', true);
-            $this->Cell(50, 20, utf8_decode("Valor"), 'T,B', 1, 'C', true);
+            $this->Cell(55, 20, utf8_decode("Valor"), 'T,B', 1, 'C', true);
             $this->SetFont('arial', '', 10);
         endif;
     }
