@@ -256,7 +256,7 @@ else
   distro="unsupported"
 fi
 
-echo "
+echo '
        
   ____                          _______          _                                   
  |  _ \                        |__   __|        | |                                  
@@ -266,8 +266,7 @@ echo "
  |____/   \___| |_| |_|  \___|    |_|     \___| |_|  \___|  \___|  \___/  |_| |_| |_|
                                                                                      
                                                                                      
-"
-
+'
 echo ""
 echo "  Instalador do Tarifador BeneTelecom para o CentOS!"
 echo ""
@@ -432,7 +431,7 @@ echo ""
 echo ""
 echo "*  Limpando a Tela..."
 echo "* Finalizado!"
-echo "
+echo '
 
  ________                      __   ______                   __                     
 |        \                    |  \ /      \                 |  \                    
@@ -445,6 +444,5 @@ echo "
     \##     \####### \##       \## \##        \#######  \#######  \######  \##      
                                                                                     
                                                                                     
-                                                                                  
-"
+'                                                                                  
 sleep 1
