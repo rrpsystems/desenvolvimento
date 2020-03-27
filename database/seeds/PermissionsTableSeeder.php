@@ -117,7 +117,7 @@ class PermissionsTableSeeder extends Seeder
         //Role::create(['name' => 'Root']);
         Role::create(['name' => 'Master']);
         Role::create(['name' => 'Admin']);
-        Role::create(['name' => 'Usuario']);
+        Role::create(['name' => 'User']);
         
         $role = Role::findByName('Admin');
         $role->givePermissionTo($permissions);
