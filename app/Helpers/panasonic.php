@@ -28,7 +28,7 @@ function panasonic_tda_tde_ns($file,$name){
         $ring            = strtotime($ring?'00:0'.$ring:'00:00:00') - strtotime('00:00:00');
         $billsec         = strtotime($billsec?$billsec:'00:00:00') - strtotime('00:00:00');
         $status_id       = 0;
-        
+        $continue        = false;
         switch(trim(substr($cdr,28,3))):
 
             case 'EXT':
@@ -59,9 +59,15 @@ function panasonic_tda_tde_ns($file,$name){
                     $callnumber = dialOc($dialnumber, $trunks_id, $pbx);
                     $direction = 'OC';
                 else:
-                    continue;
+                    $continue = true;
                 endif;
+            break;
         endswitch;
+
+            if($continue):
+                continue;
+            endif;
+            $continue = false;
     
         if($lg==1):
             $log = App\Models\Agent::updateOrCreate(

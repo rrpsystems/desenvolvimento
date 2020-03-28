@@ -111,24 +111,52 @@ class PermissionsTableSeeder extends Seeder
          ];
  
          foreach ($permissions as $permission):
-            Permission::create(['name' => $permission]);
+            Permission::updateOrCreate([
+                'name' => $permission
+            ],
+            [
+                'name' => $permission
+            ]);
         endforeach;
 
-        //Role::create(['name' => 'Root']);
-        Role::create(['name' => 'Master']);
-        Role::create(['name' => 'Admin']);
-        Role::create(['name' => 'User']);
+        Role::updateOrCreate([
+                'name' => 'Master'
+            ],
+            [
+                'name' => 'Master'
+            ]);
+        
+        Role::updateOrCreate([
+                'name' => 'Admin'
+            ],
+            [
+                'name' => 'Admin'
+            ]);
+        
+        Role::updateOrCreate([
+                'name' => 'User'
+            ],
+            [
+                'name' => 'User'
+            ]);
+        
         
         $role = Role::findByName('Admin');
         $role->givePermissionTo($permissions);
         
-        $root = User::find(1);
-        $root->assignRole('Master');
+        $master = User::where('email','master@tarifador.com')->first();
+        if($master):
+            $master->assignRole('Master');
+        endif;
         
-        $admin = User::find(2);
-        $admin->assignRole('Admin');
+        $admin = User::where('email','admin@tarifador.com')->first();
+        if($admin):
+            $admin->assignRole('Admin');
+        endif;
         
-        $user = User::find(3);
-        $user->assignRole('User');
+        $user = User::where('email','user@tarifador.com')->first();
+        if($user):
+            $user->assignRole('User');
+        endif;
     }
 }
