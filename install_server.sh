@@ -330,8 +330,8 @@ case $distro in
     echo "* Adicionando, epel-release, PHP and PostgreSql repositorios."
     log "yum -y install wget epel-release"
     log "yum -y install yum-utils"
-    log "yum-config-manager --enable remi-php73"
     log "rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+    log "yum-config-manager --enable remi-php73"
     log "yum -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
     
     echo "* Instalando Apache httpd, PHP, Postgres1 e outras dependencias."
