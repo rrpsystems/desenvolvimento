@@ -13,7 +13,7 @@ class SmpPrefixesTableSeeder extends Seeder
     public function run()
     {
         $i=0;
-        $smp = fopen('database/seeds/CodesSMP.txt', "r");
+        $smp = fopen(base_path().'/database/seeds/CodesSMP.txt', "r");
         while ($arrayLine = fgetcsv($smp, 1000, ";")):
             
             if(!isset($arrayLine[3])):
@@ -36,8 +36,7 @@ class SmpPrefixesTableSeeder extends Seeder
                     'service'       => "SMP", 
                 ]
             );
-            $i++;
-            echo "55$areacode$prefix => linha $i\n";
+           
             unset($carrier, $cnpj, $areacode, $prefix, $fi, $ff, $st);            
         endwhile;
 
