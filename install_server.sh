@@ -355,6 +355,8 @@ case $distro in
 	sed -i "s|^\\(local   all             all                                     \\).*|\\1md5|" "/var/lib/pgsql/11/data/pg_hba.conf"
 	sed -i "s|^\\(host    all             all             127.0.0.1/32            \\).*|\\1md5|" "/var/lib/pgsql/11/data/pg_hba.conf"
 	sed -i "s|^\\(host    all             all             ::1/128                 \\).*|\\1md5|" "/var/lib/pgsql/11/data/pg_hba.conf"
+    
+    log "systemctl restart postgresql-11"
 
     install_tarifador
 
