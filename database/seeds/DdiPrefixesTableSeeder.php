@@ -7,7 +7,7 @@ class DdiPrefixesTableSeeder extends Seeder
 {
     public function run()
     {
-        $ddi = fopen("database/seeds/CodesDDI.txt", "r");
+        $ddi = fopen(base_path().'/database/seeds/CodesDDI.txt', "r");
                 $i=0;
                 while ($arrayLine = fgetcsv($ddi, 1000, ";")):
                     //dd($arrayLine);
