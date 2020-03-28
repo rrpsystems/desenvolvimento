@@ -328,6 +328,8 @@ case $distro in
     tzone=$(timedatectl | gawk -F'[: ]' ' $9 ~ /zone/ {print $11}');
 
     echo "* Adicionando, epel-release, PHP and PostgreSql repositorios."
+    log "yum update"
+	log "yum groupinstall 'Development Tools'"
     log "yum -y install wget epel-release"
     log "yum -y install yum-utils"
     log "rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
