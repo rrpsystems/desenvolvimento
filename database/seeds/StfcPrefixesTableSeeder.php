@@ -12,7 +12,7 @@ class StfcPrefixesTableSeeder extends Seeder
      */
     public function run()
     {
-        $stfc = fopen("database/seeds/CodesSTFC.txt", "r");
+        $stfc = fopen(base_path().'/database/seeds/CodesSTFC.txt', "r");
                 $i=0;
                 while ($arrayLine = fgetcsv($stfc, 1000, ";")):
                     
@@ -36,8 +36,7 @@ class StfcPrefixesTableSeeder extends Seeder
                             'service'     => "STFC", 
                         ]
                     );
-                    $i++;
-                    echo "55$areacode$prefix => linha $i\n";
+
                     unset($carrier,$cnpj,$areacode,$prefix,$fi,$ff,$cc,$locale,$city,$cl,$st);            
                 endwhile;
            
