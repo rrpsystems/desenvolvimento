@@ -12,7 +12,7 @@ class SmePrefixesTableSeeder extends Seeder
      */
     public function run()
     {
-        $sme = fopen('database/seeds/CodesSME.txt', "r");
+        $sme = fopen(base_path().'/database/seeds/CodesSME.txt', "r");
         
         while ($arrayLine = fgetcsv($sme, 1000, ";")):
             
