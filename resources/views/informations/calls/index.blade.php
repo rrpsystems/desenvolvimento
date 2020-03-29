@@ -55,6 +55,7 @@
                                     <th>Data</th>
                                     <th>Hora</th>
                                     <th>PBX</th>
+                                    <th>Flags</th>
                                     <th>Direção</th>
                                     <th>Ramal</th>
                                     <th>Tronco</th>
@@ -77,6 +78,7 @@
                                         <td> {{ date('d/m/Y', strtotime($call->calldate)) }} </td>
                                         <td> {{ date('H:i:s', strtotime($call->calldate)) }} </td>
                                         <td> {{ $call->pbx }} </td>
+                                        <td> @lang("calls.$call->disposition")</td>
                                         <td> @lang("calls.$call->direction")</td>
                                         <td> {{ $call->extensions_id }} </td>
                                         <td> {{ $call->trunks_id }} </td>

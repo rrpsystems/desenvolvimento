@@ -10,7 +10,7 @@ class DdiPrefixesTableSeeder extends Seeder
         $ddi = fopen(base_path().'/database/seeds/CodesDDI.txt', "r");
                 $i=0;
                 while ($arrayLine = fgetcsv($ddi, 1000, ";")):
-                    //dd($arrayLine);
+                    
                     if(!isset($arrayLine[1])):
                         continue;
                     endif;
@@ -29,8 +29,7 @@ class DdiPrefixesTableSeeder extends Seeder
                             'service'     => "DDI", 
                         ]
                     );
-                    $i++;
-                    echo "$prefix => linha $i\n";
+                    
                     unset($prefix,$locale);            
                 endwhile;
     }

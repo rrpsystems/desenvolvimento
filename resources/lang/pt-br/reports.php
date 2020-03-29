@@ -18,6 +18,10 @@ return [
     'd_acccode'         => 'Relatório Detalhado Por Codigos de Conta',
     'c_acccode'         => 'Relatório Resumido Por Codigos de Conta',
     
+    //reports By Phone Books
+    'd_pbook'         => 'Relatório Detalhado Por Agenda Telefonica',
+    'c_pbook'         => 'Relatório Resumido Por Agenda Telefonica',
+    
     
     //messages reports general
     'resume'          => 'Resumo',

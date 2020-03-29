@@ -66,8 +66,8 @@ function panasonic_tda_tde_ns($file,$name){
 
             if($continue):
                 continue;
+                $continue = false;
             endif;
-            $continue = false;
     
         if($lg==1):
             $log = App\Models\Agent::updateOrCreate(

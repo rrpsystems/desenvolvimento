@@ -3,7 +3,7 @@
 @section('title', 'AdminLTE')
 
 @section('content_header')
-    <h1 class="m-0" style="color:blue">Kauã</h1>
+    <h1 class="m-0" style="color:blue">Bem Vindo ao Sistema de Tarifação Telefonica!</h1>
 @stop
 
 @section('content')

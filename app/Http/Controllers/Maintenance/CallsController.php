@@ -36,7 +36,7 @@ class CallsController extends Controller
                                 ->where('dialnumber','like', '%'.$search.'%')
                                 ->orderBy('calldate', 'DESC')
                                 ->paginate(50);
-        
+                    
         else:    
             $calls = $this->call->select('calls.id AS cid',(DB::raw(
                 "(SELECT phonename FROM phonebooks WHERE callnumber LIKE CONCAT(phonenumber,'%') ORDER BY length(phonenumber) DESC LIMIT 1) AS phonename "
@@ -50,33 +50,5 @@ class CallsController extends Controller
         return view('informations.calls.index', compact('calls','search'));
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
-    }
+    
 }

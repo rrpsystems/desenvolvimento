@@ -42,7 +42,7 @@ return [
     'Trunks'                        => 'Troncos',
     'Groups'                        => 'Grupos',
     'Tenants'                       => 'Empresas',
-    'Sections'                      => 'Sessões',
+    'Sections'                      => 'Seções',
     'Departaments'                  => 'Departamentos',
     'Extensions'                    => 'Ramais',
     'Accountcodes'                  => 'Codigos de Conta',

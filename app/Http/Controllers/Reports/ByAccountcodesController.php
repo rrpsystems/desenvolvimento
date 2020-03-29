@@ -35,17 +35,26 @@ class ByAccountcodesController extends Controller
         
         $extenUser = $this->accountcode->where('users_id',$authUser)->first();
         
+            if(auth()->user()->hasRole('Master')):
+                $accountcodes = $this->accountcode->get()->groupBy('pbxes_id');
+                goto finish;
+            endif;
 
-        switch(true):
-            case auth()->user()->can('rep_bygroups-list'):
+            if(!$extenUser):
+                $accountcodes = [];
+                goto finish;
+            endif;
+
+            if(auth()->user()->can('rep_bygroups-list')):
                 if($extenUser->groups_id):
                     $accountcodes = $this->accountcode->where('groups_id', $extenUser->groups_id )
                                                         ->where('groups_id','<>','')
                                                         ->get()->groupBy('pbxes_id');       
-                    break;
+                    goto finish;
                 endif;
+            endif;
 
-            case auth()->user()->can('rep_bytenants-list'):
+            if(auth()->user()->can('rep_bytenants-list')):
                 $sect = $this->tenant->join('sections', 'tenants_id', 'tenant')
                                     ->join('departaments', 'section','=','sections_id')
                                     ->where('departament','=',$extenUser->departaments_id)
@@ -58,14 +67,15 @@ class ByAccountcodesController extends Controller
                                             ->join('departaments', 'section','=','sections_id')
                                             ->join('accountcodes', 'departaments_id', 'departament')
                                             ->where('tenant', $sect->tenant)
+                                            ->where('departaments_id','<>','')
                                             ->get()
-                                            ->groupBy('section');
+                                            ->groupBy('departaments_id');
                                             
-                    break;
+                    goto finish;
                 endif;
+            endif;
 
-            case auth()->user()->can('rep_bysections-list'):
-                
+            if(auth()->user()->can('rep_bysections-list')):    
                 $dpto = $this->section->join('departaments', 'section','=','sections_id')
                                   ->where('departament','=',$extenUser->departaments_id)
                                   ->where('departament','<>','')
@@ -75,28 +85,32 @@ class ByAccountcodesController extends Controller
                     $accountcodes =  $this->section->join('departaments', 'section','=','sections_id')
                                             ->join('accountcodes', 'departaments_id', 'departament')
                                             ->where('section', $dpto->section)
+                                            ->where('departaments_id','<>','')
                                             ->get()
                                             ->groupBy('departaments_id');
 
-                    break;
+                    goto finish;
                 endif;
+            endif;
             
-            case auth()->user()->can('rep_bydepartaments-list'):
+            if(auth()->user()->can('rep_bydepartaments-list')):
                 if($extenUser->departaments_id):
                     $accountcodes = $this->accountcode
                                         ->where('departaments_id', $extenUser->departaments_id)
-                                        ->where('departament','<>','')
-                                        ->get()->groupBy('pbxes_id');
-                    break;
+                                        ->where('departaments_id','<>','')
+                                        ->get()->groupBy('departaments_id');
+                    goto finish;
                 endif;
-            case auth()->user()->can('rep_byaccountcodes-list'):
+            endif;
+            
+            if(auth()->user()->can('rep_byaccountcodes-list')):
                 $accountcodes = $this->accountcode->where('users_id', $authUser)->get()->groupBy('pbxes_id');
-                break;
-        
-            default:
+                goto finish;
+            endif;
+            
                 $accountcodes = [];    
-        endswitch;
-
+        
+        finish:
         
         return view('reports.byaccountcodes.index', compact('accountcodes'));
     }
@@ -104,8 +118,7 @@ class ByAccountcodesController extends Controller
    
     public function store(Request $request)
     {
-        //dd($request->all());
-        //dd($request->input('report'));
+        
         $start_datetime = $request->input('start_date').' '.$request->input('start_time');
         $end_datetime   = $request->input('end_date').' '.$request->input('end_time');
         $accountcodes = $request->input('accountcodes');
@@ -115,7 +128,6 @@ class ByAccountcodesController extends Controller
         $types[]='INT';
         $report=implode(",", $request->input('report'));
 
-        //dd($report);
         $request->merge([
             'start_date' => $start_datetime,
             'end_date'   => $end_datetime,

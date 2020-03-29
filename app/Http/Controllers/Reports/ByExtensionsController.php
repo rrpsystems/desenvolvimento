@@ -33,65 +33,80 @@ class ByExtensionsController extends Controller
         $authUser = auth()->user()->email;
         
         $extenUser = $this->extension->where('users_id',$authUser)->first();
-        dd(auth()->user()->hasRole('Root'));
-        switch(true):
-            case auth()->user()->can('rep_bygroups-list'):
-                if($extenUser->groups_id):
-                    $extensions = $this->extension
-                                            ->where('groups_id', $extenUser->groups_id )
-                                            ->where('groups_id', '<>','')
-                                            ->get()->groupBy('pbxes_id');
-                    break;
-                endif;
+        
+        if(auth()->user()->hasRole('Master')):
+            $extensions = $this->extension->get()->groupBy('pbxes_id');
+            goto finish;
+        endif;
 
-            case auth()->user()->can('rep_bytenants-list'):
-                $sect = $this->tenant->join('sections', 'tenants_id', 'tenant')
-                                    ->join('departaments', 'section','=','sections_id')
-                                    ->where('departament','=',$extenUser->departaments_id)
-                                    ->where('departament','<>','')
-                                    ->first(); 
-                if($sect):
-                    $extensions =  $this->tenant->join('sections', 'tenants_id', 'tenant')
-                                                ->join('departaments', 'section','=','sections_id')
-                                                ->join('extensions', 'departaments_id', 'departament')
-                                                ->where('tenant', $sect->tenant)
-                                                ->get()
-                                            ->groupBy('section');
-                    break;
-                endif;
+        if(!$extenUser):
+            $extensions = [];
+            goto finish;
+        endif;
 
-            case auth()->user()->can('rep_bysections-list'):
-                $dpto = $this->section->join('departaments', 'section','=','sections_id')
-                                      ->where('departament','=',$extenUser->departaments_id)
-                                      ->where('departament','<>','')
-                                      ->first(); 
-                if($dpto):
-                    $extensions =  $this->section->join('departaments', 'section','=','sections_id')
+        if(auth()->user()->can('rep_bygroups-list')):
+            if($extenUser->groups_id):
+                $extensions = $this->extension
+                                        ->where('groups_id', $extenUser->groups_id )
+                                        ->where('groups_id', '<>','')
+                                        ->get()->groupBy('pbxes_id');
+                goto finish;
+            endif;
+        endif;
+
+        if(auth()->user()->can('rep_bytenants-list')):
+            $sect = $this->tenant->join('sections', 'tenants_id', 'tenant')
+                                ->join('departaments', 'section','=','sections_id')
+                                ->where('departament','=',$extenUser->departaments_id)
+                                ->where('departament','<>','')
+                                ->first(); 
+            if($sect):
+                $extensions =  $this->tenant->join('sections', 'tenants_id', 'tenant')
+                                            ->join('departaments', 'section','=','sections_id')
                                             ->join('extensions', 'departaments_id', 'departament')
-                                            ->where('section', $dpto->section)
+                                            ->where('tenant', $sect->tenant)
+                                            ->where('departaments_id','<>','')
                                             ->get()
                                             ->groupBy('departaments_id');
-                    break;
-                endif;
+                goto finish;
+            endif;
+        endif;
+
+        if(auth()->user()->can('rep_bysections-list')):
+            $dpto = $this->section->join('departaments', 'section','=','sections_id')
+                                  ->where('departament','=',$extenUser->departaments_id)
+                                  ->where('departament','<>','')
+                                  ->first(); 
+            if($dpto):
+                $extensions =  $this->section->join('departaments', 'section','=','sections_id')
+                                        ->join('extensions', 'departaments_id', 'departament')
+                                        ->where('section', $dpto->section)
+                                        ->where('departaments_id','<>','')
+                                        ->get()
+                                        ->groupBy('departaments_id');
+                goto finish;
+            endif;
+        endif;
                 
-            case auth()->user()->can('rep_bydepartaments-list'):
-                if($extenUser->departaments_id):
-                    $extensions = $this->extension
-                                        ->where('departaments_id', $extenUser->departaments_id)
-                                        ->where('departament','<>','')
-                                        ->get()->groupBy('pbxes_id');
-                    break;
-                endif;
+        if(auth()->user()->can('rep_bydepartaments-list')):
+            if($extenUser->departaments_id):
+                $extensions = $this->extension
+                                    ->where('departaments_id', $extenUser->departaments_id)
+                                    ->where('departaments_id','<>','')
+                                    ->get()->groupBy('pbxes_id');
+                goto finish;
+            endif;
+        endif;
                 
-            case auth()->user()->can('rep_byextensions-list'):
-                $extensions = $this->extension->where('users_id', $authUser)->get()->groupBy('pbxes_id');
-                break;
+        if(auth()->user()->can('rep_byextensions-list')):
+            $extensions = $this->extension->where('users_id', $authUser)->get()->groupBy('pbxes_id');
+            goto finish;
+        endif;
             
-            default:
-                $extensions = [];
+        $extensions = [];
 
-        endswitch;
-
+        finish:
+        
         return view('reports.byextensions.index', compact('extensions'));
     }
 
