@@ -53,10 +53,10 @@ class ByPhonebook extends Fpdf
             $this->SetFillColor(160, 160, 160);
             $this->Cell(60, 20, utf8_decode('Data'), 'T,B', 0, 'C', true);
             $this->Cell(60, 20, utf8_decode('Hora'), 'T,B', 0, 'C', true);
-            $this->Cell(50, 20, utf8_decode("Ramal"), 'T,B', 0, 'C', true);
-            $this->Cell(145, 20, utf8_decode("Usuario"), 'T,B', 0, 'C', true);
-            $this->Cell(55, 20, utf8_decode("Direção"), 'T,B', 0, 'C', true);
-            $this->Cell(50, 20, utf8_decode("Tronco"), 'T,B', 0, 'C', true);
+            $this->Cell(60, 20, utf8_decode("Ramal"), 'T,B', 0, 'C', true);
+            $this->Cell(120, 20, utf8_decode("Usuario"), 'T,B', 0, 'C', true);
+            $this->Cell(65, 20, utf8_decode("Direção"), 'T,B', 0, 'C', true);
+            $this->Cell(60, 20, utf8_decode("Tronco"), 'T,B', 0, 'C', true);
             $this->Cell(120, 20, utf8_decode("Numero discado"), 'T,B', 0, 'C', true);
             $this->Cell(150, 20, utf8_decode("Localidade"), 'T,B', 0, 'C', true);
             $this->Cell(45, 20, utf8_decode("Duração"), 'T,B', 0, 'C', true);

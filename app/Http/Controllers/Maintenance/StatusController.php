@@ -90,9 +90,11 @@ class StatusController extends Controller
             case 'trunks':
                 
                 $trunks = $this->call->distinct('trunks_id')
+                                        ->leftJoin('trunks','trunks_id','=','trunk')
                                         ->where('status_id','92')
+                                        ->whereNull('trunk')
                                         ->get();
-               
+                                        
                 return view('maintenances.status.trunks', compact('trunks'));
                 break;
             

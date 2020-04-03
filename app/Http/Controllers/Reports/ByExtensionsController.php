@@ -207,13 +207,7 @@ class ByExtensionsController extends Controller
                 
                 foreach($ds as $d => $cs):
                     //imprime a data
-                    $line++;
-                    //if($report == 'detail'):
-                    //    $this->byextension->SetFillColor(224, 224, 224);
-                    //    $this->byextension->Cell(60,19, utf8_decode($d), 0, 0, 'C', true);
-                    //    $this->byextension->Cell(725,19, utf8_decode(''), 0, 1, 'C', true);
-                    //endif;                
-                        $true = false;
+                    $true = false;
 
                     foreach($cs as $c):
                         $lines++;
@@ -238,7 +232,6 @@ class ByExtensionsController extends Controller
                             $this->byextension->Cell(120,19, utf8_decode( substr($c->dialnumber,0,16)), 0, 0, 'C', $true);
                             $this->byextension->Cell(155,19, utf8_decode( substr($c->locale,0,22) ), 0, 0, 'C', $true);
                             $this->byextension->Cell(155,19, utf8_decode( substr($c->phonename,0,22) ), 0, 0, 'C', $true);
-                            //$this->byextension->Cell(70,19,  utf8_decode( trans('reports.'.$c->cservice) ), 0, 0, 'C', $true);
                             $this->byextension->Cell(50,19,  utf8_decode( gmdate("H:i:s", $c->billsec) ), 0, 0, 'C', $true);
                             $this->byextension->Cell(55,19,  utf8_decode( number_format( $c->rate, 2, ',', '.') ), 0, 1, 'C', $true);
                         endif;                

@@ -171,10 +171,10 @@ class ByPhonebooksController extends Controller
                             
                             $this->byphonebook->Cell(60,19,  utf8_decode( ($c->accountcodes_id ? '* ' : '  ').date('d/m/Y', strtotime($c->calldate) ) ), 0, 0, 'C', $true);
                             $this->byphonebook->Cell(60,19,  utf8_decode( date('H:i:s', strtotime($c->calldate) )), 0, 0, 'C', $true);
-                            $this->byphonebook->Cell(50,19,  utf8_decode( $c->extensions_id), 0, 0, 'C', $true);
-                            $this->byphonebook->Cell(145,19, utf8_decode( substr(($c->accountcodes_id ? $c->aname : $c->ename),0,22) ), 0, 0, 'C', $true);
-                            $this->byphonebook->Cell(55,19,  utf8_decode( trans('reports.'.$c->direction) ), 0, 0, 'C', $true);
-                            $this->byphonebook->Cell(50,19,  utf8_decode( $c->trunks_id), 0, 0, 'C', $true);
+                            $this->byphonebook->Cell(60,19,  utf8_decode( $c->extensions_id), 0, 0, 'C', $true);
+                            $this->byphonebook->Cell(120,19, utf8_decode( substr(($c->accountcodes_id ? $c->aname : $c->ename),0,22) ), 0, 0, 'C', $true);
+                            $this->byphonebook->Cell(65,19,  utf8_decode( trans('reports.'.$c->direction) ), 0, 0, 'C', $true);
+                            $this->byphonebook->Cell(60,19,  utf8_decode( $c->trunks_id), 0, 0, 'C', $true);
                             $this->byphonebook->Cell(120,19, utf8_decode( substr($c->dialnumber,0,16)), 0, 0, 'C', $true);
                             $this->byphonebook->Cell(150,19, utf8_decode( substr($c->locale,0,22) ), 0, 0, 'C', $true);
                             $this->byphonebook->Cell(45,19,  utf8_decode( gmdate("H:i:s", $c->billsec) ), 0, 0, 'C', $true);

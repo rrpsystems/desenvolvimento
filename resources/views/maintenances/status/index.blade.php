@@ -183,8 +183,8 @@
                                     <i class="far fa-thumbs-up"></i>
                                 </span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">
-                                        Troncos Cadastrados
+                                    <span class="info-box-text" style="padding-right:25px;">
+                                        Troncos Cad.
                                     </span>
                                     <span class="info-box-number">
                                        {{ number_format($trunks->Cadastrados,0,'','.') }}
@@ -207,7 +207,7 @@
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">
-                                            Troncos Não Cadastrados
+                                            Troncos Não Cad.
                                         </span>
                                         <span class="info-box-number">
                                             {{ number_format($trunks->NCadastrados,0,'','.') }}
@@ -236,8 +236,8 @@
                                     <i class="far fa-thumbs-up"></i>
                                 </span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">
-                                        Ramais Cadastrados
+                                    <span class="info-box-text" style="padding-right:25px;">
+                                        Ramais Cad.
                                     </span>
                                     <span class="info-box-number">
                                         {{ number_format($extensions->Cadastrados,0,'','.') }}
@@ -260,7 +260,7 @@
                                     </span>                                                
                                     <div class="info-box-content">
                                         <span class="info-box-text">
-                                            Ramais Não Cadastrados
+                                            Ramais Não Cad.
                                         </span>
                                         <span class="info-box-number">
                                             {{ number_format($extensions->NCadastrados,0,'','.') }}
@@ -282,8 +282,8 @@
                                     <i class="far fa-thumbs-up"></i>
                                 </span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">
-                                        Codigos Conta Cadastrados
+                                    <span class="info-box-text" style="padding-right:25px;">
+                                        Cod. Conta Cad.
                                     </span>
                                     <span class="info-box-number">
                                        {{ number_format($accountcodes->Cadastrados,0,'','.') }}
@@ -306,7 +306,7 @@
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">
-                                            Codigos Conta Não Cadastrados
+                                            Cod. Conta Não Cad.
                                         </span>
                                         <span class="info-box-number">
                                             {{ number_format($accountcodes->NCadastrados,0,'','.') }}

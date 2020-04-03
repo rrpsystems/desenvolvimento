@@ -212,13 +212,7 @@ class ByAccountcodesController extends Controller
                 foreach($ds as $d => $cs):
                     //imprime a data
                 
-                //    $line++;
-                //    if($report == 'detail'):
-                //        $this->byaccountcode->SetFillColor(224, 224, 224);
-                //        $this->byaccountcode->Cell(60,19, utf8_decode($d), 0, 0, 'C', true);
-                //        $this->byaccountcode->Cell(725,19, utf8_decode(''), 0, 1, 'C', true);
-                //    endif;                
-                        $true = false;
+                    $true = false;
 
                     foreach($cs as $c):
                         $lines++;

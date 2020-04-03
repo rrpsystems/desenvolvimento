@@ -10,6 +10,26 @@ return [
     'rebilling_calls' => 'As Ligações Foram Remarcadas Para a Tarifação !',
 
     
+    //reports By PBX
+    'd_pbx'         => 'Relatório Detalhado Por PBX',
+    'c_pbx'         => 'Relatório Resumido Por PBX',
+    
+    //reports By Groups
+    'd_group'         => 'Relatório Detalhado Por Grupos',
+    'c_group'         => 'Relatório Resumido Por Grupos',
+    
+    //reports By Tenants
+    'd_tenant'         => 'Relatório Detalhado Por Empresas',
+    'c_tenant'         => 'Relatório Resumido Por Empresas',
+    
+    //reports By Setions
+    'd_section'         => 'Relatório Detalhado Por Seções',
+    'c_section'         => 'Relatório Resumido Por Seções',
+    
+    //reports By Departaments
+    'd_departament'         => 'Relatório Detalhado Por Departamentos',
+    'c_departament'         => 'Relatório Resumido Por Departamentos',
+    
     //reports By Extensions
     'd_exten'         => 'Relatório Detalhado Por Ramais',
     'c_exten'         => 'Relatório Resumido Por Ramais',
