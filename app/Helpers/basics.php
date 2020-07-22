@@ -122,6 +122,7 @@
             'Panasonic_TDA_TDE_NS' => 'Panasonic_TDA_TDE_NS',
             'Intelbras_Impacta'    => 'Intelbras_Impacta',
             'Siemens_HP3000'       => 'Siemens_HP3000',
+            'Unify_OS4000'         => 'Unify_OS4000',
 
         ];
         
