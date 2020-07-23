@@ -215,7 +215,7 @@ install_tarifador () {
   log "php $APP_PATH/artisan migrate --force"
 
   echo "* Populando as Tabelas Seed."
-  log "php $APP_PATH/artisan seed --force"
+  log "php $APP_PATH/artisan db:seed --force"
 
   echo "* Criando agendamento no cron."
   (crontab -l ; echo "* * * * * /usr/bin/php $APP_PATH/artisan schedule:run >> /dev/null 2>&1") | crontab -
