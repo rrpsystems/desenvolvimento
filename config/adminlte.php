@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'BeneTelecom',
+    'title' => 'RRP Systems',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'logo' => '<b>Bene</b>Telecom',
+    'logo' => '<b>RRP</b>Systems',
     'logo_img' => 'vendor/adminlte/dist/img/logo.png',
     'logo_img_class' => 'brand-image-xl',
     'logo_img_xl' => null,
