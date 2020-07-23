@@ -8,10 +8,10 @@
 #/   -h | --help       Show this message.
 
 ######################################################
-#           Tarifador Install Script                 #
+#        Instalação Tarifador RRP Systems            #
 #      Script Adaptado por Rafael Benedicto          #
-#              rafhaeu@gmail.com                     #
-#                                                    #
+#           rafael@rrpsystems.com.br                 #
+#                +551321912121                       #
 #          Script created by Mike Tucker             #
 #            mtucker6784@gmail.com                   #
 #                                                    #
@@ -32,7 +32,7 @@ while true; do
       shift
       ;;
     -*)
-      echo "Error: invalid argument: '$1'" 1>&2
+      echo "Erro: argumento invalido: '$1'" 1>&2
       exit 1
       ;;
     *)
@@ -67,7 +67,7 @@ fi
 
 clear
 
-readonly APP_USER="benetelecom"
+readonly APP_USER="rrpsystems"
 readonly APP_NAME="tarifador"
 readonly APP_PATH="/var/www/$APP_NAME"
 
@@ -98,21 +98,21 @@ log () {
 install_packages () {
   case $distro in
     ubuntu|debian)
-		echo " Script not suport this distro"
+		echo " Script não suportado para esse sistema operacional "
 		exit 1;
         ;;
     centos)
       for p in $PACKAGES; do
         if yum list installed "$p" >/dev/null 2>&1; then
-          echo "  * $p already installed"
+          echo "  * $p já está instalado "
         else
-          echo "  * Installing $p"
-          log "yum -y install $p"
+          echo "  * Instalando $p "
+          log "yum -y install $p "
         fi
       done;
       ;;
     fedora)
-        echo " Script not suport this distro"
+        echo " Script não suportado para esse sistema operacional "
 		exit 1;
 		;;
   esac
@@ -130,11 +130,11 @@ create_virtualhost () {
     echo "  DocumentRoot $APP_PATH/public"
     echo "  ServerName $fqdn"
     echo "</VirtualHost>"
-  } >> "$apachefile"
+  } > "$apachefile"
 }
 
 create_user () {
-  echo "* Creating tarifador user."
+  echo "* Criando Usuario do tarifador."
 
     adduser "$APP_USER"
 	usermod -a -G "$apache_group" "$APP_USER"
@@ -156,7 +156,7 @@ install_composer () {
 
   if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]
   then
-      >&2 echo 'ERROR: Invalid composer installer signature'
+      >&2 echo 'ERRO: Assinatura do instalador do composer invalida'
       run_as_app_user rm composer-setup.php
       exit 1
   fi
@@ -170,60 +170,60 @@ install_composer () {
 install_tarifador () {
   create_user
 
-  echo "* Creating PostgreSql Database/User."
-  echo "* Please Input your Postgresql root password:"
+  echo "* Criando  Banco de dados e Usuario PostgreSql."
+  echo "* Por favor Digite sua senha de root do Postgresql: "
   echo 'create database billing;' | runuser -l postgres -c "psql"
-  echo 'create user benetelecom;' | runuser -l postgres -c "psql"
-  echo "ALTER USER benetelecom WITH ENCRYPTED password 'b1ll1ng';" | runuser -l postgres -c "psql"
-  echo "GRANT ALL PRIVILEGES ON DATABASE billing TO benetelecom;" | runuser -l postgres -c "psql"
+  echo 'create user rrpsystems;' | runuser -l postgres -c "psql"
+  echo "ALTER USER rrpsystems WITH ENCRYPTED password 'b1ll1ng';" | runuser -l postgres -c "psql"
+  echo "GRANT ALL PRIVILEGES ON DATABASE billing TO rrpsystems;" | runuser -l postgres -c "psql"
   
-  echo "* Cloning tarifador from github to the web directory."
-  log "git clone https://github.com/benetelecom/desenvolvimento.git $APP_PATH"
+  echo "* Clonando tarifador do diretorio do Github."
+  log "git clone https://github.com/rrpsystems/tarifador.git $APP_PATH"
 
-  echo "* Configuring .env file."
+  echo "* Configurando arquivo .env"
   cp "$APP_PATH/.env.example" "$APP_PATH/.env"
 
   #TODO escape SED delimiter in variables
-  sed -i '1 i\#Created By BeneTelecom Installer' "$APP_PATH/.env"
+  sed -i '1 i\#Criado por rrpsystems instaldor' "$APP_PATH/.env"
   sed -i "s|^\\(APP_TIMEZONE=\\).*|\\1$tzone|" "$APP_PATH/.env"
   sed -i "s|^\\(DB_HOST=\\).*|\\1localhost|" "$APP_PATH/.env"
   sed -i "s|^\\(DB_DATABASE=\\).*|\\1billing|" "$APP_PATH/.env"
-  sed -i "s|^\\(DB_USERNAME=\\).*|\\1benetelecom|" "$APP_PATH/.env"
+  sed -i "s|^\\(DB_USERNAME=\\).*|\\1rrpsystems|" "$APP_PATH/.env"
   sed -i "s|^\\(DB_PASSWORD=\\).*|\\1b1ll1ng|" "$APP_PATH/.env"
   sed -i "s|^\\(APP_URL=\\).*|\\1http://$fqdn|" "$APP_PATH/.env"
 
-  echo "* Installing composer."
+  echo "* Instalando composer."
   install_composer
 
-  echo "* Setting permissions."
+  echo "* Configurando Permissoes."
   for chmod_dir in "$APP_PATH/storage" "$APP_PATH/public"; do
     chmod -R 775 "$chmod_dir"
   done
 
   chown -R "$APP_USER":"$apache_group" "$APP_PATH"
 
-  echo "* Running composer."
+  echo "* Executando o Composer."
   # We specify the path to composer because CentOS lacks /usr/local/bin in $PATH when using sudo
   run_as_app_user /usr/local/bin/composer install --no-dev --prefer-source --working-dir "$APP_PATH"
 
   sudo chgrp -R "$apache_group" "$APP_PATH/vendor"
 
-  echo "* Generating the application key."
+  echo "* Gerando a chave da aplicação."
   log "php $APP_PATH/artisan key:generate --force"
 
-  echo "* Artisan Migrate."
+  echo "* Criando as Tabelas Migrate."
   log "php $APP_PATH/artisan migrate --force"
 
-  echo "* Artisan Seed."
+  echo "* Populando as Tabelas Seed."
   log "php $APP_PATH/artisan seed --force"
 
-  echo "* Creating scheduler cron."
+  echo "* Criando agendamento no cron."
   (crontab -l ; echo "* * * * * /usr/bin/php $APP_PATH/artisan schedule:run >> /dev/null 2>&1") | crontab -
 }
 
 set_firewall () {
   if [ "$(firewall-cmd --state)" == "running" ]; then
-    echo "* Configuring firewall to allow HTTP traffic only."
+    echo "* Configurando o Firewall para permitir o trafego HTTP."
     log "firewall-cmd --zone=public --add-port=http/tcp --permanent"
     log "firewall-cmd --reload"
   fi
@@ -232,7 +232,7 @@ set_firewall () {
 set_selinux () {
   #Check if SELinux is enforcing
   if [ "$(getenforce)" == "Enforcing" ]; then
-    echo "* Configuring SELinux."
+    echo "* Configurando o SELinux."
     #Required for ldap integration
     setsebool -P httpd_can_connect_ldap on
     #Sets SELinux context type so that scripts running in the web server process are allowed read/write access
@@ -242,7 +242,7 @@ set_selinux () {
 }
 
 set_hosts () {
-  echo "* Setting up hosts file."
+  echo "* configurando o arquivo de hosts."
   echo >> /etc/hosts "127.0.0.1 $(hostname) $fqdn"
 }
 
@@ -258,17 +258,15 @@ fi
 
 echo '
        
-  ____                          _______          _                                   
- |  _ \                        |__   __|        | |                                  
- | |_) |   ___   _ __     ___     | |      ___  | |   ___    ___    ___    _ __ ___  
- |  _ <   / _ \ |  _ \   / _ \    | |     / _ \ | |  / _ \  / __|  / _ \  |  _   _ \ 
- | |_) | |  __/ | | | | |  __/    | |    |  __/ | | |  __/ | (__  | (_) | | | | | | |
- |____/   \___| |_| |_|  \___|    |_|     \___| |_|  \___|  \___|  \___/  |_| |_| |_|
-                                                                                     
-                                                                                     
+    oooooooooo  oooooooooo  oooooooooo        oooooooo8                        o8                                        
+     888    888  888    888  888    888      888       oooo   oooo oooooooo8 o888oo ooooooooo8 oo ooo oooo    oooooooo8  
+     888oooo88   888oooo88   888oooo88        888oooooo 888   888 888ooooooo  888  888oooooo8   888 888 888  888ooooooo  
+     888  88o    888  88o    888                     888 888 888          888 888  888          888 888 888          888 
+    o888o  88o8 o888o  88o8 o888o            o88oooo888    8888   88oooooo88   888o  88oooo888 o888o888o888o 88oooooo88  
+                                                        o8o888                                                           
 '
 echo ""
-echo "  Instalador do Tarifador BeneTelecom para o CentOS!"
+echo "  Instalador do Tarifador RRP Systems para o CentOS!"
 echo ""
 shopt -s nocasematch
 case $distro in
@@ -279,7 +277,7 @@ case $distro in
     apachefile=/etc/httpd/conf.d/$APP_NAME.conf
     ;;
   *fedora*)
-    echo "  The installer has detected $distro version $version."
+    echo "  O Instalador detectou o Sistema $distro versão $version."
     distro=fedora
     apache_group=apache
     apachefile=/etc/httpd/conf.d/$APP_NAME.conf
@@ -327,17 +325,17 @@ case $distro in
     # Install for CentOS/Redhat 7
     tzone=$(timedatectl | gawk -F'[: ]' ' $9 ~ /zone/ {print $11}');
 
-    echo "* Adicionando, epel-release, PHP and PostgreSql repositorios."
+    echo "* Adicionando, epel-release, PHP7.4 and PostgreSql repositorios."
     log "yum update -y"
 	log "yum groupinstall 'Development Tools' -y"
     log "yum -y install wget epel-release"
     log "yum -y install yum-utils"
     log "rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
-    log "yum-config-manager --enable remi-php73"
+    log "yum-config-manager --enable remi-php74"
     log "yum -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
     
-    echo "* Instalando Apache httpd, PHP, Postgres1 e outras dependencias."
-    PACKAGES="httpd postgresql11 postgresql11-server postgresql11-contrib git unzip vim php php-mcrypt php-cli php-gd php-curl php-ldap php-zip php-fileinfo php-common php-opcache php-mysql php-xml php-mbstring php-pgsql php-fpm php-bcmath php-embedded php-json php-simplexml php-process"
+    echo "* Instalando Apache httpd, PHP, Postgres12 e outras dependencias."
+    PACKAGES="httpd postgresql12 postgresql12-server postgresql12-contrib git unzip vim php php-mcrypt php-cli php-gd php-curl php-ldap php-zip php-fileinfo php-common php-opcache php-mysql php-xml php-mbstring php-pgsql php-fpm php-bcmath php-embedded php-json php-simplexml php-process"
     install_packages
 
     echo "* Configurando o Apache."
@@ -346,14 +344,13 @@ case $distro in
     set_hosts
 
     echo "* instalando o postgres."
-    /usr/pgsql-11/bin/postgresql-11-setup initdb
+    /usr/pgsql-12/bin/postgresql-12-setup initdb
     
 	echo "* Configurando o postgres para inicializar no boot e iniciando o postgres."
-    #log "/usr/pgsql-11/bin/postgresql-11-setup initdb"
-    log "systemctl enable postgresql-11"
-    log "systemctl start postgresql-11"
+    log "systemctl enable postgresql-12"
+    log "systemctl start postgresql-12"
 	
-	log "cp /var/lib/pgsql/11/data/pg_hba.conf /var/lib/pgsql/11/data/pg_hba.conf.bak"
+	log "cp /var/lib/pgsql/12/data/pg_hba.conf /var/lib/pgsql/12/data/pg_hba.conf.bak"
 	sed -i "s|^\\(local   all             all                                     \\).*|\\1md5|" "/var/lib/pgsql/11/data/pg_hba.conf"
 	sed -i "s|^\\(host    all             all             127.0.0.1/32            \\).*|\\1md5|" "/var/lib/pgsql/11/data/pg_hba.conf"
 	sed -i "s|^\\(host    all             all             ::1/128                 \\).*|\\1md5|" "/var/lib/pgsql/11/data/pg_hba.conf"
@@ -436,17 +433,12 @@ echo ""
 echo "*  Limpando a Tela..."
 echo "* Finalizado!"
 echo '
-
- ________                      __   ______                   __                     
-|        \                    |  \ /      \                 |  \                    
- \########  ______    ______   \##|  ######\  ______    ____| ##  ______    ______  
-   | ##    |      \  /      \ |  \| ##_  \## |      \  /      ## /      \  /      \ 
-   | ##     \######\|  ######\| ##| ## \      \######\|  #######|  ######\|  ######\
-   | ##    /      ##| ##   \##| ##| ####     /      ##| ##  | ##| ##  | ##| ##   \##
-   | ##   |  #######| ##      | ##| ##      |  #######| ##__| ##| ##__/ ##| ##      
-   | ##    \##    ##| ##      | ##| ##       \##    ## \##    ## \##    ##| ##      
-    \##     \####### \##       \## \##        \#######  \#######  \######  \##      
-                                                                                    
-                                                                                    
+.___________.    ___      .______    __   _______    ___       _______   ______   .______      
+|           |   /   \     |   _  \  |  | |   ____|  /   \     |       \ /  __  \  |   _  \     
++---|  |----+  /  ^  \    |  |_)  | |  | |  |__    /  ^  \    |  .--.  |  |  |  | |  |_)  |    
+    |  |      /  /_\  \   |      /  |  | |   __|  /  /_\  \   |  |  |  |  |  |  | |      /     
+    |  |     /  _____  \  |  |\  \  |  | |  |    /  _____  \  |  *--*  |  *--*  | |  |\  \
+    |__|    /__/     \__\ | _| \__\ |__| |__|   /__/     \__\ |_______/ \______/  | _| \__\
+                                                                                                                                                                                      
 '                                                                                  
 sleep 1
