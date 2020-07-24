@@ -73,7 +73,13 @@ function ftp($name, $host, $port, $user, $password)
 {
     $filename = date('d-m-Y_H-i-s').'.cdr';
     wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Coleta FTP Inicio', $name);
- 
+    
+    //cria o diretorio ok;
+    Storage::makeDirectory('bilhetes/'.$name.'/'); // Pasta (externa)
+    
+    //pega a path do diretorio criado ok;
+    $folder = Storage::disk('local')->path('bilhetes/'.$name.'/');
+    
     //tempo maximo de execução em Segundos
     set_time_limit(90);
  
@@ -102,17 +108,12 @@ function ftp($name, $host, $port, $user, $password)
     if(!$files):
         wr_log(date('d-m-Y_H-i-s')." -> $name -> nao há arquivos a serem coletdor no FTP", $name);
     endif;
-    //cria o diretorio ok;
-    Storage::makeDirectory('bilhetes/'.$name.'/'); // Pasta (externa)
-    
-    //pega a path do diretorio criado ok;
-    $folder = Storage::disk('local')->path('bilhetes/'.$name.'/');
     
     foreach($files as $file):
         // Define variáveis para o recebimento de arquivo
-        $remoteFile = $file; // Localização arquivo ftp
-        $localFile = $folder.$filename; // localização e nome do arquivo local
-        $size = ftp_size($ftp, $file); // tamanho do arquivo recebido
+        $remoteFile = $file;                // Localização arquivo ftp
+        $localFile = $folder.$filename;     // localização e nome do arquivo local
+        $size = ftp_size($ftp, $file);      // tamanho do arquivo recebido
        
         // Recebe o arquivo pelo FTP em modo ASCII
         $receve = ftp_get($ftp, $localFile , $remoteFile, FTP_ASCII); // Retorno: true / false
@@ -137,4 +138,22 @@ function ftp($name, $host, $port, $user, $password)
 
 function arquivo($name)
 {
+    
+    wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Coleta Arquivo Inicio', $name);                        //marca o inicio no arquivo de log
+    
+    Storage::makeDirectory('bilhetes/'.$name.'/');                                                      //cria o diretorio bilhetes/central em /var/www/tarifador/storage/bilhetes/central;
+        
+    $allFiles = Storage::disk('local')->files('bilhetes/'.$name);                                       //pega todos os arquivos do diretorio
+    $allfiles = preg_grep('/.txt/', $allFiles);                                                         //filtra os arquivos com a extensão txt
+
+    foreach ($allfiles as $file):
+        $filename = date('d-m-Y_H-i-s').'.cdr';                                                         // cria o nome do arquivo com data e hora
+        Storage::move($file, 'bilhetes/'.$name.'/'.$filename);                                          // renomeia o arquivo para ser tratado posteriormente
+        wr_log(date('d-m-Y_H-i-s').' -> '.$name." -> Renomeado Arquivo $file para $filename", $name);   // marca no log que o arquivo foi renomeado
+        sleep(1);                                                                                       // espera um segundo para o caso de haver mais de um arquivo não ficar com o mesmo nome
+    endforeach;
+
+    wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Coleta Arquivo Termino', $name);                        //marca o termino do processo no arquivo de log
+    
+        
 }

@@ -18,11 +18,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call('App\Http\Controllers\Services\ServicesController@collector')
-                    ->everyTenMinutes();
+                    //->everyTenMinutes();
+                    ->everyFiveMinutes();
                 //->withoutOverlapping();
         
         $schedule->call('App\Http\Controllers\Services\ServicesController@import')
-                    ->everyTenMinutes();
+                    //->everyTenMinutes();
+                    ->everyFiveMinutes();
                 //->withoutOverlapping();
         
         $schedule->call('App\Http\Controllers\Services\ServicesController@billing')

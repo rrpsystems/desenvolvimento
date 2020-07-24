@@ -41,7 +41,7 @@
             
             <div class="login-logo">
                 <img src="{{ asset(config('adminlte.logo_img', 'vendor/adminlte/dist/img/AdminLTELogo.png')) }}" alt="{{config('adminlte.logo_img_alt', 'AdminLTE')}}" class="img-fluid col-5" >
-                <h5><strong>Bene</strong>Telecom</h5>
+                <h5><strong>RRP </strong>Systems</h5>
             </div>
 
             <h5 class="login-box-msg">Sistema de Tarifação</h5>
@@ -87,10 +87,10 @@
         <div>
         
         <div class="float-right d-none d-sm-block">
-            <a href="http://www.benetelecom.com.br">BeneTelecom</a>
-            © 2019.
+            <a href="http://www.rrpsystems.com.br">RRP Systems</a>
+            © 2020.
         </div>
-        <a href="#" class="text-danger">Esqueci a senha !</a>
+        <!--<a href="#" class="text-danger">Esqueci a senha !</a>-->
     </div>
 </div>
 

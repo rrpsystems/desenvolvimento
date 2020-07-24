@@ -31,6 +31,7 @@ class StatusController extends Controller
 
     public function index()
     {
+
         //toast(trans('messages.users'),'success');
         $extensions = collect([
             'NCadastrados' => $this->call
@@ -60,10 +61,12 @@ class StatusController extends Controller
                             ->count(),
             'Cadastrados' => $this->trunk->count(),
         ]);
-        
+        $primeiro = $this->call->orderBy('calldate', 'ASC')->first();
+        $ultimo   = $this->call->orderBy('calldate', 'DESC')->first();
+     
         $calls = collect([
-            'primeiro'  => $this->call->orderBy('calldate', 'ASC')->first()->calldate,
-            'ultimo'    => $this->call->orderBy('calldate', 'DESC')->first()->calldate,
+            'primeiro'  => $primeiro?$primeiro->calldate:'01/01/0001',
+            'ultimo'    => $ultimo?$ultimo->calldate:'01/01/0001',
             'total'     => $this->call->count(),
             'tarifadas' => $this->call->where('status_id', '1')->count(),
             'erros'     => $this->call->whereBetween('status_id',[91,99])->count(),

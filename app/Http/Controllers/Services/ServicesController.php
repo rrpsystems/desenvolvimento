@@ -53,7 +53,7 @@ class ServicesController extends Controller
     //Coleta os bilhetes do PBX
     public function collector()
     {
-        $conns = $this->pbx->whereNotIn('connection', ['Arquivo'])->whereNotNull('host')->get();
+        $conns = $this->pbx->whereNotNull('host')->get();
         
         foreach($conns as $conn):
             //Chama a função no arquivo Helpers/connections.php de acordo com a conexão.
@@ -69,7 +69,9 @@ class ServicesController extends Controller
         
         foreach($imports as $import):
             //pega os arquivos na pasta e importa para o banco de dados de acordo com o modelo do pbx.
-            $allfiles = Storage::disk('local')->files('bilhetes/'.$import->name);
+            $allFiles = Storage::disk('local')->files('bilhetes/'.$import->name);
+            $allfiles = preg_grep('/.cdr/', $allFiles); //filtra os arquivos com a extensão cdr
+
             foreach ($allfiles as $file):
                 //Chama a função no Helpers/de acordo com o fabricante/modelo do PBX.
                 $success = trim(strtolower($import->model))($file,$import->name);
