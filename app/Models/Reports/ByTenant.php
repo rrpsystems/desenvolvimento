@@ -15,7 +15,7 @@ class ByTenant extends Fpdf
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(80);
         $this->SetFont('arial', 'B', 17);
-        $this->Cell(500, 35, utf8_decode("BeneTelecom,  $this->rName"), 0, 0, 'L');
+        $this->Cell(500, 35, utf8_decode(trans('reports.branch').",  $this->rName"), 0, 0, 'L');
         $this->SetFont('arial', '', 10);
         $this->Cell(55, 35, utf8_decode("Emissão:"), 0, 0, 'L');
         $this->Cell(0, 35, utf8_decode($this->rTitle), 0, 1, 'L');

@@ -10,12 +10,12 @@ class ByExtension extends Fpdf
     {
 
         global $rTitle, $rName, $rUser, $rGroup, $rStart, $rExten, $rDepto, $rEnd; $rPrint;
-
+        //report_branch
         $this->Image('vendor/adminlte/dist/img/logo.png', 50, 9, 45);
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(80);
         $this->SetFont('arial', 'B', 17);
-        $this->Cell(500, 35, utf8_decode("BeneTelecom,  $this->rName"), 0, 0, 'L');
+        $this->Cell(500, 35, utf8_decode(trans('reports.branch').",  $this->rName"), 0, 0, 'L');
         $this->SetFont('arial', '', 10);
         $this->Cell(55, 35, utf8_decode("Emissão:"), 0, 0, 'L');
         $this->Cell(0, 35, utf8_decode($this->rTitle), 0, 1, 'L');
