@@ -2,7 +2,7 @@
 
 function unify_os4000($file,$name){
 
-    wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Unify_OS4000 -> importando arquivo -> '. $file, $name);                        //marca o termino do processo no arquivo de log        
+    //wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Unify_OS4000 -> importando arquivo -> '. $file, $name);                        //marca o termino do processo no arquivo de log        
     
     $cdrs = Storage::disk('local')->get($file);
     $cdrs = preg_split('/(\r|\n)/', $cdrs);
@@ -72,21 +72,6 @@ function unify_os4000($file,$name){
         else:
             $calldate =  date('Y-m-d H:i:s', strtotime('0 days',$calldate));
         endif;
-        
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel PBX          -> '. $pbx , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel CallDate     -> '. $calldate , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel Extension    -> '. $extensions_id , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel tronco       -> '. $trunks_id , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel did          -> '. $did , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel direction    -> '. $direction , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel dialnumber   -> '. $dialnumber , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel ring         -> '. $ring , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel billsec      -> '. $billsec , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel accountcode  -> '. $accountcodes_id , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel projectcode  -> '. $projectcodes_id , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel uniqueid     -> '. $uniqueid , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Variavel disposition  -> '. $disposition , $name);
-        wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> ------------------------------------------------------  -> ', $name);
         
         // insere no banco apenas ligações de entrada interna ou saida indentificadas no bilhete
         if($direction != ''):
