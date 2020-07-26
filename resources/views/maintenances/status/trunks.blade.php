@@ -52,7 +52,7 @@
                                         <td> {{ $trunk->pbx }} </td>
                                         <td> {{ $trunk->trunks_id }} </td>
                                         <td> 
-                                        <a class="btn btn-outline-success btn-sm" href="{{ route('trunks.create', ['tpbx='.$trunk->pbx, 'trunk='.$trunk->trunks_id]) }}">
+                                        <a class="btn btn-outline-success btn-sm" href="{{ route('trunks.create', ['tpbx='.$trunk->pbx, 'trunk='.$trunk->trunks_id, 'tname=Tronco_'.$trunk->trunks_id]) }}">
                         		            Cadastrar
                                         </a>
                                         </td>

@@ -47,6 +47,7 @@ class TrunksController extends Controller
                 $trunk = collect([
                     'tpbx' => $request->input('tpbx'),
                     'trunk' => $request->input('trunk'), 
+                    'tname' => $request->input('tname'), 
                     'page' => 'error', 
                 ]);
 

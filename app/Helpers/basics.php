@@ -1,5 +1,12 @@
 <?php
 
+    function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+
+
     function secHours($sec){
 
         $is = gmdate("i:s", ($sec));    

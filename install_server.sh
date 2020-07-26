@@ -136,7 +136,7 @@ create_virtualhost () {
 create_user () {
   echo "* Criando Usuario do tarifador."
 
-    adduser "$APP_USER"
+  adduser "$APP_USER"
 	usermod -a -G "$apache_group" "$APP_USER"
 }
 
@@ -196,8 +196,8 @@ install_tarifador () {
   install_composer
 
   echo "* Configurando Permissoes."
-  for chmod_dir in "$APP_PATH/storage" "$APP_PATH/public"; do
-    chmod -R 775 "$chmod_dir"
+  for chmod_dir in "$APP_PATH" ; do
+    chmod -R 777 "$chmod_dir"
   done
 
   chown -R "$APP_USER":"$apache_group" "$APP_PATH"
@@ -234,10 +234,8 @@ set_selinux () {
   if [ "$(getenforce)" == "Enforcing" ]; then
     echo "* Configurando o SELinux."
     #Required for ldap integration
-    setsebool -P httpd_can_connect_ldap on
-    #Sets SELinux context type so that scripts running in the web server process are allowed read/write access
-    chcon -R -h -t httpd_sys_rw_content_t "$APP_PATH/storage/"
-    chcon -R -h -t httpd_sys_rw_content_t "$APP_PATH/public/"
+    log "setenforce 0"
+    sed -i 's/SELINUX=.*/SELINUX=permissive/' /etc/selinux/config
   fi
 }
 
@@ -326,10 +324,11 @@ case $distro in
     tzone=$(timedatectl | gawk -F'[: ]' ' $9 ~ /zone/ {print $11}');
 
     echo "* Adicionando, epel-release, PHP7.4 and PostgreSql repositorios."
-    log "yum update -y"
-	log "yum groupinstall 'Development Tools' -y"
+    log "yum -y update"
+	  log "yum -y groupinstall 'Development Tools'"
     log "yum -y install wget epel-release"
     log "yum -y install yum-utils"
+    log "yum -y install htop"
     log "rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
     log "yum-config-manager --enable remi-php74"
     log "yum -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
@@ -351,7 +350,7 @@ case $distro in
     log "systemctl start postgresql-12"
 	
 	log "cp /var/lib/pgsql/12/data/pg_hba.conf /var/lib/pgsql/12/data/pg_hba.conf.bak"
-	sed -i "s|^\\(local   all             all                                     \\).*|\\1md5|" "/var/lib/pgsql/12/data/pg_hba.conf"
+	sed -i "s|^\\(local   all             all                                     \\).*|\\1peer|" "/var/lib/pgsql/12/data/pg_hba.conf"
 	sed -i "s|^\\(host    all             all             127.0.0.1/32            \\).*|\\1md5|" "/var/lib/pgsql/12/data/pg_hba.conf"
 	sed -i "s|^\\(host    all             all             ::1/128                 \\).*|\\1md5|" "/var/lib/pgsql/12/data/pg_hba.conf"
     

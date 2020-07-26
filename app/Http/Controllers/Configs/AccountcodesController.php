@@ -52,6 +52,7 @@ class AccountcodesController extends Controller
             $accountcode = collect([
                 'pbxes_id' => $request->input('pbxes_id'),
                 'accountcode' => $request->input('accountcode'), 
+                'aname' => $request->input('aname'), 
                 'page' => 'error', 
             ]);
 

@@ -50,6 +50,7 @@ class ExtensionsController extends Controller
             $extension = collect([
                 'pbxes_id' => $request->input('pbxes_id'),
                 'extension' => $request->input('extension'), 
+                'ename' => $request->input('ename'), 
                 'page' => 'error', 
             ]);
 

@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\Call;
+
 function unify_os4000($file,$name){
 
-    //wr_log(date('d-m-Y_H-i-s').' -> '.$name.' -> Unify_OS4000 -> importando arquivo -> '. $file, $name);                        //marca o termino do processo no arquivo de log        
-    
     $cdrs = Storage::disk('local')->get($file);
     $cdrs = preg_split('/(\r|\n)/', $cdrs);
     
@@ -17,21 +17,22 @@ function unify_os4000($file,$name){
         $ring=''; $billsec=''; $accountcodes_id=''; $projectcodes_id=''; $disposition=''; $status_id='';  $uniqueid=''; 
 
         //se a linha for branca continua
-        if(!substr($cdr,0,2)):
-            continue;
-        endif;
+        if(!substr($cdr,0,2)): continue; endif;
             
         $pbx = $name;                                                                           // pbx do bilhete
         $his               = trim(substr($cdr,0,8));                                            // hora do bilhete
-        list($d,$m,$y)     = explode('/',trim(substr($cdr,9,8)));                               // data do bilhete
+        list($d,$m,$y)     = explode('/',trim(substr($cdr,10,8)));                              // data do bilhete
         $calldate          = "$Y-$m-$d $his";                                                   // data e hora da chamada convertida
+
+        if(!validateDate($calldate)): goto next_line; endif;                                    //verifica se a data do bilhete é valida    
+
         $extensions_id     = trim(substr($cdr,34,4));                                           // Ramal que originou a ligação
         $ring              = '0';                                                               // toques antes do atendimento  
-        $billsec           = trim(substr($cdr,19,8));                                           // duração da chamada no bilhete
+        $billsec           = trim(substr($cdr,18,8));                                           // duração da chamada no bilhete
         $billsec           = strtotime($billsec?$billsec:'00:00:00') - strtotime('00:00:00');   // duração da chamada convertida
         $accountcodes_id   = trim(substr($cdr,80,10));                                          // senha de ligação no bilhete
         //$projectcodes_id = trim(substr($cdr,105,10));                                         // codigo de projeto no bilhete
-        $disposition       = trim(substr($cdr,73,2));                                           // flags da chamada no bilhete                                           
+        $disposition       = trim(substr($cdr,105,2));                                          // flags da chamada no bilhete                                           
         $uniqueid          = trim(substr($cdr,113,6));                                          // unique id da chamada no bilhete
         $status_id         = 0;                                                                 // status 0 nao tarifada                        
         
@@ -73,45 +74,41 @@ function unify_os4000($file,$name){
             $calldate =  date('Y-m-d H:i:s', strtotime('0 days',$calldate));
         endif;
         
-        // insere no banco apenas ligações de entrada interna ou saida indentificadas no bilhete
-        if($direction != ''):
-            $call = App\Models\Call::updateOrCreate(
-                    [
-                        'pbx' => $pbx, 
-                        'calldate' => $calldate, 
-                        'extensions_id' => $extensions_id, 
-                        'trunks_id' => $trunks_id, 
-                        'did' => $did, 
-                        'direction' => $direction, 
-                        'dialnumber' => $dialnumber, 
-                        'ring' => $ring, 
-                        'billsec' => $billsec, 
-                        'accountcodes_id' => $accountcodes_id, 
-                        'projectcodes_id' => $projectcodes_id, 
-                        'uniqueid' => $uniqueid, 
-                        'disposition' => $disposition, 
-                    ],
-                    [
-                        'pbx' => $pbx, 
-                        'calldate' => $calldate, 
-                        'extensions_id' => $extensions_id, 
-                        'trunks_id' => $trunks_id, 
-                        'did' => $did, 
-                        'direction' => $direction, 
-                        'dialnumber' => $dialnumber, 
-                        'callnumber' => $callnumber, 
-                        'ring' => $ring, 
-                        'billsec' => $billsec, 
-                        'accountcodes_id' => $accountcodes_id, 
-                        'projectcodes_id' => $projectcodes_id, 
-                        'disposition' => $disposition, 
-                        'uniqueid' => $uniqueid, 
-                        'status_id' => $status_id, 
-                    ]
+        // insere no banco as ligações de entrada interna ou saida indentificadas no bilhete
+        if($direction != ''):                                                                     // verifica se a chamada possui uma direção
+            Call::updateOrCreate(
+                [
+                    'calldate' => $calldate, 
+                    'extensions_id' => $extensions_id, 
+                    'trunks_id' => $trunks_id, 
+                    'dialnumber' => $dialnumber==''?'NI':$dialnumber, 
+                    'billsec' => $billsec, 
+                    'accountcodes_id' => $accountcodes_id, 
+                    'uniqueid' => $uniqueid, 
+                ],
+                    
+                [
+                    'pbx' => $pbx, 
+                    'calldate' => $calldate, 
+                    'extensions_id' => $extensions_id, 
+                    'trunks_id' => $trunks_id, 
+                    'did' => $did, 
+                    'direction' => $direction, 
+                    'dialnumber' => $dialnumber==''?'NI':$dialnumber, 
+                    'callnumber' => $dialnumber==''?'NI':$callnumber, 
+                    'ring' => $ring, 
+                    'billsec' => $billsec, 
+                    'accountcodes_id' => $accountcodes_id, 
+                    'projectcodes_id' => $projectcodes_id, 
+                    'disposition' => $disposition, 
+                    'status_id' => $status_id, 
+                ]
             );
-        
         endif;
+
         //dd($call);
+        next_line:
+    
     endforeach;
     
     return true;

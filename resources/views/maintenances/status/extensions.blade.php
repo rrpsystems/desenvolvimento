@@ -52,7 +52,7 @@
                                         <td>{{ $extension->pbx }} </td>
                                         <td>{{ $extension->extensions_id }} </td>
                                         <td> 
-                                        <a class="btn btn-outline-success btn-sm" href="{{ route('extensions.create', ['pbxes_id='.$extension->pbx, 'extension='.$extension->extensions_id]) }}">
+                                        <a class="btn btn-outline-success btn-sm" href="{{ route('extensions.create', ['pbxes_id='.$extension->pbx, 'extension='.$extension->extensions_id, 'ename=Ramal_'.$extension->extensions_id]) }}">
                         		            Cadastrar
                                         </a>
                                         </td>

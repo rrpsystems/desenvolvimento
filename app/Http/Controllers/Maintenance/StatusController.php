@@ -57,8 +57,14 @@ class StatusController extends Controller
         $trunks = collect([
             'NCadastrados' => $this->call
                             ->distinct('trunks_id')
-                            ->where('status_id','92')   
+                            ->leftJoin('trunks', 'trunk', '=', 'trunks_id')
+                            ->whereNull('trunk')
+                            ->where('trunks_id','<>','')
                             ->count(),
+            //'NCadastrados' => $this->call
+            //                ->distinct('trunks_id')
+            //                ->where('status_id','92')   
+            //                ->count(),
             'Cadastrados' => $this->trunk->count(),
         ]);
         $primeiro = $this->call->orderBy('calldate', 'ASC')->first();
@@ -93,10 +99,10 @@ class StatusController extends Controller
             case 'trunks':
                 
                 $trunks = $this->call->distinct('trunks_id')
-                                        ->leftJoin('trunks','trunks_id','=','trunk')
-                                        ->where('status_id','92')
-                                        ->whereNull('trunk')
-                                        ->get();
+                            ->distinct('trunks_id')
+                            ->leftJoin('trunks', 'trunk', '=', 'trunks_id')
+                            ->whereNull('trunk')
+                            ->get();
                                         
                 return view('maintenances.status.trunks', compact('trunks'));
                 break;

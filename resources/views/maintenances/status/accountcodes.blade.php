@@ -52,7 +52,7 @@
                                         <td>{{ $accountcode->pbx }} </td>
                                         <td>{{ $accountcode->accountcodes_id }} </td>
                                         <td> 
-                                        <a class="btn btn-outline-success btn-sm" href="{{ route('accountcodes.create', ['pbxes_id='.$accountcode->pbx, 'accountcode='.$accountcode->accountcodes_id]) }}">
+                                        <a class="btn btn-outline-success btn-sm" href="{{ route('accountcodes.create', ['pbxes_id='.$accountcode->pbx, 'accountcode='.$accountcode->accountcodes_id, 'aname=Codigo_Conta_'.$accountcode->accountcodes_id]) }}">
                         		            Cadastrar
                                         </a>
                                         </td>
