@@ -12,29 +12,37 @@ class Kernel extends ConsoleKernel
 
     protected $commands = [
         //
+        Commands\CollectorCron::class,
+        Commands\ImportCron::class,
+        Commands\BillingCron::class,
     ];
 
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call('App\Http\Controllers\Services\ServicesController@collector')
+        //$schedule->call('collector:cron')
+        $schedule->command('collector:cron')
+                    ->everyFiveMinutes()
+                    ->withoutOverlapping();
                     //->everyTenMinutes();
-                    ->everyFiveMinutes();
-                //->withoutOverlapping();
-        
-        $schedule->call('App\Http\Controllers\Services\ServicesController@import')
+                    //->everyThirtyMinutes();    
+                    //->hourly();
+                    
+        //$schedule->call('import:cron')
+        $schedule->command('import:cron')
+                    ->everyFiveMinutes()
+                    ->withoutOverlapping();
                     //->everyTenMinutes();
-                    ->everyFiveMinutes();
-                //->withoutOverlapping();
-        
-        $schedule->call('App\Http\Controllers\Services\ServicesController@billing')
-                //    ->everyThirtyMinutes();    
-                //->everyTenMinutes();  
-                    ->everyFiveMinutes();
-                //->withoutOverlapping();
-        
-        // $schedule->command('inspire')
-        //          ->hourly();
+                    //->everyThirtyMinutes();    
+                    //->hourly();
+                    
+        //$schedule->call('billing:cron')
+        $schedule->command('billing:cron')
+                    ->everyFiveMinutes()
+                    ->withoutOverlapping();
+                    //->everyTenMinutes();  
+                    //->everyThirtyMinutes();    
+                    //->hourly();
         
         //$schedule->call(function () {
            // DB::table('recent_users')->delete();
