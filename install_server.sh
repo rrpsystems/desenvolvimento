@@ -235,7 +235,8 @@ set_selinux () {
     echo "* Configurando o SELinux."
     #Required for ldap integration
     log "setenforce 0"
-    sed -i 's/SELINUX=.*/SELINUX=permissive/' /etc/selinux/config
+    log "sed -i 's/SELINUX=.*/SELINUX=disabled/' /etc/selinux/config"
+    
   fi
 }
 
