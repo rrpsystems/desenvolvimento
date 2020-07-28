@@ -32,10 +32,19 @@ class ResumesController extends Controller
         $extenUser = $this->extension->where('users_id',$authUser)->first();
         $accUser = $this->accountcode->where('users_id',$authUser)->first();
         
+        
         if(auth()->user()->hasRole('Master')):
             $pbxes = $this->pbx->select('name')->get();
             $extensions = $this->extension->get()->groupBy('pbxes_id');
             $ALL = $this->extension->select('extension')->get();
+        
+        elseif(auth()->user()->hasRole('Admin')):
+            $pbxes = $this->pbx->select('name')->get();
+            $extensions = $this->extension->get()->groupBy('pbxes_id');
+            $ALL = $this->extension->select('extension')->get();
+        endif;
+
+        if(!$extenUser || !$accUser):
         
         elseif(auth()->user()->can('cfg_groups-list')):
             $pbxes = $this->pbx->select('name')->where('name',$extenUser->pbxes_id)->get();

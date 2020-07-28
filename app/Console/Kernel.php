@@ -22,27 +22,27 @@ class Kernel extends ConsoleKernel
     {
         //$schedule->call('collector:cron')
         $schedule->command('collector:cron')
-                    ->everyFiveMinutes()
-                    ->withoutOverlapping();
+                    //->everyFiveMinutes()
                     //->everyTenMinutes();
                     //->everyThirtyMinutes();    
                     //->hourly();
+                    ->withoutOverlapping();
                     
         //$schedule->call('import:cron')
         $schedule->command('import:cron')
-                    ->everyFiveMinutes()
-                    ->withoutOverlapping();
+                    //->everyFiveMinutes()
                     //->everyTenMinutes();
                     //->everyThirtyMinutes();    
                     //->hourly();
+                    ->withoutOverlapping();
                     
         //$schedule->call('billing:cron')
         $schedule->command('billing:cron')
-                    ->everyFiveMinutes()
-                    ->withoutOverlapping();
+                    //->everyFiveMinutes()
                     //->everyTenMinutes();  
                     //->everyThirtyMinutes();    
                     //->hourly();
+                    ->withoutOverlapping();
         
         //$schedule->call(function () {
            // DB::table('recent_users')->delete();
