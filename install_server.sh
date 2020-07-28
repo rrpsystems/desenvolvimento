@@ -177,6 +177,9 @@ install_tarifador () {
   echo "ALTER USER rrpsystems WITH ENCRYPTED password 'b1ll1ng';" | runuser -l postgres -c "psql"
   echo "GRANT ALL PRIVILEGES ON DATABASE billing TO rrpsystems;" | runuser -l postgres -c "psql"
   
+  echo "* Alterando o limit de memoria do PHP para 1GB."
+  sed -i "s|^\\(memory_limit = \\).*|\\11024M|" "/etc/php.ini"
+
   echo "* Clonando tarifador do diretorio do Github."
   log "git clone https://github.com/rrpsystems/tarifador.git $APP_PATH"
 
